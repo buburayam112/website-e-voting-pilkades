@@ -1,0 +1,420 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+import {
+  mockStatistikOverview,
+  mockPartisipasiWaktu,
+  mockStatistikWilayah
+} from '../../data/mock/statistik.mock';
+import { formatNumber, formatPercent } from '../../utils/formatters';
+
+const uniqueKecamatan = Array.from(new Set(mockStatistikWilayah.map((w) => w.kecamatan))).sort();
+---
+
+<section id="statistik" class="py-16 sm:py-20 bg-background border-b border-slate-200/80">
+  <div class="container-custom">
+    
+    <!-- Section Header -->
+    <SectionHeader
+      badge="Pusat Data & Pemantauan"
+      title="Dashboard Statistik Partisipasi Pemilih"
+      subtitle="Pemantauan kehadiran pemilih dan rekapitulasi data partisipasi TPS Pilkades Kabupaten Mempawah 2026"
+    />
+
+    <!-- Prominent Permanent Disclaimer Banner -->
+    <div class="max-w-4xl mx-auto mb-8 p-3.5 rounded-xl bg-amber-50 border-2 border-amber-300 flex items-center justify-center gap-2.5 text-center">
+      <span class="w-2.5 h-2.5 rounded-full bg-amber-600 animate-ping"></span>
+      <span class="text-xs font-black tracking-widest uppercase text-amber-950">
+        DATA SIMULASI PENGUJIAN SISTEM — BUKAN HASIL RESMI PEMILIHAN
+      </span>
+    </div>
+
+    <!-- Filter Bar (Kecamatan, Desa, Periode) -->
+    <div class="card-surface p-4 sm:p-5 bg-white border-slate-200 mb-8 shadow-xs">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        
+        <!-- Filter Kecamatan -->
+        <div>
+          <label for="filter-kecamatan" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Wilayah Kecamatan
+          </label>
+          <div class="relative">
+            <select
+              id="filter-kecamatan"
+              class="w-full px-3.5 py-2 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-primary focus:border-primary appearance-none pr-8"
+            >
+              <option value="Semua">Semua Kecamatan</option>
+              {uniqueKecamatan.map((k) => (
+                <option value={k}>{k}</option>
+              ))}
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-500">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Desa -->
+        <div>
+          <label for="filter-desa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Desa Penyelenggara
+          </label>
+          <div class="relative">
+            <select
+              id="filter-desa"
+              class="w-full px-3.5 py-2 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-primary focus:border-primary appearance-none pr-8"
+            >
+              <option value="Semua">Semua Desa</option>
+              {mockStatistikWilayah.map((w) => (
+                <option value={w.desa}>{w.desa}</option>
+              ))}
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-500">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Periode Data -->
+        <div>
+          <label for="filter-periode" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Periode Pemutakhiran
+          </label>
+          <div class="relative">
+            <select
+              id="filter-periode"
+              class="w-full px-3.5 py-2 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-primary focus:border-primary appearance-none pr-8"
+            >
+              <option value="terkini">Pemutakhiran Terakhir (13:00 WIB)</option>
+              <option value="sesi-1">Sesi Pagi (07:00 - 10:00 WIB)</option>
+              <option value="sesi-2">Sesi Siang (10:00 - 13:00 WIB)</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-500">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4 Overview Statistic Cards (Wireframe 3) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      
+      <!-- Card 1: Total DPT -->
+      <div class="card-surface p-6 bg-white border-slate-200 hover:border-primary-300 transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total DPT Terdaftar</span>
+          <span class="p-2 rounded-lg bg-primary-50 text-primary">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </span>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="stat-total-dpt">
+          {formatNumber(mockStatistikOverview.totalDpt)}
+        </div>
+        <div class="mt-2 text-xs text-slate-500 flex items-center justify-between">
+          <span>Daftar Pemilih Tetap</span>
+          <span class="text-primary font-semibold">Simulasi DPT</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Suara Masuk -->
+      <div class="card-surface p-6 bg-white border-slate-200 hover:border-secondary-300 transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Suara Masuk</span>
+          <span class="p-2 rounded-lg bg-secondary-50 text-secondary">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+          </span>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="stat-suara-masuk">
+          {formatNumber(mockStatistikOverview.totalSuaraMasuk)}
+        </div>
+        <div class="mt-2 text-xs text-slate-500 flex items-center justify-between">
+          <span>Suara terverifikasi TPS</span>
+          <span class="text-secondary font-semibold">Tercatat di VVPAT</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Persentase Partisipasi -->
+      <div class="card-surface p-6 bg-white border-slate-200 hover:border-emerald-300 transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Tingkat Partisipasi</span>
+          <span class="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="20" x2="12" y2="10"></line>
+              <line x1="18" y1="20" x2="18" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="16"></line>
+            </svg>
+          </span>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-700 tracking-tight" id="stat-partisipasi-persen">
+          {formatPercent(mockStatistikOverview.persentasePartisipasi)}
+        </div>
+        <div class="mt-2 w-full bg-slate-100 rounded-full h-1.5">
+          <div class="bg-emerald-600 h-1.5 rounded-full" style={`width: ${mockStatistikOverview.persentasePartisipasi}%`}></div>
+        </div>
+      </div>
+
+      <!-- Card 4: Jumlah TPS Aktif -->
+      <div class="card-surface p-6 bg-white border-slate-200 hover:border-accent-300 transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">TPS Terhubung</span>
+          <span class="p-2 rounded-lg bg-accent-50 text-accent-800">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </span>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="stat-tps-aktif">
+          {mockStatistikOverview.tpsAktif} / {mockStatistikOverview.totalTps}
+        </div>
+        <div class="mt-2 text-xs text-slate-500 flex items-center justify-between">
+          <span>Status TPS</span>
+          <span class="text-emerald-600 font-semibold flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 100% Aktif
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Charts Section (Wireframe 3: 2 Graphs side by side) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10">
+      
+      <!-- Graph 1 (7 Cols): Grafik Partisipasi Pemilih per Jam -->
+      <div class="lg:col-span-7 card-surface p-6 sm:p-7 bg-white border-slate-200 shadow-soft">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              Grafik Laju Partisipasi Pemilih per Jam
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Akumulasi kehadiran pemilih di bilik TPS dari pembukaan 07:00 hingga 13:00 WIB
+            </p>
+          </div>
+          <span class="self-start sm:self-auto text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300">
+            SIMULASI
+          </span>
+        </div>
+
+        <!-- Custom SVG Bar / Line Graph for Crisp Vector Rendering -->
+        <div class="relative w-full h-64 pt-4">
+          <svg viewBox="0 0 500 200" class="w-full h-full" preserveAspectRatio="none">
+            <!-- Grid Lines -->
+            <line x1="40" y1="20" x2="490" y2="20" stroke="#F1F5F9" stroke-width="1" />
+            <line x1="40" y1="60" x2="490" y2="60" stroke="#F1F5F9" stroke-width="1" />
+            <line x1="40" y1="100" x2="490" y2="100" stroke="#F1F5F9" stroke-width="1" />
+            <line x1="40" y1="140" x2="490" y2="140" stroke="#F1F5F9" stroke-width="1" />
+            <line x1="40" y1="180" x2="490" y2="180" stroke="#CBD5E1" stroke-width="1.5" />
+
+            <!-- Y-Axis Labels -->
+            <text x="32" y="24" font-family="sans-serif" font-size="9" fill="#94A3B8" text-anchor="end">100%</text>
+            <text x="32" y="64" font-family="sans-serif" font-size="9" fill="#94A3B8" text-anchor="end">75%</text>
+            <text x="32" y="104" font-family="sans-serif" font-size="9" fill="#94A3B8" text-anchor="end">50%</text>
+            <text x="32" y="144" font-family="sans-serif" font-size="9" fill="#94A3B8" text-anchor="end">25%</text>
+            <text x="32" y="184" font-family="sans-serif" font-size="9" fill="#94A3B8" text-anchor="end">0%</text>
+
+            <!-- Bars for Each Time Slot -->
+            <!-- 07:00 - 08:00 (14.5%) height ~ 23.2px -->
+            <rect x="65" y="157" width="40" height="23" rx="4" fill="#3FC6F3" fill-opacity="0.8" />
+            <!-- 08:00 - 09:00 (31.2%) height ~ 49.9px -->
+            <rect x="135" y="130" width="40" height="50" rx="4" fill="#3FC6F3" fill-opacity="0.85" />
+            <!-- 09:00 - 10:00 (52.8%) height ~ 84.5px -->
+            <rect x="205" y="95" width="40" height="85" rx="4" fill="#5172AE" fill-opacity="0.85" />
+            <!-- 10:00 - 11:00 (66.4%) height ~ 106.2px -->
+            <rect x="275" y="74" width="40" height="106" rx="4" fill="#5172AE" />
+            <!-- 11:00 - 12:00 (73.1%) height ~ 116.9px -->
+            <rect x="345" y="63" width="40" height="117" rx="4" fill="#1B51A3" />
+            <!-- 12:00 - 13:00 (78.0%) height ~ 124.8px -->
+            <rect x="415" y="55" width="40" height="125" rx="4" fill="#1B51A3" />
+
+            <!-- Value Labels on Top of Bars -->
+            <text x="85" y="152" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0284C7" text-anchor="middle">14.5%</text>
+            <text x="155" y="125" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0284C7" text-anchor="middle">31.2%</text>
+            <text x="225" y="90" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#3B82F6" text-anchor="middle">52.8%</text>
+            <text x="295" y="69" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#2563EB" text-anchor="middle">66.4%</text>
+            <text x="365" y="58" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#1D4ED8" text-anchor="middle">73.1%</text>
+            <text x="435" y="50" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#1E40AF" text-anchor="middle">78.0%</text>
+          </svg>
+        </div>
+
+        <!-- X-Axis Labels Below -->
+        <div class="grid grid-cols-6 gap-1 pt-2 text-center text-[10px] sm:text-xs text-slate-500 font-medium">
+          {mockPartisipasiWaktu.map((item) => (
+            <div>{item.waktu}</div>
+          ))}
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <span>Puncak kehadiran tercatat pada pukul 09:00 - 11:00 WIB</span>
+          <span class="font-semibold text-slate-700">Total: 42.850 Pemilih</span>
+        </div>
+      </div>
+
+      <!-- Graph 2 (5 Cols): Grafik Hasil Suara Calon (Sesuai Aturan: State Menunggu Data Resmi) -->
+      <div class="lg:col-span-5 card-surface p-6 sm:p-7 bg-white border-slate-200 shadow-soft flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              Rekapitulasi Perolehan Suara
+            </h3>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
+              Hasil Resmi
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">
+            Perolehan suara masing-masing calon kepala desa
+          </p>
+        </div>
+
+        <!-- Informative State: Menunggu Data Resmi (STRICT ACCEPTANCE CRITERIA) -->
+        <div class="my-6 p-6 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 text-center space-y-3">
+          <div class="w-14 h-14 mx-auto rounded-full bg-slate-200 text-slate-500 flex items-center justify-center">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          
+          <h4 class="text-sm font-bold text-slate-800">
+            Grafik Hasil Suara Menunggu Data Resmi
+          </h4>
+          
+          <p class="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto">
+            Sesuai regulasi, grafik perolehan suara calon <strong>hanya akan diaktifkan</strong> setelah pemungutan suara di seluruh TPS ditutup secara serentak dan Berita Acara Rekapitulasi disahkan oleh PPKD.
+          </p>
+
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-primary border border-blue-200">
+            <span>Status: Menunggu Pemungutan Suara</span>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-500 text-center">
+          Dikelola dan diverifikasi oleh Tim Teknis Inti Diskominfo
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Table Section (Wireframe 3: Tabel Rekap Partisipasi per Kecamatan/Desa) -->
+    <div class="card-surface bg-white border-slate-200 shadow-soft overflow-hidden">
+      <div class="p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900">
+            Tabel Rekapitulasi Partisipasi Pemilih per Wilayah
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Daftar persebaran DPT dan tingkat kehadiran pemilih desa di Kabupaten Mempawah
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700">
+            Total {mockStatistikWilayah.length} Desa Terdaftar
+          </span>
+        </div>
+      </div>
+
+      <!-- Responsive Table with Horizontal Scroll -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+              <th class="py-3.5 px-4 sm:px-6">No.</th>
+              <th class="py-3.5 px-4 sm:px-6">Kecamatan</th>
+              <th class="py-3.5 px-4 sm:px-6">Desa Penyelenggara</th>
+              <th class="py-3.5 px-4 sm:px-6 text-right">Total DPT</th>
+              <th class="py-3.5 px-4 sm:px-6 text-right">Suara Masuk</th>
+              <th class="py-3.5 px-4 sm:px-6 text-right">Partisipasi</th>
+              <th class="py-3.5 px-4 sm:px-6 text-center">TPS Selesai</th>
+              <th class="py-3.5 px-4 sm:px-6 text-center">Waktu Update</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700" id="table-wilayah-body">
+            {mockStatistikWilayah.map((item, idx) => (
+              <tr class="hover:bg-slate-50/80 transition-colors">
+                <td class="py-3.5 px-4 sm:px-6 font-mono text-slate-400">{idx + 1}</td>
+                <td class="py-3.5 px-4 sm:px-6 font-semibold text-slate-800">{item.kecamatan}</td>
+                <td class="py-3.5 px-4 sm:px-6 font-medium text-primary">{item.desa}</td>
+                <td class="py-3.5 px-4 sm:px-6 text-right font-mono font-medium">{formatNumber(item.totalDpt)}</td>
+                <td class="py-3.5 px-4 sm:px-6 text-right font-mono font-medium">{formatNumber(item.suaraMasuk)}</td>
+                <td class="py-3.5 px-4 sm:px-6 text-right">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    {formatPercent(item.partisipasiPersen)}
+                  </span>
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 text-center font-mono text-xs">
+                  <span class="text-slate-900 font-semibold">{item.tpsSelesai}</span>
+                  <span class="text-slate-400"> / {item.tpsTotal}</span>
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 text-center font-mono text-xs text-slate-500">
+                  {item.lastUpdate}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Footer Summary -->
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <span>Menampilkan 12 desa representatif uji coba sistem di Kabupaten Mempawah</span>
+        <span class="font-semibold text-slate-700">Rata-rata Partisipasi Wilayah: 78.0%</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Filter Interactive Handler
+  const filterKecamatan = document.getElementById('filter-kecamatan') as HTMLSelectElement | null;
+  const filterDesa = document.getElementById('filter-desa') as HTMLSelectElement | null;
+  const tableBody = document.getElementById('table-wilayah-body');
+
+  if (filterKecamatan && tableBody) {
+    filterKecamatan.addEventListener('change', () => {
+      const selectedKec = filterKecamatan.value;
+      const rows = tableBody.querySelectorAll('tr');
+
+      rows.forEach((row) => {
+        const kecCell = row.children[1]?.textContent?.trim() || '';
+        if (selectedKec === 'Semua' || kecCell === selectedKec) {
+          row.classList.remove('hidden');
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+    });
+  }
+
+  if (filterDesa && tableBody) {
+    filterDesa.addEventListener('change', () => {
+      const selectedDesa = filterDesa.value;
+      const rows = tableBody.querySelectorAll('tr');
+
+      rows.forEach((row) => {
+        const desaCell = row.children[2]?.textContent?.trim() || '';
+        if (selectedDesa === 'Semua' || desaCell === selectedDesa) {
+          row.classList.remove('hidden');
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+    });
+  }
+</script>
+

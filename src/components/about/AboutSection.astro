@@ -1,0 +1,144 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+import CountdownCard from '../countdown/CountdownCard.astro';
+import LegalCard from '../legal/LegalCard.astro';
+import ArchitectureFlowIllustration from '../illustrations/ArchitectureFlowIllustration.astro';
+
+const sixFunctions = [
+  { nomor: '01', title: 'Membuat Surat Suara', desc: 'Membentuk antarmuka surat suara digital terenkripsi untuk setiap calon kades yang terdaftar.' },
+  { nomor: '02', title: 'Memberikan Suara', desc: 'Memfasilitasi pemilih menentukan pilihan secara langsung, rahasia, dan mandiri dengan 2 kali sentuhan.' },
+  { nomor: '03', title: 'Menghitung Perolehan', desc: 'Melakukan tabulasi penghitungan suara secara otomatis, akurat, dan tanpa risiko salah hitung manual.' },
+  { nomor: '04', title: 'Mengirimkan Hasil', desc: 'Mengirimkan hasil rekapitulasi terverifikasi dari TPS melalui prosedur pengamanan tertutup.' },
+  { nomor: '05', title: 'Menayangkan Perolehan', desc: 'Menampilkan data perolehan suara secara transparan kepada saksi, panitia, dan masyarakat luas.' },
+  { nomor: '06', title: 'Memelihara & Menghasilkan', desc: 'Menghasilkan jejak audit fisik (VVPAT) serta memelihara catatan audit untuk pembuktian hukum.' }
+];
+---
+
+<section id="tentang" class="py-16 sm:py-20 bg-background border-b border-slate-200/80">
+  <div class="container-custom">
+    
+    <!-- Section Header -->
+    <SectionHeader
+      badge="Pengenalan Resmi"
+      title="Apa Itu E-Voting Pilkades Mempawah?"
+      subtitle="Berdasarkan Peraturan Bupati Nomor 28 Tahun 2026 Bab I Ketentuan Umum Pasal 1"
+    />
+
+    <!-- Main Definition Card -->
+    <div class="card-surface p-6 sm:p-8 lg:p-10 mb-10 border-primary-200/80 bg-gradient-to-br from-white via-white to-blue-50/30">
+      <div class="max-w-4xl mx-auto text-center space-y-4">
+        <span class="inline-block px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-primary text-white">
+          Definisi Yuridis
+        </span>
+        <blockquote class="text-base sm:text-lg lg:text-xl font-medium text-slate-800 leading-relaxed italic">
+          "Sistem Elektronik Voting yang selanjutnya disebut <span class="font-bold text-primary not-italic">Sistem Elektronik</span> adalah sistem yang memanfaatkan perangkat elektronik dan mengolah informasi digital untuk membuat surat suara, memberikan suara, menghitung perolehan suara, mengirim hasil perolehan suara, menayangkan perolehan suara, memelihara dan menghasilkan perhitungan suara."
+        </blockquote>
+        <p class="text-xs sm:text-sm text-slate-500 font-semibold pt-1">
+          — Panduan Pelaksanaan E-Voting Pilkades 2026, Bab I Ketentuan Umum Pasal 1
+        </p>
+      </div>
+
+      <!-- 6 Functional Pillars -->
+      <div class="mt-8 pt-8 border-t border-slate-200/70 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {sixFunctions.map((item) => (
+          <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/60 hover:border-primary-300 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-7 h-7 rounded-lg bg-primary-100 text-primary font-bold text-xs flex items-center justify-center">
+                {item.nomor}
+              </span>
+              <h4 class="font-bold text-slate-900 text-sm">{item.title}</h4>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed pl-10">
+              {item.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Wireframe 1 Grid Section: Countdown + Cek Hak Pilih CTA + Dasar Hukum -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-12">
+      
+      <!-- Countdown Card (5 Cols) -->
+      <div class="lg:col-span-5 flex flex-col">
+        <CountdownCard className="h-full" />
+      </div>
+
+      <!-- Cek Hak Pilih Fast-Access Card (3 Cols) -->
+      <div class="lg:col-span-3 flex flex-col">
+        <div class="card-surface p-6 sm:p-7 bg-gradient-to-br from-primary to-primary-700 text-white flex flex-col justify-between h-full shadow-lg shadow-primary/15">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-accent">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </svg>
+            </div>
+            <h3 class="font-bold text-lg text-white">Cek Hak Pilih Mandiri</h3>
+            <p class="text-xs text-blue-100 leading-relaxed">
+              Pastikan nama dan NIK Anda telah terdaftar pada DPT desa untuk pemungutan suara E-Voting Pilkades 2026.
+            </p>
+          </div>
+
+          <div class="pt-6">
+            <a
+              href="#cek-hak-pilih"
+              class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent text-slate-900 font-bold text-sm shadow-md hover:bg-accent-300 transition-all active:scale-95"
+            >
+              <span>Periksa NIK Anda</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dasar Hukum Card (4 Cols) -->
+      <div class="lg:col-span-4 flex flex-col">
+        <LegalCard className="h-full" />
+      </div>
+
+    </div>
+
+    <!-- Architecture Blueprint Section (Reference A & Kominfo Diagram) -->
+    <div class="card-surface p-6 sm:p-8 bg-white border-slate-200 shadow-soft">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+        <div>
+          <span class="text-xs font-bold text-primary uppercase tracking-wider block">Blueprint Arsitektur</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mt-0.5">
+            Kolaborasi Dua Sistem Pilkades & E-Voting
+          </h3>
+          <p class="text-xs text-slate-500 mt-1">
+            Pemisahan tegas fungsi Back-Office (Administrasi internal) dan Front-Office (Layanan informasi publik)
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            Terintegrasi API Pilkades
+          </span>
+        </div>
+      </div>
+
+      <ArchitectureFlowIllustration />
+
+      <div class="mt-6 pt-4 border-t border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-600">
+        <div class="p-3 bg-slate-50 rounded-lg">
+          <span class="font-bold text-slate-800 block mb-1">1. Satu Sumber Data Valid</span>
+          Data DPT kependudukan tunggal dipasok resmi oleh Dukcapil dan diverifikasi panitia desa.
+        </div>
+        <div class="p-3 bg-slate-50 rounded-lg">
+          <span class="font-bold text-slate-800 block mb-1">2. Pemisahan Kewenangan</span>
+          Front-Office hanya membaca data publik, tidak dapat mengubah catatan pemilih di Back-Office.
+        </div>
+        <div class="p-3 bg-slate-50 rounded-lg">
+          <span class="font-bold text-slate-800 block mb-1">3. Transparan & Terkontrol</span>
+          Komunikasi antar sistem melalui gerbang API Pilkades berstandar keamanan Diskominfo.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+

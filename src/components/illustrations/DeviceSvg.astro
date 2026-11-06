@@ -1,0 +1,175 @@
+---
+interface Props {
+  deviceId: string;
+  className?: string;
+}
+
+const { deviceId, className = "w-full h-44" } = Astro.props;
+---
+
+<div class={`flex items-center justify-center p-3 bg-slate-50 rounded-xl overflow-hidden ${className}`}>
+  {deviceId === 'laptop-verifikasi' && (
+    <svg viewBox="0 0 200 150" class="w-full h-full max-h-40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Laptop Screen -->
+      <rect x="35" y="22" width="130" height="88" rx="8" fill="#1E293B" stroke="#334155" stroke-width="2" />
+      <rect x="42" y="29" width="116" height="74" rx="4" fill="#0C264D" />
+      <!-- DPT interface header on laptop screen -->
+      <rect x="42" y="29" width="116" height="14" fill="#1B51A3" />
+      <circle cx="50" cy="36" r="3" fill="#3FC6F3" />
+      <rect x="58" y="34" width="45" height="4" rx="2" fill="#FFFFFF" />
+      <!-- DPT rows -->
+      <rect x="48" y="49" width="104" height="6" rx="2" fill="#5172AE" fill-opacity="0.5" />
+      <rect x="48" y="58" width="90" height="6" rx="2" fill="#5172AE" fill-opacity="0.3" />
+      <rect x="48" y="67" width="98" height="6" rx="2" fill="#5172AE" fill-opacity="0.3" />
+      <rect x="48" y="76" width="70" height="6" rx="2" fill="#3FC6F3" fill-opacity="0.4" />
+      <!-- Status Badge "TERKUNCI" -->
+      <rect x="110" y="86" width="42" height="12" rx="3" fill="#10B981" />
+      <text x="114" y="95" font-family="sans-serif" font-size="6" font-weight="bold" fill="#FFFFFF">DPT VALID</text>
+      <!-- Base & Keyboard -->
+      <path d="M15 110 L185 110 L170 128 L30 128 Z" fill="#94A3B8" stroke="#64748B" stroke-width="2" />
+      <rect x="75" y="118" width="50" height="6" rx="2" fill="#64748B" />
+      <!-- Security Seal Tag -->
+      <rect x="145" y="105" width="22" height="10" rx="2" fill="#DC2626" />
+      <text x="147" y="112" font-family="sans-serif" font-size="5" font-weight="bold" fill="#FFFFFF">SEGEL</text>
+    </svg>
+  )}
+
+  {deviceId === 'card-reader' && (
+    <svg viewBox="0 0 200 150" class="w-full h-full max-h-40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- USB Cable -->
+      <path d="M100 130 C100 145 150 145 160 120" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+      <rect x="156" y="112" width="12" height="16" rx="2" fill="#64748B" />
+      <!-- Reader Body -->
+      <rect x="45" y="45" width="110" height="75" rx="12" fill="#1E293B" stroke="#475569" stroke-width="2.5" />
+      <rect x="55" y="55" width="90" height="20" rx="4" fill="#0F172A" />
+      <!-- Contactless Target Logo -->
+      <circle cx="100" cy="95" r="16" stroke="#3FC6F3" stroke-width="2" stroke-dasharray="4 2" />
+      <circle cx="100" cy="95" r="9" stroke="#3FC6F3" stroke-width="2" />
+      <circle cx="100" cy="95" r="3" fill="#3FC6F3" />
+      <!-- LED indicator -->
+      <circle cx="140" cy="65" r="4" fill="#10B981" />
+      <!-- Smartcard Hovering -->
+      <rect x="60" y="20" width="80" height="48" rx="6" fill="#1B51A3" stroke="#3FC6F3" stroke-width="1.5" />
+      <rect x="70" y="32" width="18" height="14" rx="2" fill="#FBBF24" />
+      <rect x="94" y="34" width="36" height="4" rx="2" fill="#FFFFFF" />
+      <rect x="94" y="41" width="24" height="3" rx="1.5" fill="#DEF6FD" />
+    </svg>
+  )}
+
+  {deviceId === 'ktp-reader' && (
+    <svg viewBox="0 0 200 150" class="w-full h-full max-h-40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Handheld / Desktop Scanner Body -->
+      <path d="M50 35 L150 35 C158 35 165 42 165 50 L165 115 C165 123 158 130 150 130 L50 130 C42 130 35 123 35 115 L35 50 C35 42 42 35 50 35 Z" fill="#1E293B" stroke="#475569" stroke-width="2.5" />
+      <!-- KTP Slot top -->
+      <rect x="48" y="42" width="104" height="28" rx="4" fill="#0F172A" />
+      <!-- Inserted e-KTP -->
+      <rect x="54" y="20" width="92" height="36" rx="4" fill="#2568CF" stroke="#94BBEA" stroke-width="1.5" />
+      <rect x="62" y="28" width="16" height="20" rx="2" fill="#93C5FD" />
+      <rect x="84" y="27" width="50" height="4" rx="2" fill="#FFFFFF" />
+      <rect x="84" y="34" width="38" height="3" rx="1.5" fill="#DEF6FD" />
+      <!-- Optical Fingerprint Sensor -->
+      <rect x="75" y="80" width="50" height="40" rx="8" fill="#0F172A" stroke="#3FC6F3" stroke-width="2" />
+      <path d="M88 95 C88 88 112 88 112 95 C112 105 88 102 88 112" stroke="#3FC6F3" stroke-width="2" stroke-linecap="round" />
+      <circle cx="100" cy="100" r="12" stroke="#3FC6F3" stroke-width="1.5" stroke-dasharray="3 3" />
+      <!-- Biometric Match Indicator -->
+      <circle cx="145" cy="85" r="5" fill="#10B981" />
+    </svg>
+  )}
+
+  {deviceId === 'kartu-suara' && (
+    <svg viewBox="0 0 200 150" class="w-full h-full max-h-40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Shadow base -->
+      <ellipse cx="100" cy="130" rx="70" ry="12" fill="#E2E8F0" />
+      <!-- Smartcard Perspective -->
+      <g transform="rotate(-6 100 75)">
+        <rect x="35" y="32" width="130" height="84" rx="10" fill="#1B51A3" stroke="#3FC6F3" stroke-width="2" />
+        <!-- Chip -->
+        <rect x="52" y="52" width="26" height="20" rx="3" fill="#FBBF24" stroke="#D97706" stroke-width="1" />
+        <line x1="65" y1="52" x2="65" y2="72" stroke="#B45309" stroke-width="1.5" />
+        <line x1="52" y1="62" x2="78" y2="62" stroke="#B45309" stroke-width="1.5" />
+        <!-- Contactless Waves -->
+        <path d="M88 56 C92 60 92 66 88 70" stroke="#3FC6F3" stroke-width="2" stroke-linecap="round" />
+        <path d="M94 52 C100 58 100 68 94 74" stroke="#3FC6F3" stroke-width="2" stroke-linecap="round" />
+        <!-- Text -->
+        <text x="52" y="92" font-family="sans-serif" font-size="8" font-weight="bold" fill="#FFFFFF">KARTU SUARA E-VOTING</text>
+        <text x="52" y="103" font-family="sans-serif" font-size="6" fill="#3FC6F3">KABUPATEN MEMPAWAH 2026</text>
+        <!-- Security Emblem -->
+        <circle cx="140" cy="55" r="10" fill="#2568CF" />
+        <path d="M140 48 L146 51 C146 58 143 62 140 64 C137 62 134 58 134 51 Z" fill="#3FC6F3" />
+      </g>
+    </svg>
+  )}
+
+  {deviceId === 'layar-sentuh' && (
+    <svg viewBox="0 0 200 150" class="w-full h-full max-h-40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Stand Base -->
+      <rect x="88" y="112" width="24" height="20" rx="3" fill="#64748B" />
+      <ellipse cx="100" cy="132" rx="40" ry="8" fill="#475569" />
+      <!-- Touch Monitor Screen -->
+      <rect x="25" y="18" width="150" height="96" rx="10" fill="#0F172A" stroke="#334155" stroke-width="3" />
+      <rect x="31" y="24" width="138" height="84" rx="6" fill="#103369" />
+      <!-- Interface -->
+      <rect x="31" y="24" width="138" height="16" fill="#0C264D" />
+      <circle cx="40" cy="32" r="3" fill="#3FC6F3" />
+      <rect x="47" y="30" width="55" height="4" rx="2" fill="#FFFFFF" />
+      <!-- Candidate Cards -->
+      <rect x="40" y="47" width="34" height="48" rx="4" fill="#FFFFFF" fill-opacity="0.15" />
+      <circle cx="57" cy="58" r="6" fill="#3FC6F3" />
+      <rect x="45" y="75" width="24" height="4" rx="2" fill="#FFFFFF" />
+
+      <rect x="83" y="45" width="34" height="52" rx="4" fill="#FFFFFF" stroke="#3FC6F3" stroke-width="2" />
+      <circle cx="100" cy="57" r="6" fill="#1B51A3" />
+      <rect x="88" y="73" width="24" height="4" rx="2" fill="#1B51A3" />
+      <circle cx="112" cy="49" r="5" fill="#10B981" />
+
+      <rect x="126" y="47" width="34" height="48" rx="4" fill="#FFFFFF" fill-opacity="0.15" />
+      <circle cx="143" cy="58" r="6" fill="#3FC6F3" />
+      <rect x="131" y="75" width="24" height="4" rx="2" fill="#FFFFFF" />
+      <!-- Touching hand outline -->
+      <circle cx="105" cy="80" r="10" stroke="#3FC6F3" stroke-width="1.5" stroke-dasharray="2 2" />
+    </svg>
+  )}
+
+  {deviceId === 'printer-evoting' && (
+    <svg viewBox="0 0 200 150" class="w-full h-full max-h-40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Printer Body -->
+      <rect x="45" y="40" width="110" height="85" rx="12" fill="#1E293B" stroke="#475569" stroke-width="2.5" />
+      <!-- Printer Opening Slot -->
+      <rect x="65" y="48" width="70" height="8" rx="2" fill="#0F172A" />
+      <!-- Paper Coming Out -->
+      <path d="M70 50 L70 18 C70 14 74 10 78 10 L122 10 C126 10 130 14 130 18 L130 50 Z" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" />
+      <!-- Receipt print lines -->
+      <rect x="78" y="18" width="44" height="3" rx="1.5" fill="#1B51A3" />
+      <rect x="78" y="24" width="30" height="2" rx="1" fill="#64748B" />
+      <rect x="78" y="28" width="36" height="2" rx="1" fill="#64748B" />
+      <!-- QR code -->
+      <rect x="92" y="33" width="16" height="12" rx="1" fill="#0F172A" />
+      <!-- Control Panel -->
+      <circle cx="135" cy="85" r="5" fill="#10B981" />
+      <circle cx="135" cy="100" r="5" fill="#3FC6F3" />
+      <rect x="65" y="80" width="50" height="25" rx="4" fill="#0F172A" />
+      <text x="72" y="96" font-family="sans-serif" font-size="8" font-weight="bold" fill="#3FC6F3">VVPAT</text>
+    </svg>
+  )}
+
+  {deviceId === 'kertas-termal' && (
+    <svg viewBox="0 0 200 150" class="w-full h-full max-h-40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Roll Cylinder -->
+      <ellipse cx="140" cy="75" rx="18" ry="32" fill="#CBD5E1" stroke="#94A3B8" stroke-width="2" />
+      <ellipse cx="140" cy="75" rx="6" ry="12" fill="#64748B" />
+      <path d="M70 43 L140 43 L140 107 L70 107 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2" />
+      <ellipse cx="70" cy="75" rx="18" ry="32" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2" />
+      <ellipse cx="70" cy="75" rx="6" ry="12" fill="#64748B" />
+      <!-- Unrolled Sheet -->
+      <path d="M60 45 L25 45 C20 45 16 49 16 54 L16 115 C16 120 20 124 25 124 L60 124" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" />
+      <!-- Certified watermark line -->
+      <rect x="24" y="58" width="28" height="3" rx="1.5" fill="#1B51A3" />
+      <rect x="24" y="65" width="22" height="2" rx="1" fill="#94A3B8" />
+      <rect x="24" y="70" width="26" height="2" rx="1" fill="#94A3B8" />
+      <!-- Security Stamp -->
+      <circle cx="38" cy="94" r="12" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="2 2" />
+      <text x="29" y="97" font-family="sans-serif" font-size="6" font-weight="bold" fill="#DC2626">RESMI</text>
+    </svg>
+  )}
+</div>
+

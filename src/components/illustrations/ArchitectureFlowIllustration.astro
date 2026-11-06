@@ -1,0 +1,130 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "w-full max-w-4xl mx-auto h-auto" } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 860 380"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Diagram Arsitektur Kolaborasi Back-Office dan Front-Office Pilkades Mempawah"
+>
+  <defs>
+    <linearGradient id="backGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EFF6FF" />
+      <stop offset="100%" stop-color="#DBEAFE" />
+    </linearGradient>
+    <linearGradient id="frontGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0FDF4" />
+      <stop offset="100%" stop-color="#DCFCE7" />
+    </linearGradient>
+    <filter id="boxShadowArch" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#1B51A3" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Section Left: Internal Tim Teknis (Back-Office) -->
+  <rect x="20" y="20" width="380" height="340" rx="16" fill="url(#backGrad)" stroke="#93C5FD" stroke-width="2" />
+  <rect x="35" y="35" width="220" height="26" rx="6" fill="#1B51A3" />
+  <text x="45" y="52" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">BACK-OFFICE (Internal Teknis)</text>
+  <text x="35" y="76" font-family="sans-serif" font-size="9" fill="#2568CF" font-weight="bold">pilkades.mempawahkab.go.id</text>
+
+  <!-- Actors Left -->
+  <g transform="translate(35, 95)">
+    <rect x="0" y="0" width="100" height="60" rx="8" fill="#FFFFFF" stroke="#BFDBFE" />
+    <circle cx="25" cy="22" r="10" fill="#2568CF" />
+    <text x="42" y="25" font-family="sans-serif" font-size="9" font-weight="bold" fill="#1E293B">Dukcapil</text>
+    <text x="12" y="48" font-family="sans-serif" font-size="7" fill="#64748B">Upload DP4 & Verifikasi</text>
+  </g>
+
+  <g transform="translate(35, 170)">
+    <rect x="0" y="0" width="100" height="60" rx="8" fill="#FFFFFF" stroke="#BFDBFE" />
+    <circle cx="25" cy="22" r="10" fill="#2568CF" />
+    <text x="42" y="25" font-family="sans-serif" font-size="9" font-weight="bold" fill="#1E293B">PPKD Desa</text>
+    <text x="12" y="48" font-family="sans-serif" font-size="7" fill="#64748B">Verifikasi DPS & TPS</text>
+  </g>
+
+  <g transform="translate(35, 245)">
+    <rect x="0" y="0" width="100" height="60" rx="8" fill="#FFFFFF" stroke="#BFDBFE" />
+    <circle cx="25" cy="22" r="10" fill="#2568CF" />
+    <text x="42" y="25" font-family="sans-serif" font-size="9" font-weight="bold" fill="#1E293B">Diskominfo</text>
+    <text x="12" y="48" font-family="sans-serif" font-size="7" fill="#64748B">Sistem & Basis Data</text>
+  </g>
+
+  <!-- Central Back-Office Database Engine -->
+  <g transform="translate(160, 115)" filter="url(#boxShadowArch)">
+    <rect x="0" y="0" width="220" height="175" rx="12" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2" />
+    <rect x="15" y="15" width="190" height="24" rx="4" fill="#FEF3C7" stroke="#F59E0B" />
+    <text x="25" y="31" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#92400E">Database Terpusat DPT</text>
+
+    <!-- Sub tasks -->
+    <rect x="15" y="50" width="190" height="20" rx="4" fill="#F1F5F9" />
+    <text x="25" y="64" font-family="sans-serif" font-size="8" fill="#334155">• Penetapan DPT Read-Only</text>
+    
+    <rect x="15" y="75" width="190" height="20" rx="4" fill="#F1F5F9" />
+    <text x="25" y="89" font-family="sans-serif" font-size="8" fill="#334155">• Pemetaan & Alokasi TPS</text>
+    
+    <rect x="15" y="100" width="190" height="20" rx="4" fill="#F1F5F9" />
+    <text x="25" y="114" font-family="sans-serif" font-size="8" fill="#334155">• Pembuatan BA DP4 & BA DPT</text>
+
+    <rect x="15" y="130" width="190" height="30" rx="4" fill="#EFF6FF" stroke="#93C5FD" />
+    <text x="25" y="148" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#1D4ED8">Output: BA DP4, BA DPT, Pakta</text>
+  </g>
+
+  <!-- Connecting Bridge: API PILKADES -->
+  <g transform="translate(405, 155)">
+    <line x1="0" y1="35" x2="50" y2="35" stroke="#3FC6F3" stroke-width="4" stroke-dasharray="6 4" />
+    <polygon points="50,30 60,35 50,40" fill="#3FC6F3" />
+    <rect x="2" y="10" width="56" height="18" rx="4" fill="#1E293B" />
+    <text x="7" y="22" font-family="sans-serif" font-size="7" font-weight="bold" fill="#3FC6F3">API Pilkades</text>
+  </g>
+
+  <!-- Section Right: FRONT-OFFICE (Portal Publik) -->
+  <rect x="465" y="20" width="375" height="340" rx="16" fill="url(#frontGrad)" stroke="#86EFAC" stroke-width="2" />
+  <rect x="480" y="35" width="230" height="26" rx="6" fill="#166534" />
+  <text x="490" y="52" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">FRONT-OFFICE (Layanan Publik)</text>
+  <text x="480" y="76" font-family="sans-serif" font-size="9" fill="#15803D" font-weight="bold">evote.mempawahkab.go.id</text>
+
+  <!-- Front-Office Output Cards -->
+  <g transform="translate(480, 95)" filter="url(#boxShadowArch)">
+    <rect x="0" y="0" width="220" height="240" rx="12" fill="#FFFFFF" stroke="#22C55E" stroke-width="1.5" />
+    
+    <g transform="translate(15, 15)">
+      <rect x="0" y="0" width="190" height="45" rx="6" fill="#F0FDF4" stroke="#BBF7D0" />
+      <text x="12" y="20" font-family="sans-serif" font-size="9" font-weight="bold" fill="#166534">1. Berita & Info Resmi</text>
+      <text x="12" y="34" font-family="sans-serif" font-size="7.5" fill="#64748B">Edukasi tata cara & tahapan e-voting</text>
+    </g>
+
+    <g transform="translate(15, 70)">
+      <rect x="0" y="0" width="190" height="45" rx="6" fill="#F0FDF4" stroke="#BBF7D0" />
+      <text x="12" y="20" font-family="sans-serif" font-size="9" font-weight="bold" fill="#166534">2. Pencarian Hak Pilih & TPS</text>
+      <text x="12" y="34" font-family="sans-serif" font-size="7.5" fill="#64748B">Cek mandiri NIK, lokasi TPS warga</text>
+    </g>
+
+    <g transform="translate(15, 125)">
+      <rect x="0" y="0" width="190" height="45" rx="6" fill="#F0FDF4" stroke="#BBF7D0" />
+      <text x="12" y="20" font-family="sans-serif" font-size="9" font-weight="bold" fill="#166534">3. Profil Calon Kades</text>
+      <text x="12" y="34" font-family="sans-serif" font-size="7.5" fill="#64748B">Daftar calon resmi per desa</text>
+    </g>
+
+    <g transform="translate(15, 180)">
+      <rect x="0" y="0" width="190" height="45" rx="6" fill="#F0FDF4" stroke="#BBF7D0" />
+      <text x="12" y="20" font-family="sans-serif" font-size="9" font-weight="bold" fill="#166534">4. Rekapitulasi & Statistik</text>
+      <text x="12" y="34" font-family="sans-serif" font-size="7.5" fill="#64748B">Dashboard partisipasi masyarakat</text>
+    </g>
+  </g>
+
+  <!-- Masyarakat End-User -->
+  <g transform="translate(715, 160)">
+    <circle cx="45" cy="30" r="16" fill="#166534" />
+    <path d="M20 75 C20 58 32 52 45 52 C58 52 70 58 70 75 Z" fill="#15803D" />
+    <text x="45" y="98" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#166534" text-anchor="middle">Masyarakat</text>
+    <text x="45" y="110" font-family="sans-serif" font-size="7.5" fill="#64748B" text-anchor="middle">Pemilih Desa</text>
+  </g>
+</svg>
+
