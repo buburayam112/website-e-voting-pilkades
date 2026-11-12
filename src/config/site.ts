@@ -1,7 +1,7 @@
 import type { DataProviderType, JadwalPilkades } from '../types';
 
 export const siteConfig = {
-  name: 'EVOTE MEMPAWAH',
+  name: 'E-Voting Kabupaten Mempawah',
   fullName: 'Portal Informasi E-Voting Pilkades Kabupaten Mempawah 2026',
   tagline: 'Pemilihan Kepala Desa Berbasis Elektronik yang Cepat, Aman, dan Transparan',
   domain: 'https://evote.mempawahkab.go.id',
@@ -74,8 +74,8 @@ export const siteConfig = {
     pemdes: 'Dinas Pemberdayaan Masyarakat dan Pemerintahan Desa Kab. Mempawah',
     alamat: 'Jl. Raden Kusno No. 1, Tengah, Kec. Mempawah Hilir, Kabupaten Mempawah, Kalimantan Barat 78912',
     email: 'diskominfo@mempawahkab.go.id',
-    telepon: '(0561) 691012',
-    callCenterPilkades: '0811-5700-1122 (Pusat Bantuan PPKD)',
+    telepon: '(0561) 691012 (Sekretariat Daerah)',
+    callCenterPilkades: 'Posko Bantuan PPKD / Diskominfo (Akan Diumumkan Panitia)',
     jamLayanan: 'Senin - Jumat, 08:00 - 15:30 WIB'
   },
 

@@ -2,11 +2,13 @@
  * Utility Formatting Functions
  */
 
-export function formatNumber(num: number): string {
+export function formatNumber(num?: number, fallback: string = 'Menunggu Data Resmi'): string {
+  if (num === undefined || num === null) return fallback;
   return new Intl.NumberFormat('id-ID').format(num);
 }
 
-export function formatPercent(num: number): string {
+export function formatPercent(num?: number, fallback: string = '—'): string {
+  if (num === undefined || num === null) return fallback;
   return `${num.toFixed(1).replace('.', ',')}%`;
 }
 

@@ -1,8 +1,9 @@
 ---
 import SectionHeader from '../common/SectionHeader.astro';
+const isDev = import.meta.env.DEV;
 ---
 
-<section id="cek-hak-pilih" class="py-16 sm:py-20 bg-white border-b border-slate-200/80 relative">
+<section id="cek-hak-pilih" class="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-blue-50/40 via-slate-50/50 to-white border-b border-slate-200/80 relative">
   <!-- Subtle accent background glow -->
   <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -83,31 +84,30 @@ import SectionHeader from '../common/SectionHeader.astro';
           </div>
         </label>
 
-        <!-- Fast Test Dummy NIK Pills -->
-        <div class="pt-2 flex flex-wrap items-center gap-2 text-xs">
-          <span class="text-slate-500 font-medium">Klik NIK contoh simulasi:</span>
-          <button
-            type="button"
-            class="pill-nik px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-primary font-mono border border-blue-200 transition-colors"
-            data-nik="6102010101900001"
-          >
-            6102010101900001 (Pasir Panjang)
-          </button>
-          <button
-            type="button"
-            class="pill-nik px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-primary font-mono border border-blue-200 transition-colors"
-            data-nik="6102020202920003"
-          >
-            6102020202920003 (Antibar)
-          </button>
-          <button
-            type="button"
-            class="pill-nik px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-primary font-mono border border-blue-200 transition-colors"
-            data-nik="6102040404940004"
-          >
-            6102040404940004 (Galang)
-          </button>
-        </div>
+        <!-- Fast Test Dummy NIK Pills (Dinonaktifkan di mode produksi) -->
+        {isDev ? (
+          <div class="pt-2 flex flex-wrap items-center gap-2 text-xs">
+            <span class="text-slate-500 font-medium">Uji Coba Pengembang (Dev Mode Only):</span>
+            <button
+              type="button"
+              class="pill-nik px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-primary font-mono border border-blue-200 transition-colors"
+              data-nik="6102000000000001"
+            >
+              6102000000000001 (Pola Uji 01)
+            </button>
+            <button
+              type="button"
+              class="pill-nik px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-primary font-mono border border-blue-200 transition-colors"
+              data-nik="6102000000000002"
+            >
+              6102000000000002 (Pola Uji 02)
+            </button>
+          </div>
+        ) : (
+          <div class="pt-2 text-[11px] text-slate-400 italic">
+            *Fitur uji instan NIK dinonaktifkan pada mode produksi demi kepatuhan perlindungan privasi data warga.
+          </div>
+        )}
 
         <!-- Validation Error Message Area -->
         <div id="search-error-msg" class="hidden p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
@@ -232,7 +232,7 @@ import SectionHeader from '../common/SectionHeader.astro';
                     </svg>
                   </div>
                   <span class="text-[11px] font-bold text-slate-700 block mt-1">Titik Koordinat TPS</span>
-                  <span class="text-[10px] text-slate-500 font-mono">Lat: 0.3645° N, Long: 108.9612° E</span>
+                  <span class="text-[10px] text-slate-500 font-mono">Lintang: 0.3645° LU, Bujur: 108.9612° BT</span>
                 </div>
               </div>
             </div>
@@ -268,7 +268,7 @@ import SectionHeader from '../common/SectionHeader.astro';
                 Bantuan Koreksi Data Pemilih
               </span>
               <p class="text-[11px] text-amber-800 leading-relaxed">
-                Jika terdapat kekeliruan data atau TPS tidak sesuai domisili, segera hubungi Panitia Pilkades Desa (PPKD) atau call center Diskominfo: <strong class="underline">0811-5700-1122</strong>.
+                Jika terdapat kekeliruan data atau TPS tidak sesuai domisili, segera hubungi Panitia Pilkades Desa (PPKD) setempat atau posko informasi resmi Diskominfo Kabupaten Mempawah.
               </p>
             </div>
 
@@ -394,7 +394,7 @@ import SectionHeader from '../common/SectionHeader.astro';
       }
 
       if (resNik) resNik.textContent = masked;
-      if (resNama) resNama.textContent = lastDigit % 2 === 0 ? 'S**** W****** (Data Simulasi)' : 'A**** S****** (Data Simulasi)';
+      if (resNama) resNama.textContent = lastDigit % 2 === 0 ? 'Pemilih Simulasi (Data Contoh Sistem)' : 'Warga Terdaftar (Data Contoh Sistem)';
       if (resJkUsia) resJkUsia.textContent = `${lastDigit % 2 === 0 ? 'Perempuan' : 'Laki-Laki'} / ${22 + lastDigit * 4} Tahun`;
       if (resRtrw) resRtrw.textContent = `RT 00${(lastDigit % 4) + 1} / RW 001`;
       if (resDesa) resDesa.textContent = desa;

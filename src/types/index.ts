@@ -8,8 +8,9 @@ export interface Desa {
   kode: string;
   nama: string;
   kecamatan: string;
-  jumlahTps: number;
-  totalDpt: number;
+  jumlahTps?: number;
+  totalDpt?: number;
+  statusData?: 'MENUNGGU_DATA_RESMI' | 'TERTETAPKAN';
 }
 
 export interface Tps {
@@ -22,7 +23,8 @@ export interface Tps {
   alamatLengkap: string;
   latitude?: number;
   longitude?: number;
-  jumlahDpt: number;
+  jumlahDpt?: number;
+  statusData?: 'MENUNGGU_DATA_RESMI' | 'TERTETAPKAN';
   ketuaKpps?: string;
   kontakPengaduan?: string;
 }
@@ -76,20 +78,23 @@ export interface JadwalPilkades {
 export interface StatistikWilayah {
   kecamatan: string;
   desa: string;
-  totalDpt: number;
-  suaraMasuk: number;
-  partisipasiPersen: number;
-  tpsTotal: number;
-  tpsSelesai: number;
+  totalDpt?: number;
+  suaraMasuk?: number;
+  partisipasiPersen?: number;
+  tpsTotal?: number;
+  tpsSelesai?: number;
+  statusData: 'MENUNGGU_DATA_RESMI' | 'SIMULASI_FORMAT' | 'RESMI';
   lastUpdate: string;
 }
 
 export interface StatistikOverview {
-  totalDpt: number;
-  totalSuaraMasuk: number;
-  persentasePartisipasi: number;
-  totalTps: number;
-  tpsAktif: number;
+  totalDpt?: number;
+  totalSuaraMasuk?: number;
+  persentasePartisipasi?: number;
+  totalTps?: number;
+  tpsAktif?: number;
+  statusDpt: 'MENUNGGU_DATA_RESMI' | 'TERTETAPKAN';
+  statusPelaksanaan: 'MENUNGGU_PELAKSANAAN' | 'BERLANGSUNG' | 'SELESAI';
   lastUpdate: string;
   isSimulasi: boolean;
 }

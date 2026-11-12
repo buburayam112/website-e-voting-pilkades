@@ -10,7 +10,7 @@ import type { Pemilih } from '../../types';
 export const mockPemilihList: Pemilih[] = [
   {
     nikMasked: '610201******0001',
-    namaMasked: 'A**** S****** (Simulasi)',
+    namaMasked: 'Pemilih Simulasi 01 (Contoh Sistem)',
     jenisKelamin: 'L',
     usia: 34,
     desa: 'Desa Pasir Panjang',
@@ -26,7 +26,7 @@ export const mockPemilihList: Pemilih[] = [
   },
   {
     nikMasked: '610201******0002',
-    namaMasked: 'S**** W****** (Simulasi)',
+    namaMasked: 'Pemilih Simulasi 02 (Contoh Sistem)',
     jenisKelamin: 'P',
     usia: 29,
     desa: 'Desa Pasir Panjang',
@@ -42,7 +42,7 @@ export const mockPemilihList: Pemilih[] = [
   },
   {
     nikMasked: '610202******0003',
-    namaMasked: 'M******** R**** (Simulasi)',
+    namaMasked: 'Pemilih Simulasi 03 (Contoh Sistem)',
     jenisKelamin: 'L',
     usia: 42,
     desa: 'Desa Antibar',
@@ -58,7 +58,7 @@ export const mockPemilihList: Pemilih[] = [
   },
   {
     nikMasked: '610204******0004',
-    namaMasked: 'F**** H****** (Simulasi)',
+    namaMasked: 'Pemilih Simulasi 04 (Contoh Sistem)',
     jenisKelamin: 'P',
     usia: 25,
     desa: 'Desa Galang',

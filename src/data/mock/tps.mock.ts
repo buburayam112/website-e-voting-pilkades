@@ -1,5 +1,11 @@
 import type { Tps } from '../../types';
 
+/**
+ * Data TPS Uji Coba Simulasi Frontend
+ * KEPATUHAN INTEGRITAS DATA:
+ * - Tidak memuat kontak pribadi, nomor HP sembarang, atau nama warga asli sebagai ketua KPPS.
+ * - Jumlah DPT berstatus 'MENUNGGU_DATA_RESMI' sampai Berita Acara Penetapan DPT disahkan.
+ */
 export const mockTpsList: Tps[] = [
   {
     id: 'tps-01-01',
@@ -11,9 +17,9 @@ export const mockTpsList: Tps[] = [
     alamatLengkap: 'Jl. Raya Pasir Panjang No. 14, Dusun Melati, RT 002/RW 001',
     latitude: 0.3645,
     longitude: 108.9612,
-    jumlahDpt: 425,
-    ketuaKpps: 'Ahmad Syafi’i, S.Pd',
-    kontakPengaduan: '0812-5678-0001 (Posko TPS 01)'
+    statusData: 'MENUNGGU_DATA_RESMI',
+    ketuaKpps: '(Menunggu Penetapan KPPS)',
+    kontakPengaduan: 'Posko Informasi PPKD Desa Pasir Panjang'
   },
   {
     id: 'tps-01-02',
@@ -25,9 +31,9 @@ export const mockTpsList: Tps[] = [
     alamatLengkap: 'Gg. Swadaya RT 005/RW 002, Pasir Panjang',
     latitude: 0.3688,
     longitude: 108.9634,
-    jumlahDpt: 410,
-    ketuaKpps: 'Bambang Supriyadi',
-    kontakPengaduan: '0812-5678-0002 (Posko TPS 02)'
+    statusData: 'MENUNGGU_DATA_RESMI',
+    ketuaKpps: '(Menunggu Penetapan KPPS)',
+    kontakPengaduan: 'Posko Informasi PPKD Desa Pasir Panjang'
   },
   {
     id: 'tps-05-01',
@@ -39,9 +45,9 @@ export const mockTpsList: Tps[] = [
     alamatLengkap: 'Jl. Daeng Menambon No. 08, RT 001/RW 001',
     latitude: 0.3752,
     longitude: 108.9745,
-    jumlahDpt: 460,
-    ketuaKpps: 'H. Rusli Iskandar',
-    kontakPengaduan: '0812-5678-0005 (Posko TPS 01 Antibar)'
+    statusData: 'MENUNGGU_DATA_RESMI',
+    ketuaKpps: '(Menunggu Penetapan KPPS)',
+    kontakPengaduan: 'Posko Informasi PPKD Desa Antibar'
   },
   {
     id: 'tps-10-01',
@@ -53,9 +59,9 @@ export const mockTpsList: Tps[] = [
     alamatLengkap: 'Jl. Pendidikan KM 2, Galang, RT 004/RW 002',
     latitude: 0.2811,
     longitude: 109.0815,
-    jumlahDpt: 485,
-    ketuaKpps: 'Zulkifli Mansyur',
-    kontakPengaduan: '0812-5678-0010 (Posko TPS 03 Galang)'
+    statusData: 'MENUNGGU_DATA_RESMI',
+    ketuaKpps: '(Menunggu Penetapan KPPS)',
+    kontakPengaduan: 'Posko Informasi PPKD Desa Galang'
   }
 ];
 

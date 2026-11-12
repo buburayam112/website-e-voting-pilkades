@@ -64,6 +64,11 @@
   }
 }
 
+/* Prevent browser text-cursor (caret) from appearing on static headings and labels */
+h1, h2, h3, h4, h5, h6, p, span, label, li, td, th {
+  caret-color: transparent;
+}
+
 /* Custom subtle scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

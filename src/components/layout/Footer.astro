@@ -3,95 +3,117 @@ import KominfoLogo from '../common/KominfoLogo.astro';
 import { siteConfig } from '../../config/site';
 ---
 
-<footer class="bg-slate-900 text-slate-300 border-t border-slate-800" id="kontak">
-  <div class="container-custom py-14 lg:py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+<footer class="bg-slate-900 text-slate-200 border-t border-slate-800" id="kontak">
+  <div class="container-custom py-14 lg:py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
       
-      <!-- Column 1: Identity & Intro -->
-      <div class="lg:col-span-1 space-y-4">
-        <div class="bg-white/10 p-3 rounded-xl inline-block">
-          <KominfoLogo className="h-10 text-white" showText={false} />
+      <!-- Column 1: Identitas & Penjelasan Singkat (4 Cols) -->
+      <div class="lg:col-span-4 space-y-5">
+        <div class="flex items-center gap-3.5">
+          <div class="bg-white/10 p-2.5 rounded-2xl inline-block border border-white/15 shadow-sm">
+            <img
+              src="/images/logo-kabupaten-mempawah.png"
+              alt="Lambang Kabupaten Mempawah"
+              class="h-12 w-auto object-contain flex-shrink-0"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <h3 class="text-white font-extrabold text-lg sm:text-xl tracking-tight leading-snug">
+              E-Voting Kabupaten Mempawah
+            </h3>
+            <p class="text-xs sm:text-sm text-accent mt-0.5 font-semibold">
+              Pemerintah Kabupaten Mempawah
+            </p>
+          </div>
         </div>
-        <div>
-          <h3 class="text-white font-bold text-lg tracking-tight">EVOTE MEMPAWAH</h3>
-          <p class="text-xs text-accent mt-0.5 font-medium">Pemerintah Kabupaten Mempawah</p>
-        </div>
-        <p class="text-sm text-slate-400 leading-relaxed">
-          Portal informasi publik resmi pelaksanaan Pemilihan Kepala Desa berbasis Sistem Pemungutan Suara Elektronik (E-Voting) Tahun 2026.
+
+        <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+          Portal informasi publik resmi pelaksanaan Pemilihan Kepala Desa berbasis Sistem Pemungutan Suara Secara Elektronik (E-Voting) Tahun 2026.
         </p>
-        <div class="pt-2">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary-900/80 text-accent border border-primary-700">
+
+        <div class="pt-1">
+          <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-primary-900/90 text-accent border border-primary-700/80 shadow-xs">
             <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-            Front-Office Layanan Publik
+            Layanan Informasi Publik (Front-Office)
           </span>
         </div>
       </div>
 
-      <!-- Column 2: Tiga Pilar Tim Teknis -->
-      <div class="space-y-3">
-        <h4 class="text-white font-semibold text-sm uppercase tracking-wider">Tim Teknis Penyelenggara</h4>
-        <ul class="space-y-3 text-sm">
+      <!-- Column 2: Tiga Pilar Tim Teknis Penyelenggara (3 Cols) -->
+      <div class="lg:col-span-3 space-y-4">
+        <h4 class="text-white font-bold text-sm sm:text-base uppercase tracking-wider pb-1 border-b border-slate-800">
+          Tim Teknis Penyelenggara
+        </h4>
+        <ul class="space-y-3.5 text-sm">
           <li class="flex items-start gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0"></span>
+            <span class="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
             <div>
-              <p class="font-medium text-slate-200">Diskominfo Kab. Mempawah</p>
-              <p class="text-xs text-slate-400">Tim Teknis Inti (Sistem, Jaringan & Keamanan)</p>
+              <p class="font-semibold text-slate-100">Diskominfo Kab. Mempawah</p>
+              <p class="text-xs text-slate-300 leading-relaxed mt-0.5">Tim Teknis Inti (Infrastruktur Sistem &amp; Keamanan Jaringan)</p>
             </div>
           </li>
           <li class="flex items-start gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0"></span>
+            <span class="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
             <div>
-              <p class="font-medium text-slate-200">Dukcapil Kab. Mempawah</p>
-              <p class="text-xs text-slate-400">Tim Teknis DPT (Verifikasi Data Kependudukan)</p>
+              <p class="font-semibold text-slate-100">Dukcapil Kab. Mempawah</p>
+              <p class="text-xs text-slate-300 leading-relaxed mt-0.5">Tim Teknis DPT (Verifikasi Data Kependudukan &amp; DP4)</p>
             </div>
           </li>
           <li class="flex items-start gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0"></span>
+            <span class="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></span>
             <div>
-              <p class="font-medium text-slate-200">Dinas PMD Kab. Mempawah</p>
-              <p class="text-xs text-slate-400">Tim Teknis Lapangan (Pemberdayaan Desa & PPKD)</p>
+              <p class="font-semibold text-slate-100">Dinas PMD Kab. Mempawah</p>
+              <p class="text-xs text-slate-300 leading-relaxed mt-0.5">Tim Teknis Lapangan (Pemberdayaan Desa &amp; Koordinasi PPKD)</p>
             </div>
           </li>
         </ul>
       </div>
 
-      <!-- Column 3: Tautan Terkait & Back-Office -->
-      <div class="space-y-3">
-        <h4 class="text-white font-semibold text-sm uppercase tracking-wider">Tautan Resmi</h4>
-        <ul class="space-y-2 text-sm">
+      <!-- Column 3: Tautan Resmi (2 Cols) -->
+      <div class="lg:col-span-2 space-y-4">
+        <h4 class="text-white font-bold text-sm sm:text-base uppercase tracking-wider pb-1 border-b border-slate-800">
+          Tautan Resmi
+        </h4>
+        <ul class="space-y-2.5 text-sm">
           <li>
-            <a href="#beranda" class="hover:text-accent transition-colors flex items-center gap-2">
-              <span class="text-xs">&rarr;</span> Beranda & Alur Pemilihan
+            <a href="#beranda" class="text-slate-300 hover:text-accent font-medium transition-colors flex items-center gap-2">
+              <span class="text-accent text-xs">&rarr;</span> Beranda Utama
             </a>
           </li>
           <li>
-            <a href="#cek-hak-pilih" class="hover:text-accent transition-colors flex items-center gap-2">
-              <span class="text-xs">&rarr;</span> Cek Hak Pilih Mandiri
+            <a href="#tentang" class="text-slate-300 hover:text-accent font-medium transition-colors flex items-center gap-2">
+              <span class="text-accent text-xs">&rarr;</span> Tentang E-Voting
             </a>
           </li>
           <li>
-            <a href="#perangkat" class="hover:text-accent transition-colors flex items-center gap-2">
-              <span class="text-xs">&rarr;</span> Spesifikasi Perangkat E-Voting
+            <a href="#cek-hak-pilih" class="text-slate-300 hover:text-accent font-medium transition-colors flex items-center gap-2">
+              <span class="text-accent text-xs">&rarr;</span> Cek Hak Pilih Mandiri
             </a>
           </li>
           <li>
-            <a href="#keamanan" class="hover:text-accent transition-colors flex items-center gap-2">
-              <span class="text-xs">&rarr;</span> Keamanan & VVPAT Audit
+            <a href="#perangkat" class="text-slate-300 hover:text-accent font-medium transition-colors flex items-center gap-2">
+              <span class="text-accent text-xs">&rarr;</span> Perangkat E-Voting
             </a>
           </li>
           <li>
-            <a href="#dasar-hukum" class="hover:text-accent transition-colors flex items-center gap-2">
-              <span class="text-xs">&rarr;</span> Perbup No. 28 Tahun 2026
+            <a href="#keamanan" class="text-slate-300 hover:text-accent font-medium transition-colors flex items-center gap-2">
+              <span class="text-accent text-xs">&rarr;</span> Keamanan &amp; Audit
             </a>
           </li>
-          <li class="pt-2">
+          <li>
+            <a href="#dasar-hukum" class="text-slate-300 hover:text-accent font-medium transition-colors flex items-center gap-2">
+              <span class="text-accent text-xs">&rarr;</span> Perbup No. 28/2026
+            </a>
+          </li>
+          <li class="pt-1">
             <a
               href={siteConfig.backOfficeDomain}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 text-xs font-medium text-blue-300 hover:bg-slate-700 hover:text-white border border-slate-700 transition-colors"
+              class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/90 text-xs font-semibold text-blue-200 hover:bg-slate-700 hover:text-white border border-slate-700 transition-colors"
             >
-              <span>Portal Back-Office PPKD</span>
+              <span>Portal Administrasi PPKD</span>
               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -102,46 +124,97 @@ import { siteConfig } from '../../config/site';
         </ul>
       </div>
 
-      <!-- Column 4: Kontak & Pusat Informasi -->
-      <div class="space-y-3">
-        <h4 class="text-white font-semibold text-sm uppercase tracking-wider">Kontak & Posko Informasi</h4>
-        <div class="space-y-2.5 text-xs text-slate-400">
+      <!-- Column 4: Kontak & Posko Layanan (3 Cols) — Terhubung ke Supabase tabel 'kontak' -->
+      <div class="lg:col-span-3 space-y-4">
+        <h4 class="text-white font-bold text-sm sm:text-base uppercase tracking-wider pb-1 border-b border-slate-800 flex items-center justify-between">
+          <span>Kontak &amp; Posko Layanan</span>
+          <span id="footer-sync-indicator" class="hidden text-[10px] font-normal text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800">Live DB</span>
+        </h4>
+
+        <!-- Data Container (Default: Static Official Data Fallback) -->
+        <div id="footer-kontak-container" class="space-y-3 text-xs sm:text-sm text-slate-300">
           <div>
-            <span class="text-slate-300 font-medium block">Alamat Sekretariat:</span>
-            <p class="mt-0.5">{siteConfig.kontak.alamat}</p>
+            <span class="text-slate-100 font-semibold block">Alamat Sekretariat:</span>
+            <p id="footer-alamat" class="mt-0.5 leading-relaxed text-slate-300">{siteConfig.kontak.alamat}</p>
           </div>
           <div>
-            <span class="text-slate-300 font-medium block">Posko Informasi & Helpdesk:</span>
-            <p class="mt-0.5 text-accent font-semibold">{siteConfig.kontak.callCenterPilkades}</p>
+            <span class="text-slate-100 font-semibold block">Posko Informasi &amp; Layanan Bantuan:</span>
+            <p id="footer-posko" class="mt-0.5 text-accent font-semibold leading-relaxed">{siteConfig.kontak.callCenterPilkades}</p>
           </div>
           <div>
-            <span class="text-slate-300 font-medium block">Telepon Kantor Diskominfo:</span>
-            <p class="mt-0.5">{siteConfig.kontak.telepon}</p>
+            <span class="text-slate-100 font-semibold block">Telepon Kantor Diskominfo:</span>
+            <p id="footer-telepon" class="mt-0.5 text-slate-300">{siteConfig.kontak.telepon}</p>
           </div>
           <div>
-            <span class="text-slate-300 font-medium block">Surat Elektronik (Email):</span>
-            <p class="mt-0.5">{siteConfig.kontak.email}</p>
+            <span class="text-slate-100 font-semibold block">Surat Elektronik (Email):</span>
+            <p id="footer-email" class="mt-0.5 text-slate-300">{siteConfig.kontak.email}</p>
           </div>
           <div>
-            <span class="text-slate-300 font-medium block">Jam Layanan Konsultasi:</span>
-            <p class="mt-0.5">{siteConfig.kontak.jamLayanan}</p>
+            <span class="text-slate-100 font-semibold block">Jam Pelayanan Konsultasi:</span>
+            <p id="footer-jam" class="mt-0.5 text-slate-300">{siteConfig.kontak.jamLayanan}</p>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- Bottom Bar -->
-    <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-      <p>
-        &copy; 2026 Pemerintah Kabupaten Mempawah — Dinas Komunikasi dan Informatika. Seluruh hak cipta dilindungi.
+    <!-- Bottom Bar: Hak Cipta & Kebijakan -->
+    <div class="mt-14 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-400">
+      <p class="text-center sm:text-left">
+        &copy; 2026 Pemerintah Kabupaten Mempawah — Dinas Komunikasi dan Informatika. Seluruh hak cipta dilindungi undang-undang.
       </p>
-      <div class="flex items-center gap-6">
-        <a href="#keamanan" class="hover:text-slate-400 transition-colors">Kebijakan Privasi & Perlindungan Data</a>
-        <a href="#dasar-hukum" class="hover:text-slate-400 transition-colors">Dasar Hukum</a>
-        <a href="#kontak" class="hover:text-slate-400 transition-colors">Bantuan Warga</a>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-slate-300 font-medium">
+        <a href="#keamanan" class="hover:text-accent transition-colors">Privasi &amp; Perlindungan Data</a>
+        <a href="#dasar-hukum" class="hover:text-accent transition-colors">Dasar Hukum</a>
+        <a href="#kontak" class="hover:text-accent transition-colors">Posko Bantuan</a>
       </div>
     </div>
   </div>
 </footer>
 
+<script>
+  import { getActiveKontak } from '../../services/kontak.service';
+
+  async function syncKontakFromSupabase() {
+    try {
+      const contacts = await getActiveKontak();
+      if (!contacts || contacts.length === 0) {
+        // Fallback silently to existing static official values in DOM
+        return;
+      }
+
+      // Ambil kontak utama (Diskominfo / urutan 1)
+      const primary = contacts[0];
+
+      const alamatEl = document.getElementById('footer-alamat');
+      if (alamatEl && primary.alamat) {
+        alamatEl.textContent = primary.alamat;
+      }
+
+      const teleponEl = document.getElementById('footer-telepon');
+      if (teleponEl && primary.telepon) {
+        teleponEl.textContent = primary.telepon;
+      }
+
+      const emailEl = document.getElementById('footer-email');
+      if (emailEl && primary.email) {
+        emailEl.textContent = primary.email;
+      }
+
+      const jamEl = document.getElementById('footer-jam');
+      if (jamEl && primary.jam_layanan) {
+        jamEl.textContent = primary.jam_layanan;
+      }
+
+      const indicator = document.getElementById('footer-sync-indicator');
+      if (indicator) {
+        indicator.classList.remove('hidden');
+      }
+    } catch {
+      // Graceful fallback: data statis tetap utuh dan tampil sempurna
+    }
+  }
+
+  // Jalankan hidrasi runtime browser
+  syncKontakFromSupabase();
+</script>

@@ -4,7 +4,7 @@ export const equipmentData: PerangkatEvoting[] = [
   {
     id: 'laptop-verifikasi',
     nama: 'Laptop Verifikasi & Generator',
-    alias: 'Registration & System Generator',
+    alias: 'Registrasi dan Generator Sistem',
     kategori: 'Verifikasi',
     fungsi: 'Verifikasi identitas pemilih DPT elektronik dan otorisasi token smartcard.',
     spesifikasi: 'Unit laptop berlabel khusus segel Kominfo, terisolasi tanpa koneksi internet (air-gapped), memuat database DPT terkunci (read-only).',
@@ -14,7 +14,7 @@ export const equipmentData: PerangkatEvoting[] = [
   {
     id: 'card-reader',
     nama: 'Smartcard Reader (Pcs)',
-    alias: 'Card Writer/Reader 1 pcs',
+    alias: 'Alat Pembaca dan Penulis Kartu Pintar (1 Unit)',
     kategori: 'Verifikasi',
     fungsi: 'Menulis token otorisasi ke dalam kartu suara dan membaca status kartu di bilik suara.',
     spesifikasi: 'Smartcard Contactless/Contact reader bersertifikasi keamanan perangkat keras, antarmuka USB tertutup.',
@@ -24,7 +24,7 @@ export const equipmentData: PerangkatEvoting[] = [
   {
     id: 'ktp-reader',
     nama: 'KTP Reader (Biometrik)',
-    alias: 'Optical & NFC e-KTP Scanner',
+    alias: 'Pemindai e-KTP Optik dan NFC',
     kategori: 'Verifikasi',
     fungsi: 'Membaca chip e-KTP dan memverifikasi sidik jari/keaslian dokumen pemilih.',
     spesifikasi: 'Pemindai biometrik resmi standard Dukcapil dengan sensor sidik jari optik resolusi tinggi.',
@@ -34,7 +34,7 @@ export const equipmentData: PerangkatEvoting[] = [
   {
     id: 'kartu-suara',
     nama: 'Kartu Suara (Smartcard)',
-    alias: 'V-Token Digital Key',
+    alias: 'Kunci Digital Token Pemilih',
     kategori: 'Pemungutan',
     fungsi: 'Kunci digital sekali pakai untuk membuka akses antarmuka pemilihan di bilik suara.',
     spesifikasi: 'Kartu pintar mikroprosesor ber-chip kriptografi tinggi. BUKAN penyimpan data pribadi pemilih.',
@@ -44,7 +44,7 @@ export const equipmentData: PerangkatEvoting[] = [
   {
     id: 'layar-sentuh',
     nama: 'Layar Sentuh e-Voting',
-    alias: 'All-in-One Touchscreen Machine',
+    alias: 'Mesin Layar Sentuh Terpadu',
     kategori: 'Pemungutan',
     fungsi: 'Menampilkan surat suara digital dan memfasilitasi penentuan pilihan dengan 2 kali sentuh.',
     spesifikasi: 'Perangkat All-in-One Touchscreen responsif, sudut pandang terjaga dalam bilik suara, sistem operasi terkunci (kiosk mode).',
@@ -54,7 +54,7 @@ export const equipmentData: PerangkatEvoting[] = [
   {
     id: 'printer-evoting',
     nama: 'Printer E-Voting (Audit Fisik)',
-    alias: 'Direct Thermal Audit Printer',
+    alias: 'Pencetak Termal Struk Audit Fisik',
     kategori: 'Pencatatan',
     fungsi: 'Mencetak struk audit fisik secara instan sesaat setelah pemilih menekan konfirmasi pilihan.',
     spesifikasi: 'Printer termal industri berkecepatan tinggi, tanpa tinta basah, diletakkan menghadap ke depan di luar sekat bilik.',
@@ -64,7 +64,7 @@ export const equipmentData: PerangkatEvoting[] = [
   {
     id: 'kertas-termal',
     nama: 'Kertas Termal Audit',
-    alias: 'Certified Thermal Paper Trail',
+    alias: 'Kertas Termal untuk Jejak Audit Fisik',
     kategori: 'Perlengkapan',
     fungsi: 'Media cetak struk suara resmi yang dimasukkan pemilih ke dalam Kotak Audit terkunci.',
     spesifikasi: 'Kertas termal bersertifikasi tahan pudar hingga bertahun-tahun, watermarked, memiliki barcode/QR verifikasi keabsahan.',

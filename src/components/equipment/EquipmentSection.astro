@@ -4,7 +4,7 @@ import DeviceSvg from '../illustrations/DeviceSvg.astro';
 import { equipmentData } from '../../data/content/equipment.data';
 ---
 
-<section id="perangkat" class="py-16 sm:py-20 bg-white border-b border-slate-200/80">
+<section id="perangkat" class="py-16 sm:py-20 lg:py-24 bg-slate-50/70 border-b border-slate-200/80">
   <div class="container-custom">
     
     <!-- Header -->
@@ -14,11 +14,13 @@ import { equipmentData } from '../../data/content/equipment.data';
       subtitle="7 komponen perangkat keras bersertifikasi yang digunakan di setiap Tempat Pemungutan Suara (TPS)"
     />
 
-    <!-- Device Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <!-- Device Cards Grid (SSR Fallback + Runtime Hydration) -->
+    <div id="equipment-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {equipmentData.map((item, idx) => (
-        <div class={`card-surface p-5 flex flex-col justify-between hover:shadow-elevated hover:border-primary-300 transition-all duration-200 group ${idx === 4 ? 'md:col-span-2 lg:col-span-2 xl:col-span-2' : ''}`}>
-          
+        <div
+          class={`card-surface p-5 flex flex-col justify-between hover:shadow-elevated hover:border-primary-300 transition-all duration-200 group ${idx === 4 ? 'md:col-span-2 lg:col-span-2 xl:col-span-2' : ''}`}
+          data-equipment-slug={item.id}
+        >
           <div>
             <!-- Device SVG Illustration -->
             <div class="mb-4 rounded-xl overflow-hidden group-hover:scale-[1.02] transition-transform duration-200">
@@ -36,7 +38,10 @@ import { equipmentData } from '../../data/content/equipment.data';
             </div>
 
             <!-- Name -->
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-primary transition-colors leading-snug">
+            <h3
+              class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-primary transition-colors leading-snug"
+              data-equipment-name
+            >
               {item.nama}
             </h3>
             {item.alias && (
@@ -48,7 +53,7 @@ import { equipmentData } from '../../data/content/equipment.data';
             <!-- Function -->
             <div class="mt-3 p-3 rounded-lg bg-slate-50 border border-slate-100">
               <span class="text-xs font-bold text-slate-700 block mb-0.5">Fungsi Utama:</span>
-              <p class="text-xs text-slate-600 leading-relaxed">
+              <p class="text-xs text-slate-600 leading-relaxed" data-equipment-fungsi>
                 {item.fungsi}
               </p>
             </div>
@@ -64,7 +69,7 @@ import { equipmentData } from '../../data/content/equipment.data';
             <svg class="w-3.5 h-3.5 text-accent flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
-            <span class="truncate">{item.spesifikasi}</span>
+            <span class="truncate" data-equipment-spec>{item.spesifikasi}</span>
           </div>
 
         </div>
@@ -80,7 +85,7 @@ import { equipmentData } from '../../data/content/equipment.data';
           </svg>
         </div>
         <div>
-          <h4 class="text-sm font-bold text-slate-900">Perlengkapan Daya Cadangan (Genset & UPS)</h4>
+          <h4 class="text-sm font-bold text-slate-900">Perlengkapan Daya Cadangan (Genset &amp; UPS)</h4>
           <p class="text-xs text-slate-600 mt-0.5">
             Sesuai SOP Pilkades 2026, setiap TPS diwajibkan menyiagakan Genset dan UPS mandiri untuk memastikan pemungutan suara tidak terhenti jika suplai listrik PLN terganggu.
           </p>
@@ -94,3 +99,43 @@ import { equipmentData } from '../../data/content/equipment.data';
   </div>
 </section>
 
+<script>
+  import { getActivePeralatan } from '../../services/peralatan.service';
+
+  async function syncEquipmentFromSupabase() {
+    try {
+      const items = await getActivePeralatan();
+      if (!items || items.length === 0) return;
+
+      const map = new Map(items.map((row) => [row.slug, row]));
+
+      document.querySelectorAll<HTMLElement>('[data-equipment-slug]').forEach((card) => {
+        const slug = card.dataset.equipmentSlug;
+        if (!slug) return;
+        const row = map.get(slug);
+        if (!row) return;
+
+        // Render string secara aman via textContent (No raw HTML)
+        const nameEl = card.querySelector('[data-equipment-name]');
+        if (nameEl && row.nama) nameEl.textContent = row.nama;
+
+        const fungsiEl = card.querySelector('[data-equipment-fungsi]');
+        if (fungsiEl && row.fungsi) fungsiEl.textContent = row.fungsi;
+
+        const specEl = card.querySelector('[data-equipment-spec]');
+        if (specEl) {
+          const specObj = row.spesifikasi as any;
+          if (specObj?.keterangan) {
+            specEl.textContent = String(specObj.keterangan);
+          } else if (typeof row.spesifikasi === 'string') {
+            specEl.textContent = row.spesifikasi;
+          }
+        }
+      });
+    } catch {
+      // Fallback silently: konten statis bawaan tetap ditampilkan sempurna
+    }
+  }
+
+  syncEquipmentFromSupabase();
+</script>
