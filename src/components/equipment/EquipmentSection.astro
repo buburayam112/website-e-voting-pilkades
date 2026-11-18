@@ -1,6 +1,6 @@
 ---
 import SectionHeader from '../common/SectionHeader.astro';
-import DeviceSvg from '../illustrations/DeviceSvg.astro';
+import DeviceImage from './DeviceImage.astro';
 import { equipmentData } from '../../data/content/equipment.data';
 ---
 
@@ -22,9 +22,13 @@ import { equipmentData } from '../../data/content/equipment.data';
           data-equipment-slug={item.id}
         >
           <div>
-            <!-- Device SVG Illustration -->
+            <!-- Device Photo -->
             <div class="mb-4 rounded-xl overflow-hidden group-hover:scale-[1.02] transition-transform duration-200">
-              <DeviceSvg deviceId={item.id} className={idx === 4 ? 'h-48' : 'h-40'} />
+              <DeviceImage
+                fotoUrl={item.fotoUrl}
+                alt={item.nama}
+                hasEmbeddedLabel={item.hasEmbeddedLabel}
+              />
             </div>
 
             <!-- Category & Badge -->
@@ -37,14 +41,14 @@ import { equipmentData } from '../../data/content/equipment.data';
               </span>
             </div>
 
-            <!-- Name -->
+            <!-- Name: tampilkan selalu, gambar yang punya label sudah clear -->
             <h3
               class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-primary transition-colors leading-snug"
               data-equipment-name
             >
               {item.nama}
             </h3>
-            {item.alias && (
+            {item.alias && !item.hasEmbeddedLabel && (
               <p class="text-xs text-slate-500 font-mono mt-0.5">
                 {item.alias}
               </p>
@@ -58,10 +62,12 @@ import { equipmentData } from '../../data/content/equipment.data';
               </p>
             </div>
 
-            <!-- Short Explanation / Spec -->
-            <p class="mt-3 text-xs text-slate-600 leading-relaxed">
-              {item.deskripsi}
-            </p>
+            <!-- Short description: sembunyikan jika gambar sudah mengandung deskripsi tertanam -->
+            {!item.hasEmbeddedLabel && (
+              <p class="mt-3 text-xs text-slate-600 leading-relaxed">
+                {item.deskripsi}
+              </p>
+            )}
           </div>
 
           <!-- Bottom Spec Tag -->
@@ -139,3 +145,4 @@ import { equipmentData } from '../../data/content/equipment.data';
 
   syncEquipmentFromSupabase();
 </script>
+

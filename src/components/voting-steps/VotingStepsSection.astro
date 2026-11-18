@@ -1,6 +1,5 @@
 ---
 import SectionHeader from '../common/SectionHeader.astro';
-import StepSvg from '../illustrations/StepSvg.astro';
 import { stepsData } from '../../data/content/steps.data';
 ---
 
@@ -11,7 +10,7 @@ import { stepsData } from '../../data/content/steps.data';
     <SectionHeader
       badge="Panduan Memilih"
       title="Alur & Tahapan Pemungutan Suara di TPS"
-      subtitle="Panduan langkah demi langkah pemilih dari kedatangan hingga selesai sesuai Panduan Resmi E-Voting 2026"
+      subtitle="Panduan langkah demi langkah pemilih dari kedatangan hingga selesai sesuai Perbup Mempawah No. 14 Tahun 2023"
     />
 
     <!-- Steps Timeline Layout (Alternating Desktop / Linear Mobile) -->
@@ -23,80 +22,77 @@ import { stepsData } from '../../data/content/steps.data';
       {stepsData.map((step, index) => {
         const isEven = index % 2 === 1;
         return (
-          <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
             
             <!-- Step Badge Number for Mobile & Center Marker -->
-            <div class="lg:hidden flex items-center gap-3">
-              <span class="w-10 h-10 rounded-full bg-primary text-white font-extrabold text-sm flex items-center justify-center shadow-md">
-                {step.nomor}
-              </span>
-              <div>
-                <span class="text-xs font-bold text-accent-700 uppercase tracking-wider">{step.kode}</span>
-                <h3 class="text-lg font-bold text-slate-900">{step.judul}</h3>
+            <div class="lg:hidden flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-full bg-primary text-white font-extrabold text-sm flex items-center justify-center shadow-sm">
+                  {step.nomor}
+                </span>
+                <div>
+                  <span class="text-[11px] font-bold text-accent-700 uppercase tracking-wider">{step.kode}</span>
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900">{step.judul}</h3>
+                </div>
               </div>
+              {step.dasarHukum && (
+                <span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200/60 flex-shrink-0">
+                  {step.dasarHukum}
+                </span>
+              )}
             </div>
 
             <!-- Illustration Column -->
             <div class={`lg:col-span-6 ${isEven ? 'lg:order-2 lg:pl-8' : 'lg:order-1 lg:pr-8'}`}>
-              <div class="card-surface p-3 bg-white border-slate-200 shadow-soft hover:shadow-elevated transition-shadow">
-                <StepSvg stepNumber={step.nomor} className="h-56 sm:h-64" />
-                <div class="p-3 text-center bg-slate-50 rounded-lg mt-2">
-                  <span class="text-xs font-semibold text-slate-600 italic">
-                    Ilustrasi Alur Operasional TPS — Tahap 0{step.nomor}
-                  </span>
+              <div class="card-surface p-3 sm:p-4 bg-white border-slate-200 shadow-soft hover:shadow-elevated transition-shadow">
+                <div class="relative w-full bg-slate-50/80 rounded-xl overflow-hidden border border-slate-100 flex items-center justify-center p-2">
+                  <img
+                    src={step.gambarUrl}
+                    alt={`Infografik Alur E-Voting Pilkades Mempawah - Tahap ${step.nomor}: ${step.judul}`}
+                    class="w-full h-auto max-h-[360px] sm:max-h-[400px] object-contain rounded-lg transition-transform duration-300 hover:scale-[1.01]"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               </div>
             </div>
 
             <!-- Content Column -->
             <div class={`lg:col-span-6 ${isEven ? 'lg:order-1 lg:pr-8' : 'lg:order-2 lg:pl-8'}`}>
-              <div class="card-surface p-6 sm:p-8 bg-white border-slate-200/90 shadow-soft">
+              <div class="card-surface p-6 sm:p-7 bg-white border-slate-200/90 shadow-soft">
                 
-                <div class="hidden lg:flex items-center gap-2 mb-3">
-                  <span class="px-2.5 py-1 rounded-md bg-primary-100 text-primary font-bold text-xs">
-                    {step.kode}
-                  </span>
-                  <span class="text-xs text-slate-400 font-semibold">Langkah 0{step.nomor} dari 06</span>
+                <!-- Desktop Header: Badges & Dasar Hukum -->
+                <div class="hidden lg:flex items-center justify-between gap-2 mb-3">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-full bg-primary text-white font-extrabold text-xs flex items-center justify-center shadow-sm">
+                      {step.nomor}
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-md bg-primary-100 text-primary font-bold text-xs">
+                      {step.kode}
+                    </span>
+                  </div>
+                  {step.dasarHukum && (
+                    <span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200/60" title={step.dasarHukum}>
+                      {step.dasarHukum}
+                    </span>
+                  )}
                 </div>
 
-                <h3 class="hidden lg:block text-xl sm:text-2xl font-bold text-slate-900 leading-snug">
+                <!-- Desktop Title -->
+                <h3 class="hidden lg:block text-xl sm:text-2xl font-bold text-slate-900 leading-snug mb-3">
                   {step.judul}
                 </h3>
-                
-                <h4 class="text-xs sm:text-sm font-semibold text-primary mt-1 mb-3">
-                  {step.subjudul}
-                </h4>
 
-                <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                <!-- Short Plain Description Paragraph -->
+                <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
                   {step.deskripsi}
                 </p>
 
-                <!-- Key Points Bullet List -->
-                <div class="space-y-2 mb-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <span class="text-xs font-bold text-slate-700 block mb-1">Poin Penting Pelaksanaan:</span>
-                  <ul class="space-y-1.5 text-xs text-slate-600">
-                    {step.poinKunci.map((point) => (
-                      <li class="flex items-start gap-2">
-                        <svg class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <!-- Security Note Footer -->
-                {step.catatanKeamanan && (
-                  <div class="p-3 rounded-lg bg-blue-50/70 border border-blue-100 flex items-start gap-2 text-xs text-blue-900">
-                    <svg class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                    <span>
-                      <strong class="font-semibold">Jaminan Keamanan:</strong> {step.catatanKeamanan}
-                    </span>
-                  </div>
+                <!-- Technical Note (Tahap 4) -->
+                {step.catatanTeknis && (
+                  <p class="mt-4 text-xs text-slate-500 leading-relaxed border-t border-slate-100 pt-3">
+                    <span class="font-semibold text-slate-700">Catatan teknis:</span> {step.catatanTeknis}
+                  </p>
                 )}
 
               </div>
@@ -132,4 +128,3 @@ import { stepsData } from '../../data/content/steps.data';
 
   </div>
 </section>
-

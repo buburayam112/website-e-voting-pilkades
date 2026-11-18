@@ -1,0 +1,44 @@
+---
+/**
+ * DeviceImage.astro
+ * Menampilkan foto perangkat e-voting asli dari /public/images/perangkat/.
+ * Menggunakan aspect-ratio 4:3 agar semua kartu memiliki tinggi yang konsisten
+ * tanpa mendistorsi gambar dengan rasio portrait maupun landscape.
+ * Jika fotoUrl tidak tersedia, jatuh kembali ke placeholder SVG minimalis.
+ */
+interface Props {
+  fotoUrl?: string;
+  alt: string;
+  hasEmbeddedLabel?: boolean;
+}
+
+const {
+  fotoUrl,
+  alt,
+  hasEmbeddedLabel = false,
+} = Astro.props;
+---
+
+<div
+  class="relative w-full overflow-hidden rounded-xl bg-[#f5f1eb]"
+  style="aspect-ratio: 4 / 3;"
+>
+  {fotoUrl ? (
+    <img
+      src={fotoUrl}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+      class="absolute inset-0 w-full h-full object-contain p-3"
+    />
+  ) : (
+    <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-slate-400 p-4">
+      <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+        <path d="M8 21h8M12 17v4"></path>
+      </svg>
+      <span class="text-xs text-center leading-snug">{alt}</span>
+    </div>
+  )}
+</div>
+

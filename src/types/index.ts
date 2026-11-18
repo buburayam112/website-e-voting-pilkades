@@ -131,16 +131,27 @@ export interface PerangkatEvoting {
   spesifikasi: string;
   deskripsi: string;
   iconName: string;
+  /** Path ke gambar perangkat di /public, relatif dari root (misal: /images/perangkat/laptop.png) */
+  fotoUrl?: string;
+  /**
+   * true  → gambar sudah mengandung judul & deskripsi tertanam; sembunyikan nama/alias di kartu
+   * false → gambar hanya ilustrasi murni; tampilkan judul normal di kartu
+   */
+  hasEmbeddedLabel?: boolean;
 }
 
 export interface TahapPemungutan {
   nomor: number;
   kode: string;
   judul: string;
-  subjudul: string;
+  subjudul?: string;
   deskripsi: string;
-  poinKunci: string[];
+  poinKunci?: string[];
   catatanKeamanan?: string;
+  gambarUrl?: string;
+  dasarHukum?: string;
+  catatanTeknis?: string;
+  captionTeknis?: string;
 }
 
 export interface KeamananItem {

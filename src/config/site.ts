@@ -11,13 +11,13 @@ export const siteConfig = {
   dataProvider: 'mock' as DataProviderType,
   apiBaseUrl: '', // Belum tersedia dari internal Diskominfo
 
-  // Dasar Hukum Resmi
+  // Dasar Hukum Resmi (Peninjauan Rujukan JDIHN)
   dasarHukum: {
-    judul: 'Peraturan Bupati Mempawah Nomor 28 Tahun 2026',
-    nomor: '28 Tahun 2026',
-    tentang: 'Pedoman Pelaksanaan Pemilihan Kepala Desa Menggunakan Sistem Pemungutan Suara Secara Elektronik (E-Voting) di Kabupaten Mempawah',
-    ringkasan: 'Mengatur landasan hukum, standar teknis, peran Tim Teknis (Diskominfo, Dukcapil, Pemdes), serta mekanisme audit fisik berkeabsahan hukum di seluruh TPS Kabupaten Mempawah.',
-    linkDokumen: '#' // Placeholder dokumen resmi
+    judul: 'Perbup Mempawah No. 14 Tahun 2023 & Landasan Yuridis E-Voting',
+    nomor: 'Perbup Mempawah No. 14/2023 & Putusan MK No. 147/PUU-VII/2009',
+    tentang: 'Petunjuk Teknis Pelaksanaan Pemilihan Kepala Desa secara E-Voting di Kabupaten Mempawah',
+    ringkasan: 'Rujukan teknis utama berpedoman pada Perbup Mempawah No. 14 Tahun 2023 (Pasal 2 ayat (1) pelaksanaan dengan e-Voting, Pasal 42 ayat (4) pemberian suara dengan alat elektronik, Pasal 46 mekanisme pemberian suara elektronik, Pasal 46 ayat (5) penanganan kerusakan peralatan, serta Pasal 47 penghitungan suara). Didukung Putusan MK No. 147/PUU-VII/2009 atas pengujian Pasal 88 UU No. 32/2004 dengan syarat kumulatif asas Luber Jurdil dan kesiapan daerah.',
+    linkDokumen: '#' // Rujukan JDIH Kabupaten Mempawah
   },
 
   // Konfigurasi Jadwal Pelaksanaan Pilkades
