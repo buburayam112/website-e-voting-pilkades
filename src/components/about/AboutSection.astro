@@ -1,0 +1,113 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+import CountdownCard from '../countdown/CountdownCard.astro';
+import LegalCard from '../legal/LegalCard.astro';
+import ArchitectureFlowIllustration from '../illustrations/ArchitectureFlowIllustration.astro';
+
+const sixFunctions = [
+  { nomor: '01', title: 'Membuat Surat Suara', desc: 'Membentuk antarmuka surat suara digital terenkripsi untuk setiap calon kades yang terdaftar.' },
+  { nomor: '02', title: 'Memberikan Suara', desc: 'Memfasilitasi pemilih menentukan pilihan secara langsung, rahasia, dan mandiri dengan 2 kali sentuhan.' },
+  { nomor: '03', title: 'Menghitung Perolehan', desc: 'Melakukan tabulasi penghitungan suara secara otomatis, akurat, dan tanpa risiko salah hitung manual.' },
+  { nomor: '04', title: 'Mengirimkan Hasil', desc: 'Mengirimkan hasil rekapitulasi terverifikasi dari TPS melalui prosedur pengamanan tertutup.' },
+  { nomor: '05', title: 'Menayangkan Perolehan', desc: 'Menampilkan data perolehan suara secara transparan kepada saksi, panitia, dan masyarakat luas.' },
+  { nomor: '06', title: 'Memelihara & Menghasilkan', desc: 'Memelihara dan menghasilkan perhitungan suara, termasuk lembar struk yang dimasukkan pemilih ke kotak suara/audit (Pasal 46 ayat (1) huruf s Perbup 14/2023).' }
+];
+---
+
+<section id="tentang" class="py-16 sm:py-20 lg:py-24 bg-white border-b border-slate-200/80">
+  <div class="container-custom">
+    
+    <!-- Section Header -->
+    <SectionHeader
+      badge="Pengenalan Resmi"
+      title="Apa Itu E-Voting Pilkades Mempawah?"
+      subtitle="Berdasarkan Perbup Mempawah No. 14 Tahun 2023 tentang Petunjuk Teknis Pelaksanaan Pemilihan Kepala Desa secara E-Voting di Kabupaten Mempawah"
+    />
+
+    <!-- Main Definition Card: Komposisi Editorial -->
+    <div class="card-surface p-6 sm:p-8 lg:p-10 mb-12 border-primary-200/80 bg-gradient-to-br from-blue-50/40 via-white to-white border-l-4 border-l-primary shadow-sm">
+      <div class="max-w-4xl mx-auto text-center space-y-4">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-primary text-white shadow-xs">
+          Definisi Yuridis E-Voting
+        </span>
+        <blockquote class="text-base sm:text-lg lg:text-xl font-medium text-slate-800 leading-relaxed italic">
+          "Sistem Electronic Voting selanjutnya disingkat <span class="font-extrabold text-primary not-italic">e-Voting</span> adalah sistem yang memanfaatkan perangkat elektronik dan mengolah informasi digital untuk membuat surat suara, memberikan suara, menghitung perolehan suara, mengirim hasil perolehan suara, menayangkan perolehan suara, memelihara dan menghasilkan perhitungan suara."
+        </blockquote>
+        <p class="text-xs sm:text-sm text-slate-500 font-semibold pt-1">
+          — Perbup Mempawah No. 14 Tahun 2023 Pasal 1 angka 23
+        </p>
+      </div>
+
+      <!-- 6 Functional Pillars -->
+      <div class="mt-8 pt-8 border-t border-slate-200/70 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {sixFunctions.map((item) => (
+          <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200/60 hover:border-primary-300 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-7 h-7 rounded-lg bg-primary-100 text-primary font-bold text-xs flex items-center justify-center">
+                {item.nomor}
+              </span>
+              <h4 class="font-bold text-slate-900 text-sm">{item.title}</h4>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed pl-10">
+              {item.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Wireframe Grid Section: Countdown & Dasar Hukum -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch mb-12">
+      
+      <!-- Countdown Card -->
+      <div class="flex flex-col">
+        <CountdownCard className="h-full" />
+      </div>
+
+      <!-- Dasar Hukum Card -->
+      <div class="flex flex-col">
+        <LegalCard className="h-full" />
+      </div>
+
+    </div>
+
+    <!-- Architecture Blueprint Section (Reference A & Kominfo Diagram) -->
+    <div class="card-surface p-6 sm:p-8 bg-white border-slate-200 shadow-soft">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+        <div>
+          <span class="text-xs font-bold text-primary uppercase tracking-wider block">Bagan Arsitektur Sistem</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-900 mt-0.5">
+            Kolaborasi Dua Sistem Pilkades & E-Voting
+          </h3>
+          <p class="text-xs text-slate-500 mt-1">
+            Pemisahan tegas fungsi Sistem Administrasi Internal (Back-Office) dan Portal Informasi Publik (Front-Office)
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            Terintegrasi API Pilkades
+          </span>
+        </div>
+      </div>
+
+      <ArchitectureFlowIllustration />
+
+      <div class="mt-6 pt-4 border-t border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-600">
+        <div class="p-3 bg-slate-50 rounded-lg">
+          <span class="font-bold text-slate-800 block mb-1">1. Satu Sumber Data Valid</span>
+          Data DPT kependudukan tunggal dipasok resmi oleh Dukcapil dan diverifikasi panitia desa.
+        </div>
+        <div class="p-3 bg-slate-50 rounded-lg">
+          <span class="font-bold text-slate-800 block mb-1">2. Pemisahan Kewenangan</span>
+          Front-Office hanya membaca data publik, tidak dapat mengubah catatan pemilih di Back-Office.
+        </div>
+        <div class="p-3 bg-slate-50 rounded-lg">
+          <span class="font-bold text-slate-800 block mb-1">3. Transparan & Terkontrol</span>
+          Komunikasi antar sistem melalui gerbang API Pilkades berstandar keamanan Diskominfo.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+

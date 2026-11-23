@@ -1,0 +1,4 @@
+id,organisasi,telepon,email,alamat,jam_layanan,website,urutan,is_active,created_at,updated_at
+1,Dinas Komunikasi dan Informatika Kabupaten Mempawah,(0561) 691012,diskominfo@mempawahkab.go.id,"Jl. Raden Kusno No. 1, Tengah, Kec. Mempawah Hilir, Kabupaten Mempawah, Kalimantan Barat 78912","Senin - Jumat, 08:00 - 15:30 WIB",,1,true,2026-11-10 03:18:47.447701+00,2026-11-10 03:18:47.447701+00
+2,Dinas Kependudukan dan Pencatatan Sipil Kabupaten Mempawah,,,"Jl. Raden Kusno No. 1, Tengah, Kec. Mempawah Hilir, Kabupaten Mempawah, Kalimantan Barat 78912","Senin - Jumat, 08:00 - 15:30 WIB",,2,true,2026-11-10 03:18:47.447701+00,2026-11-10 03:18:47.447701+00
+3,Dinas Pemberdayaan Masyarakat dan Pemerintahan Desa Kabupaten Mempawah,,,"Jl. Raden Kusno No. 1, Tengah, Kec. Mempawah Hilir, Kabupaten Mempawah, Kalimantan Barat 78912","Senin - Jumat, 08:00 - 15:30 WIB",,3,true,2026-11-10 03:18:47.447701+00,2026-11-10 03:18:47.447701+00

@@ -1,0 +1,1335 @@
+---
+import '../../styles/global.css';
+import KominfoLogo from '../../components/common/KominfoLogo.astro';
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel Admin E-Voting — Kelola Berita & Informasi Publik</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-accent selection:text-slate-900 pb-20">
+    
+    <!-- TOP ADMIN NAVBAR -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          
+          <!-- Logo & Brand Badge -->
+          <div class="flex items-center gap-4">
+            <div class="inline-flex items-center p-1.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs">
+              <KominfoLogo />
+            </div>
+            <div class="hidden sm:block">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-primary-50 text-primary border border-primary-200">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                Panel Administrator
+              </span>
+              <h1 class="text-sm font-bold text-slate-900">
+                Pengelolaan Berita & Sosialisasi E-Voting
+              </h1>
+            </div>
+          </div>
+
+          <!-- User Controls & Action Buttons -->
+          <div class="flex items-center gap-3">
+            <a
+              href="/"
+              target="_blank"
+              class="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 transition-colors"
+              title="Buka Website Publik Warga di Tab Baru"
+            >
+              <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+              <span>Lihat Portal Warga</span>
+            </a>
+
+            <!-- Admin Profile Card -->
+            <div class="flex items-center gap-2 pl-2 sm:pl-4 border-l border-slate-200">
+              <div class="w-9 h-9 rounded-full bg-primary-100 text-primary flex items-center justify-center font-bold text-xs shadow-inner">
+                AD
+              </div>
+              <div class="hidden lg:block text-left">
+                <span id="admin-user-name" class="block text-xs font-bold text-slate-800 leading-tight">Admin Diskominfo</span>
+                <span class="block text-[10px] text-emerald-600 font-semibold">Aktif • Sesi Aman</span>
+              </div>
+            </div>
+
+            <!-- Logout Button -->
+            <button
+              type="button"
+              id="btn-admin-logout"
+              class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 transition-colors ml-1"
+              title="Keluar dari Panel Admin"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span class="hidden sm:inline">Keluar</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      
+      <!-- PAGE HEADER & ACTION CTA -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Dashboard Manajemen Berita
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Kelola publikasi informasi, artikel teknis TPS, sosialisasi, dan regulasi Pilkades 2026.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            id="btn-open-create-modal"
+            class="btn-primary text-xs sm:text-sm py-2.5 px-4 rounded-xl shadow-md flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Tambah Berita Baru</span>
+          </button>
+
+          <button
+            type="button"
+            id="btn-reset-data"
+            class="p-2.5 rounded-xl border border-slate-300 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+            title="Reset ke Data Default Demo"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+              <path d="M21 3v5h-5"></path>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+              <path d="M8 16H3v5"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STATS OVERVIEW CARDS -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+        
+        <!-- Total Berita -->
+        <div class="card-surface p-5 border-slate-200/90 flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-blue-50 text-primary flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
+              <path d="M18 14h-8"></path>
+              <path d="M15 18h-5"></path>
+              <path d="M10 6h8v4h-8V6Z"></path>
+            </svg>
+          </div>
+          <div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Total Berita</span>
+            <span id="stat-total-berita" class="text-2xl font-extrabold text-slate-900">0</span>
+          </div>
+        </div>
+
+        <!-- Berita Terbit (Published) -->
+        <div class="card-surface p-5 border-slate-200/90 flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Terbit (Live)</span>
+            <span id="stat-published-berita" class="text-2xl font-extrabold text-emerald-600">0</span>
+          </div>
+        </div>
+
+        <!-- Draf (Draft) -->
+        <div class="card-surface p-5 border-slate-200/90 flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+            </svg>
+          </div>
+          <div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Draf (Tersimpan)</span>
+            <span id="stat-draft-berita" class="text-2xl font-extrabold text-amber-600">0</span>
+          </div>
+        </div>
+
+        <!-- Kategori Aktif -->
+        <div class="card-surface p-5 border-slate-200/90 flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+              <line x1="7" y1="7" x2="7.01" y2="7"></line>
+            </svg>
+          </div>
+          <div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Kategori Aktif</span>
+            <span id="stat-categories" class="text-2xl font-extrabold text-slate-900">5</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SEARCH, FILTER, AND TABLE CARD -->
+      <div class="card-surface border-slate-200/90 overflow-hidden shadow-elevated">
+        
+        <!-- Filter Toolbar -->
+        <div class="p-4 sm:p-6 border-b border-slate-200/80 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+          
+          <!-- Search Box -->
+          <div class="relative w-full sm:w-80">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </svg>
+            </div>
+            <input
+              type="text"
+              id="admin-filter-search"
+              placeholder="Cari judul atau topik..."
+              class="w-full pl-9 pr-4 py-2 text-xs sm:text-sm rounded-xl border border-slate-300 bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-800 transition-all"
+            />
+          </div>
+
+          <!-- Filters: Kategori & Status -->
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <!-- Filter Kategori -->
+            <select
+              id="admin-filter-category"
+              class="text-xs sm:text-sm py-2 px-3 rounded-xl border border-slate-300 bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-700"
+            >
+              <option value="all">Semua Kategori</option>
+              <option value="Sosialisasi">Sosialisasi</option>
+              <option value="Teknis & Peralatan">Teknis & Peralatan</option>
+              <option value="Regulasi">Regulasi</option>
+              <option value="Jadwal & Tahapan">Jadwal & Tahapan</option>
+              <option value="Pengumuman">Pengumuman</option>
+            </select>
+
+            <!-- Filter Status -->
+            <select
+              id="admin-filter-status"
+              class="text-xs sm:text-sm py-2 px-3 rounded-xl border border-slate-300 bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-700"
+            >
+              <option value="all">Semua Status</option>
+              <option value="published">Published (Terbit)</option>
+              <option value="draft">Draft (Draf)</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Table Container -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm text-slate-700">
+            <thead class="bg-slate-100/80 text-[11px] font-bold text-slate-600 uppercase tracking-wider border-b border-slate-200">
+              <tr>
+                <th scope="col" class="py-3.5 px-4 w-12 text-center">No</th>
+                <th scope="col" class="py-3.5 px-4 w-24">Thumbnail</th>
+                <th scope="col" class="py-3.5 px-4">Judul & Ringkasan</th>
+                <th scope="col" class="py-3.5 px-4 w-36">Kategori</th>
+                <th scope="col" class="py-3.5 px-4 w-32">Tanggal Rilis</th>
+                <th scope="col" class="py-3.5 px-4 w-28 text-center">Status</th>
+                <th scope="col" class="py-3.5 px-4 w-36 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-berita-table-body" class="divide-y divide-slate-200/70">
+              <!-- Dynamically rendered via client script -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Table Empty State -->
+        <div id="table-empty-state" class="hidden py-16 text-center">
+          <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+          </div>
+          <p class="text-sm font-bold text-slate-700">Belum ada berita yang sesuai</p>
+          <p class="text-xs text-slate-500 mt-0.5">Silakan tambahkan berita baru atau ubah filter pencarian.</p>
+        </div>
+
+        <!-- Table Footer / Count -->
+        <div class="p-4 border-t border-slate-200/80 bg-slate-50/50 flex items-center justify-between text-xs text-slate-500">
+          <div>
+            Menampilkan <span id="table-visible-count" class="font-bold text-slate-800">0</span> dari <span id="table-total-count" class="font-bold text-slate-800">0</span> berita
+          </div>
+          <span class="text-emerald-700 font-medium">Tersimpan secara lokal & otomatis diperbarui ke portal warga</span>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- ============================================================== -->
+    <!-- MODAL FORM: TAMBAH & EDIT BERITA                               -->
+    <!-- ============================================================== -->
+    <div
+      id="modal-form-berita"
+      class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-900/60 backdrop-blur-sm p-4 sm:p-6 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
+        
+        <!-- Modal Form Header -->
+        <div class="p-5 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-blue-50/60 to-white">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-primary-100 text-primary flex items-center justify-center">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 id="modal-form-title" class="text-base sm:text-lg font-bold text-slate-900">
+                Tambah Berita Baru
+              </h3>
+              <p class="text-xs text-slate-500">
+                Isi form berikut untuk mempublikasikan informasi Pilkades
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            id="btn-close-form-modal"
+            class="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Form Body -->
+        <form id="berita-crud-form" class="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+          <input type="hidden" id="form-berita-id" value="" />
+
+          <!-- Judul Berita -->
+          <div>
+            <label for="form-judul" class="block font-bold text-slate-700 mb-1">
+              Judul Berita <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="form-judul"
+              placeholder="Contoh: Diskominfo Gelar Simulasi E-Voting di Desa Antibar"
+              required
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-900 font-semibold"
+            />
+          </div>
+
+          <!-- Kategori & Status (2 Kolom) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="form-kategori" class="block font-bold text-slate-700 mb-1">
+                Kategori Berita <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="form-kategori"
+                required
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-800 bg-white"
+              >
+                <option value="Sosialisasi">Sosialisasi</option>
+                <option value="Teknis & Peralatan">Teknis & Peralatan</option>
+                <option value="Regulasi">Regulasi</option>
+                <option value="Jadwal & Tahapan">Jadwal & Tahapan</option>
+                <option value="Pengumuman">Pengumuman</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="form-status" class="block font-bold text-slate-700 mb-1">
+                Status Publikasi <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="form-status"
+                required
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-800 bg-white"
+              >
+                <option value="published">Published (Ditayangkan untuk Warga)</option>
+                <option value="draft">Draft (Draf Disimpan di Admin Saja)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Tanggal & Penulis (2 Kolom) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="form-tanggal" class="block font-bold text-slate-700 mb-1">
+                Tanggal Publikasi
+              </label>
+              <input
+                type="date"
+                id="form-tanggal"
+                required
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-800 bg-white"
+              />
+            </div>
+
+            <div>
+              <label for="form-penulis" class="block font-bold text-slate-700 mb-1">
+                Penulis / Instansi
+              </label>
+              <input
+                type="text"
+                id="form-penulis"
+                placeholder="Humas Diskominfo Mempawah"
+                value="Humas Diskominfo Mempawah"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-800"
+              />
+            </div>
+          </div>
+
+          <!-- Pilihan Sumber Foto / Gambar Thumbnail -->
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="block font-bold text-slate-700">
+                Foto / Gambar Thumbnail Berita <span class="text-red-500">*</span>
+              </label>
+              <!-- Image Mode Tabs -->
+              <div class="flex items-center gap-1 p-0.5 bg-slate-100 rounded-lg text-[11px] font-semibold text-slate-600">
+                <button
+                  type="button"
+                  id="tab-btn-upload"
+                  class="px-2.5 py-1 rounded-md bg-white text-primary shadow-xs font-bold transition-all"
+                >
+                  Unggah dari Perangkat
+                </button>
+                <button
+                  type="button"
+                  id="tab-btn-presets"
+                  class="px-2.5 py-1 rounded-md hover:text-slate-900 transition-all"
+                >
+                  Pilih Galeri
+                </button>
+                <button
+                  type="button"
+                  id="tab-btn-url"
+                  class="px-2.5 py-1 rounded-md hover:text-slate-900 transition-all"
+                >
+                  Tautan URL
+                </button>
+              </div>
+            </div>
+
+            <!-- Panel 1: Unggah Foto dari Perangkat (Dropzone & File Picker) -->
+            <div id="panel-image-upload" class="space-y-2">
+              <input
+                type="file"
+                id="form-file-upload"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
+                class="hidden"
+              />
+              <div
+                id="dropzone-box"
+                class="border-2 border-dashed border-slate-300 hover:border-primary rounded-2xl p-5 text-center cursor-pointer bg-slate-50/70 hover:bg-blue-50/40 transition-all group flex flex-col items-center justify-center"
+              >
+                <div class="w-12 h-12 rounded-full bg-blue-50 text-primary flex items-center justify-center mb-2 group-hover:scale-110 transition-transform shadow-xs">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                </div>
+                <p class="text-xs sm:text-sm font-bold text-slate-800">
+                  Klik untuk memilih foto dari laptop/HP, atau seret file ke sini
+                </p>
+                <p class="text-[11px] text-slate-500 mt-0.5">
+                  Mendukung file PNG, JPG, JPEG, WEBP (Otomatis dioptimalkan)
+                </p>
+              </div>
+            </div>
+
+            <!-- Panel 2: Galeri Resmi Bawaan -->
+            <div id="panel-image-presets" class="hidden space-y-2">
+              <p class="text-[11px] text-slate-500 font-medium">Klik salah satu gambar ilustrasi resmi di bawah:</p>
+              <div class="grid grid-cols-3 sm:grid-cols-5 gap-2" id="preset-image-selector">
+                <button
+                  type="button"
+                  class="preset-img-btn border-2 border-primary rounded-xl overflow-hidden h-14 bg-slate-100 hover:opacity-90 relative transition-all"
+                  data-img="/images/tahapan/revised/tahap-3.png"
+                  title="Bilik Suara & Layar Sentuh"
+                >
+                  <img src="/images/tahapan/revised/tahap-3.png" alt="Tahap 3" class="w-full h-full object-cover" />
+                </button>
+                <button
+                  type="button"
+                  class="preset-img-btn border border-slate-200 rounded-xl overflow-hidden h-14 bg-slate-100 hover:opacity-90 relative transition-all"
+                  data-img="/images/perangkat/layar-sentuh-e-voting.png"
+                  title="Layar Sentuh Kiosk"
+                >
+                  <img src="/images/perangkat/layar-sentuh-e-voting.png" alt="Layar Sentuh" class="w-full h-full object-cover" />
+                </button>
+                <button
+                  type="button"
+                  class="preset-img-btn border border-slate-200 rounded-xl overflow-hidden h-14 bg-slate-100 hover:opacity-90 relative transition-all"
+                  data-img="/images/tahapan/revised/tahap-4.png"
+                  title="Struk Audit VVPAT"
+                >
+                  <img src="/images/tahapan/revised/tahap-4.png" alt="Tahap 4" class="w-full h-full object-cover" />
+                </button>
+                <button
+                  type="button"
+                  class="preset-img-btn border border-slate-200 rounded-xl overflow-hidden h-14 bg-slate-100 hover:opacity-90 relative transition-all"
+                  data-img="/images/tahapan/revised/tahap-1.png"
+                  title="Verifikasi e-KTP"
+                >
+                  <img src="/images/tahapan/revised/tahap-1.png" alt="Tahap 1" class="w-full h-full object-cover" />
+                </button>
+                <button
+                  type="button"
+                  class="preset-img-btn border border-slate-200 rounded-xl overflow-hidden h-14 bg-slate-100 hover:opacity-90 relative transition-all"
+                  data-img="/images/tahapan/revised/tahap-5.png"
+                  title="Tinta Celup TPS"
+                >
+                  <img src="/images/tahapan/revised/tahap-5.png" alt="Tahap 5" class="w-full h-full object-cover" />
+                </button>
+              </div>
+            </div>
+
+            <!-- Panel 3: Input URL Manual -->
+            <div id="panel-image-url" class="hidden">
+              <input
+                type="text"
+                id="form-gambar-url-manual"
+                placeholder="https://example.com/foto-berita.jpg atau /images/..."
+                class="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-300 font-mono text-slate-700"
+              />
+            </div>
+
+            <!-- Pratinjau Foto Aktif / Terpilih Saat Ini -->
+            <div id="selected-image-preview-card" class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3 overflow-hidden">
+                <div class="w-14 h-12 rounded-lg overflow-hidden bg-slate-200 flex-shrink-0 border border-slate-300 shadow-xs">
+                  <img
+                    id="selected-img-preview"
+                    src="/images/tahapan/revised/tahap-3.png"
+                    alt="Preview Thumbnail"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="overflow-hidden">
+                  <span id="selected-img-badge" class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                    Foto Aktif
+                  </span>
+                  <p id="selected-img-name" class="text-xs font-semibold text-slate-800 truncate mt-0.5">
+                    tahap-3.png (Bawaan)
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                id="btn-trigger-upload-replace"
+                class="px-3 py-1.5 rounded-lg text-xs font-semibold text-primary hover:bg-primary-50 border border-primary-200 flex-shrink-0 transition-colors shadow-xs"
+              >
+                Pilih File Baru
+              </button>
+            </div>
+
+            <!-- Hidden actual value passed to form submit -->
+            <input
+              type="hidden"
+              id="form-gambar-url"
+              value="/images/tahapan/revised/tahap-3.png"
+            />
+          </div>
+
+          <!-- Ringkasan (Excerpt) -->
+          <div>
+            <label for="form-ringkasan" class="block font-bold text-slate-700 mb-1">
+              Ringkasan Berita (Excerpt) <span class="text-red-500">*</span>
+            </label>
+            <textarea
+              id="form-ringkasan"
+              rows="2"
+              placeholder="Tulis ringkasan singkat 1-2 kalimat untuk pratinjau kartu berita..."
+              required
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-800 leading-relaxed"
+            ></textarea>
+          </div>
+
+          <!-- Konten Lengkap -->
+          <div>
+            <label for="form-konten" class="block font-bold text-slate-700 mb-1">
+              Isi Konten Berita Lengkap <span class="text-red-500">*</span>
+            </label>
+            <textarea
+              id="form-konten"
+              rows="6"
+              placeholder="Tuliskan isi berita lengkap di sini (gunakan baris baru antar paragraf)..."
+              required
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-800 leading-relaxed font-sans"
+            ></textarea>
+          </div>
+
+          <!-- Modal Action Buttons -->
+          <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
+            <button
+              type="button"
+              id="btn-cancel-form"
+              class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold transition-colors"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              id="btn-save-berita"
+              class="btn-primary px-6 py-2.5 rounded-xl font-bold shadow-md hover:shadow-lg transition-all"
+            >
+              Simpan Berita
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- MODAL PREVIEW BERITA                                           -->
+    <!-- ============================================================== -->
+    <div
+      id="modal-preview-berita"
+      class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-900/60 backdrop-blur-sm p-4 sm:p-6 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col">
+        <!-- Preview Header Image -->
+        <div class="relative h-56 sm:h-64 w-full bg-slate-100 flex-shrink-0">
+          <img
+            id="preview-img"
+            src=""
+            alt="Preview"
+            class="w-full h-full object-cover"
+            onerror="this.src='/images/logo-kabupaten-mempawah.png'; this.className='w-full h-full object-contain p-8 bg-slate-50';"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          <button
+            type="button"
+            id="btn-close-preview"
+            class="absolute top-4 right-4 p-2 rounded-full bg-white/80 hover:bg-white text-slate-700 hover:text-slate-900 shadow-md"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18M6 6l12 12"></path>
+            </svg>
+          </button>
+          <div class="absolute bottom-4 left-6 right-6">
+            <div class="flex items-center gap-2 mb-2">
+              <span id="preview-category" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-accent text-[#0C264D]"></span>
+              <span id="preview-date" class="text-xs text-white/90 font-medium"></span>
+            </div>
+            <h2 id="preview-title" class="text-lg sm:text-xl font-bold text-white leading-tight"></h2>
+          </div>
+        </div>
+
+        <!-- Preview Body -->
+        <div class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-700">
+          <div class="p-4 rounded-xl bg-blue-50 border-l-4 border-primary text-slate-800 font-medium">
+            <p id="preview-excerpt"></p>
+          </div>
+          <div class="flex items-center justify-between text-xs text-slate-500 py-1.5 border-y border-slate-100">
+            <span>Penulis: <strong id="preview-author" class="text-slate-700"></strong></span>
+            <span id="preview-status-badge" class="px-2 py-0.5 rounded font-bold uppercase text-[10px]"></span>
+          </div>
+          <div id="preview-content" class="space-y-3 whitespace-pre-line text-slate-800 leading-relaxed font-sans"></div>
+        </div>
+
+        <!-- Preview Footer -->
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-end">
+          <button
+            type="button"
+            id="btn-close-preview-footer"
+            class="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold text-xs sm:text-sm"
+          >
+            Tutup Pratinjau
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- MODAL CONFIRM DELETE                                           -->
+    <!-- ============================================================== -->
+    <div
+      id="modal-confirm-delete"
+      class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-900/60 backdrop-blur-sm p-4 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200 p-6 text-center">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-red-100 text-red-600 flex items-center justify-center">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18"></path>
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+            <line x1="10" y1="11" x2="10" y2="17"></line>
+            <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Hapus Berita Ini?</h3>
+        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+          Tindakan ini akan menghapus berita <strong id="delete-news-title" class="text-slate-800"></strong> dari portal publik dan panel admin.
+        </p>
+        <div class="flex items-center justify-center gap-3">
+          <button
+            type="button"
+            id="btn-cancel-delete"
+            class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs sm:text-sm font-semibold"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            id="btn-confirm-delete"
+            class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold shadow-md transition-colors"
+          >
+            Ya, Hapus Sekarang
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- FLOATING TOAST NOTIFICATION                                    -->
+    <!-- ============================================================== -->
+    <div
+      id="admin-toast"
+      class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 max-w-sm p-4 rounded-2xl shadow-xl flex items-center gap-3 border text-xs sm:text-sm"
+    >
+      <div id="toast-icon"></div>
+      <span id="toast-message" class="font-medium"></span>
+    </div>
+
+    <!-- CLIENT DASHBOARD SCRIPT -->
+    <script>
+      import { AdminAuthService } from '../../services/admin-auth.service';
+      import { BeritaService } from '../../services/berita.service';
+      import type { Berita, KategoriBerita, StatusBerita } from '../../types';
+
+      // 1. ROUTE GUARD: Require authentication
+      const isAuthed = AdminAuthService.requireAuth('/admin/login');
+      if (!isAuthed) {
+        // Will be redirected
+      }
+
+      // Display active session username
+      const session = AdminAuthService.getSession();
+      if (session) {
+        const nameEl = document.getElementById('admin-user-name');
+        if (nameEl) nameEl.textContent = session.user.name;
+      }
+
+      // Handle Logout
+      document.getElementById('btn-admin-logout')?.addEventListener('click', () => {
+        if (confirm('Apakah Anda yakin ingin keluar dari panel administrator?')) {
+          AdminAuthService.logout('/admin/login');
+        }
+      });
+
+      // Filter states
+      let searchFilter = '';
+      let categoryFilter = 'all';
+      let statusFilter = 'all';
+      let deleteTargetId: string | null = null;
+
+      // DOM Elements
+      const tableBody = document.getElementById('admin-berita-table-body');
+      const emptyState = document.getElementById('table-empty-state');
+      const visibleCountEl = document.getElementById('table-visible-count');
+      const totalCountEl = document.getElementById('table-total-count');
+
+      // Stat Elements
+      const statTotalEl = document.getElementById('stat-total-berita');
+      const statPubEl = document.getElementById('stat-published-berita');
+      const statDraftEl = document.getElementById('stat-draft-berita');
+
+      // Modals
+      const formModal = document.getElementById('modal-form-berita');
+      const formTitle = document.getElementById('modal-form-title');
+      const crudForm = document.getElementById('berita-crud-form') as HTMLFormElement;
+      const previewModal = document.getElementById('modal-preview-berita');
+      const deleteModal = document.getElementById('modal-confirm-delete');
+
+      // Form Inputs
+      const formIdInput = document.getElementById('form-berita-id') as HTMLInputElement;
+      const formJudulInput = document.getElementById('form-judul') as HTMLInputElement;
+      const formKategoriInput = document.getElementById('form-kategori') as HTMLSelectElement;
+      const formStatusInput = document.getElementById('form-status') as HTMLSelectElement;
+      const formTanggalInput = document.getElementById('form-tanggal') as HTMLInputElement;
+      const formPenulisInput = document.getElementById('form-penulis') as HTMLInputElement;
+      const formGambarInput = document.getElementById('form-gambar-url') as HTMLInputElement;
+      const formRingkasanInput = document.getElementById('form-ringkasan') as HTMLTextAreaElement;
+      const formKontenInput = document.getElementById('form-konten') as HTMLTextAreaElement;
+
+      // Toast helper
+      function showToast(message: string, type: 'success' | 'error' | 'info' = 'success') {
+        const toast = document.getElementById('admin-toast');
+        const msg = document.getElementById('toast-message');
+        const icon = document.getElementById('toast-icon');
+        if (!toast || !msg || !icon) return;
+
+        msg.textContent = message;
+
+        if (type === 'success') {
+          toast.className = 'fixed bottom-6 right-6 z-50 transition-all duration-300 max-w-sm p-4 rounded-2xl shadow-xl flex items-center gap-3 border text-xs sm:text-sm bg-emerald-50 border-emerald-200 text-emerald-900 translate-y-0 opacity-100';
+          icon.innerHTML = `<svg class="w-5 h-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        } else if (type === 'error') {
+          toast.className = 'fixed bottom-6 right-6 z-50 transition-all duration-300 max-w-sm p-4 rounded-2xl shadow-xl flex items-center gap-3 border text-xs sm:text-sm bg-red-50 border-red-200 text-red-900 translate-y-0 opacity-100';
+          icon.innerHTML = `<svg class="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+        } else {
+          toast.className = 'fixed bottom-6 right-6 z-50 transition-all duration-300 max-w-sm p-4 rounded-2xl shadow-xl flex items-center gap-3 border text-xs sm:text-sm bg-blue-50 border-blue-200 text-blue-900 translate-y-0 opacity-100';
+          icon.innerHTML = `<svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
+        }
+
+        setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-24', 'opacity-0');
+        }, 3500);
+      }
+
+      function escapeHtml(str: string): string {
+        const p = document.createElement('p');
+        p.textContent = str;
+        return p.innerHTML;
+      }
+
+      // Render Admin Table
+      function renderTable() {
+        const allItems = BeritaService.getAllRaw();
+        const filtered = BeritaService.getBeritaList({
+          search: searchFilter,
+          kategori: categoryFilter,
+          status: statusFilter
+        });
+
+        // Update stats
+        if (statTotalEl) statTotalEl.textContent = String(allItems.length);
+        if (statPubEl) statPubEl.textContent = String(allItems.filter((b) => b.status === 'published').length);
+        if (statDraftEl) statDraftEl.textContent = String(allItems.filter((b) => b.status === 'draft').length);
+
+        if (visibleCountEl) visibleCountEl.textContent = String(filtered.length);
+        if (totalCountEl) totalCountEl.textContent = String(allItems.length);
+
+        if (!tableBody || !emptyState) return;
+
+        if (filtered.length === 0) {
+          tableBody.innerHTML = '';
+          emptyState.classList.remove('hidden');
+          return;
+        }
+
+        emptyState.classList.add('hidden');
+
+        tableBody.innerHTML = filtered.map((item, idx) => `
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="py-3 px-4 text-center font-mono text-slate-400 font-semibold">${idx + 1}</td>
+            <td class="py-3 px-4">
+              <div class="w-16 h-12 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
+                <img
+                  src="${escapeHtml(item.gambarUrl)}"
+                  alt="${escapeHtml(item.judul)}"
+                  class="w-full h-full object-cover"
+                  onerror="this.src='/images/logo-kabupaten-mempawah.png'; this.className='w-full h-full object-contain p-1';"
+                />
+              </div>
+            </td>
+            <td class="py-3 px-4">
+              <h4 class="font-bold text-slate-900 hover:text-primary transition-colors leading-snug line-clamp-1">
+                ${escapeHtml(item.judul)}
+              </h4>
+              <p class="text-xs text-slate-500 line-clamp-1 mt-0.5">${escapeHtml(item.ringkasan)}</p>
+              <span class="text-[10px] text-slate-400 font-mono mt-0.5 block truncate max-w-xs">/${escapeHtml(item.slug)}</span>
+            </td>
+            <td class="py-3 px-4">
+              <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-primary-50 text-primary border border-primary-100">
+                ${escapeHtml(item.kategori)}
+              </span>
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap text-xs text-slate-600 font-mono">
+              ${escapeHtml(item.tanggalPublikasi)}
+            </td>
+            <td class="py-3 px-4 text-center whitespace-nowrap">
+              ${item.status === 'published'
+                ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Published
+                   </span>`
+                : `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                     <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Draft
+                   </span>`
+              }
+            </td>
+            <td class="py-3 px-4 text-center whitespace-nowrap">
+              <div class="flex items-center justify-center gap-1.5">
+                <!-- Preview -->
+                <button
+                  type="button"
+                  class="btn-action-preview p-1.5 rounded-lg text-slate-500 hover:text-primary hover:bg-primary-50 transition-colors"
+                  data-id="${escapeHtml(item.id)}"
+                  title="Lihat Pratinjau"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+                <!-- Edit -->
+                <button
+                  type="button"
+                  class="btn-action-edit p-1.5 rounded-lg text-slate-500 hover:text-amber-600 hover:bg-amber-50 transition-colors"
+                  data-id="${escapeHtml(item.id)}"
+                  title="Edit Berita"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 20h9"></path>
+                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                  </svg>
+                </button>
+                <!-- Delete -->
+                <button
+                  type="button"
+                  class="btn-action-delete p-1.5 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                  data-id="${escapeHtml(item.id)}"
+                  title="Hapus Berita"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18"></path>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+        // Attach action listeners
+        tableBody.querySelectorAll('.btn-action-preview').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = (btn as HTMLElement).dataset.id;
+            if (id) openPreview(id);
+          });
+        });
+
+        tableBody.querySelectorAll('.btn-action-edit').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = (btn as HTMLElement).dataset.id;
+            if (id) openEditModal(id);
+          });
+        });
+
+        tableBody.querySelectorAll('.btn-action-delete').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = (btn as HTMLElement).dataset.id;
+            if (id) openDeleteModal(id);
+          });
+        });
+      }
+
+      // Image Management Elements
+      const tabBtnUpload = document.getElementById('tab-btn-upload');
+      const tabBtnPresets = document.getElementById('tab-btn-presets');
+      const tabBtnUrl = document.getElementById('tab-btn-url');
+      const panelUpload = document.getElementById('panel-image-upload');
+      const panelPresets = document.getElementById('panel-image-presets');
+      const panelUrl = document.getElementById('panel-image-url');
+      const fileUploadInput = document.getElementById('form-file-upload') as HTMLInputElement;
+      const dropzoneBox = document.getElementById('dropzone-box');
+      const selectedImgPreview = document.getElementById('selected-img-preview') as HTMLImageElement;
+      const selectedImgName = document.getElementById('selected-img-name');
+      const selectedImgBadge = document.getElementById('selected-img-badge');
+      const btnTriggerUploadReplace = document.getElementById('btn-trigger-upload-replace');
+      const formGambarUrlManual = document.getElementById('form-gambar-url-manual') as HTMLInputElement;
+
+      // Switch Image Tab
+      function switchImageTab(tab: 'upload' | 'presets' | 'url') {
+        const tabs = [
+          { name: 'upload', btn: tabBtnUpload, panel: panelUpload },
+          { name: 'presets', btn: tabBtnPresets, panel: panelPresets },
+          { name: 'url', btn: tabBtnUrl, panel: panelUrl }
+        ];
+
+        tabs.forEach((t) => {
+          if (t.name === tab) {
+            t.btn?.classList.add('bg-white', 'text-primary', 'shadow-xs', 'font-bold');
+            t.btn?.classList.remove('hover:text-slate-900');
+            t.panel?.classList.remove('hidden');
+          } else {
+            t.btn?.classList.remove('bg-white', 'text-primary', 'shadow-xs', 'font-bold');
+            t.btn?.classList.add('hover:text-slate-900');
+            t.panel?.classList.add('hidden');
+          }
+        });
+      }
+
+      tabBtnUpload?.addEventListener('click', () => switchImageTab('upload'));
+      tabBtnPresets?.addEventListener('click', () => switchImageTab('presets'));
+      tabBtnUrl?.addEventListener('click', () => switchImageTab('url'));
+
+      // Update Preview Card Helper
+      function updateImagePreview(url: string, name: string, badgeText: string = 'Foto Terpilih') {
+        if (formGambarInput) formGambarInput.value = url;
+        if (selectedImgPreview) selectedImgPreview.src = url;
+        if (selectedImgName) selectedImgName.textContent = name;
+        if (selectedImgBadge) selectedImgBadge.textContent = badgeText;
+      }
+
+      // Process and compress image file from device
+      function handleDeviceImageFile(file: File) {
+        if (!file.type.startsWith('image/')) {
+          showToast('File yang dipilih harus berupa gambar (PNG, JPG, WEBP).', 'error');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const rawUrl = e.target?.result as string;
+          const img = new Image();
+          img.onload = () => {
+            const maxDim = 1200;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.drawImage(img, 0, 0, width, height);
+              const compressed = canvas.toDataURL('image/jpeg', 0.82);
+              updateImagePreview(compressed, file.name, 'Foto dari Perangkat');
+            } else {
+              updateImagePreview(rawUrl, file.name, 'Foto dari Perangkat');
+            }
+            showToast('Foto dari perangkat berhasil dimuat!', 'success');
+          };
+          img.src = rawUrl;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // File input triggers
+      dropzoneBox?.addEventListener('click', () => fileUploadInput?.click());
+      btnTriggerUploadReplace?.addEventListener('click', () => fileUploadInput?.click());
+
+      fileUploadInput?.addEventListener('change', (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) handleDeviceImageFile(file);
+      });
+
+      // Dropzone drag-and-drop
+      dropzoneBox?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzoneBox?.classList.add('border-primary', 'bg-blue-50/80');
+      });
+
+      dropzoneBox?.addEventListener('dragleave', () => {
+        dropzoneBox?.classList.remove('border-primary', 'bg-blue-50/80');
+      });
+
+      dropzoneBox?.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzoneBox?.classList.remove('border-primary', 'bg-blue-50/80');
+        const file = e.dataTransfer?.files?.[0];
+        if (file) handleDeviceImageFile(file);
+      });
+
+      // Manual URL input change
+      formGambarUrlManual?.addEventListener('input', (e) => {
+        const url = (e.target as HTMLInputElement).value.trim();
+        if (url) {
+          updateImagePreview(url, 'Tautan URL Kustom', 'URL Eksternal');
+        }
+      });
+
+      // Open Modal Create
+      function openCreateModal() {
+        if (!formModal || !crudForm) return;
+        crudForm.reset();
+        formIdInput.value = '';
+        if (formTitle) formTitle.textContent = 'Tambah Berita Baru';
+        formTanggalInput.value = new Date().toISOString().split('T')[0];
+        formPenulisInput.value = 'Tim Humas Diskominfo Kab. Mempawah';
+        formStatusInput.value = 'published';
+
+        // Reset image selector
+        switchImageTab('upload');
+        updateImagePreview('/images/tahapan/revised/tahap-3.png', 'tahap-3.png (Bawaan)', 'Foto Standar');
+
+        formModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      // Open Modal Edit
+      function openEditModal(id: string) {
+        const item = BeritaService.getBeritaById(id);
+        if (!item || !formModal) return;
+
+        formIdInput.value = item.id;
+        if (formTitle) formTitle.textContent = 'Edit Berita E-Voting';
+        formJudulInput.value = item.judul;
+        formKategoriInput.value = item.kategori;
+        formStatusInput.value = item.status;
+        formTanggalInput.value = item.tanggalPublikasi;
+        formPenulisInput.value = item.penulis;
+        formRingkasanInput.value = item.ringkasan;
+        formKontenInput.value = item.konten;
+
+        // Set existing image in preview
+        const isDataUrl = item.gambarUrl.startsWith('data:image/');
+        const imgName = isDataUrl ? 'Foto Diunggah Sebelumnya' : (item.gambarUrl.split('/').pop() || 'Gambar Berita');
+        const badge = isDataUrl ? 'Foto dari Perangkat' : 'Galeri Resmi';
+        updateImagePreview(item.gambarUrl, imgName, badge);
+
+        if (isDataUrl) {
+          switchImageTab('upload');
+        } else if (item.gambarUrl.startsWith('http')) {
+          switchImageTab('url');
+          if (formGambarUrlManual) formGambarUrlManual.value = item.gambarUrl;
+        } else {
+          switchImageTab('presets');
+        }
+
+        formModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      // Close Form Modal
+      function closeFormModal() {
+        if (formModal) {
+          formModal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      }
+
+      // Open Preview Modal
+      function openPreview(id: string) {
+        const item = BeritaService.getBeritaById(id);
+        if (!item || !previewModal) return;
+
+        const img = document.getElementById('preview-img') as HTMLImageElement;
+        const cat = document.getElementById('preview-category');
+        const date = document.getElementById('preview-date');
+        const title = document.getElementById('preview-title');
+        const excerpt = document.getElementById('preview-excerpt');
+        const author = document.getElementById('preview-author');
+        const statusBadge = document.getElementById('preview-status-badge');
+        const content = document.getElementById('preview-content');
+
+        if (img) img.src = item.gambarUrl;
+        if (cat) cat.textContent = item.kategori;
+        if (date) date.textContent = item.tanggalPublikasi;
+        if (title) title.textContent = item.judul;
+        if (excerpt) excerpt.textContent = item.ringkasan;
+        if (author) author.textContent = item.penulis;
+
+        if (statusBadge) {
+          statusBadge.textContent = item.status === 'published' ? 'Live di Web Publik' : 'Draft Internal';
+          statusBadge.className = item.status === 'published' ? 'px-2 py-0.5 rounded font-bold uppercase text-[10px] bg-emerald-100 text-emerald-800' : 'px-2 py-0.5 rounded font-bold uppercase text-[10px] bg-amber-100 text-amber-800';
+        }
+
+        if (content) {
+          const paragraphs = item.konten.split(/\n\n+/);
+          content.innerHTML = paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+        }
+
+        previewModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePreviewModal() {
+        if (previewModal) {
+          previewModal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      }
+
+      // Delete Modal
+      function openDeleteModal(id: string) {
+        const item = BeritaService.getBeritaById(id);
+        if (!item || !deleteModal) return;
+
+        deleteTargetId = id;
+        const titleEl = document.getElementById('delete-news-title');
+        if (titleEl) titleEl.textContent = `"${item.judul}"`;
+
+        deleteModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDeleteModal() {
+        if (deleteModal) {
+          deleteModal.classList.add('hidden');
+          deleteTargetId = null;
+          document.body.style.overflow = '';
+        }
+      }
+
+      // Event Listeners for UI
+      document.getElementById('btn-open-create-modal')?.addEventListener('click', openCreateModal);
+      document.getElementById('btn-close-form-modal')?.addEventListener('click', closeFormModal);
+      document.getElementById('btn-cancel-form')?.addEventListener('click', closeFormModal);
+
+      document.getElementById('btn-close-preview')?.addEventListener('click', closePreviewModal);
+      document.getElementById('btn-close-preview-footer')?.addEventListener('click', closePreviewModal);
+
+      document.getElementById('btn-cancel-delete')?.addEventListener('click', closeDeleteModal);
+
+      // Confirm Delete
+      document.getElementById('btn-confirm-delete')?.addEventListener('click', () => {
+        if (!deleteTargetId) return;
+        const success = BeritaService.deleteBerita(deleteTargetId);
+        closeDeleteModal();
+        if (success) {
+          showToast('Berita berhasil dihapus!', 'success');
+          renderTable();
+        } else {
+          showToast('Gagal menghapus berita.', 'error');
+        }
+      });
+
+      // Preset Image Buttons
+      document.querySelectorAll('.preset-img-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.preset-img-btn').forEach(b => {
+            b.classList.remove('border-primary', 'border-2');
+            b.classList.add('border-slate-200', 'border');
+          });
+          btn.classList.add('border-primary', 'border-2');
+          btn.classList.remove('border-slate-200');
+
+          const imgUrl = (btn as HTMLElement).dataset.img;
+          if (imgUrl && formGambarInput) {
+            formGambarInput.value = imgUrl;
+          }
+        });
+      });
+
+      // Handle Form Submit (Create / Edit)
+      crudForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const id = formIdInput.value;
+        const judul = formJudulInput.value.trim();
+        const kategori = formKategoriInput.value as KategoriBerita;
+        const status = formStatusInput.value as StatusBerita;
+        const tanggalPublikasi = formTanggalInput.value;
+        const penulis = formPenulisInput.value.trim();
+        const gambarUrl = formGambarInput.value.trim();
+        const ringkasan = formRingkasanInput.value.trim();
+        const konten = formKontenInput.value.trim();
+
+        if (!judul || !ringkasan || !konten) {
+          showToast('Mohon lengkapi field yang bertanda bintang (*).', 'error');
+          return;
+        }
+
+        if (id) {
+          // UPDATE
+          const updated = BeritaService.updateBerita(id, {
+            judul,
+            kategori,
+            status,
+            tanggalPublikasi,
+            penulis,
+            gambarUrl,
+            ringkasan,
+            konten
+          });
+          if (updated) {
+            showToast('Berita berhasil diperbarui!', 'success');
+            closeFormModal();
+            renderTable();
+          } else {
+            showToast('Gagal memperbarui berita.', 'error');
+          }
+        } else {
+          // CREATE
+          const created = BeritaService.createBerita({
+            judul,
+            kategori,
+            status,
+            tanggalPublikasi,
+            penulis,
+            gambarUrl,
+            ringkasan,
+            konten
+          });
+          if (created) {
+            showToast('Berita baru berhasil ditambahkan dan disimpan!', 'success');
+            closeFormModal();
+            renderTable();
+          } else {
+            showToast('Gagal menambahkan berita.', 'error');
+          }
+        }
+      });
+
+      // Filter events
+      document.getElementById('admin-filter-search')?.addEventListener('input', (e) => {
+        searchFilter = (e.target as HTMLInputElement).value;
+        renderTable();
+      });
+
+      document.getElementById('admin-filter-category')?.addEventListener('change', (e) => {
+        categoryFilter = (e.target as HTMLSelectElement).value;
+        renderTable();
+      });
+
+      document.getElementById('admin-filter-status')?.addEventListener('change', (e) => {
+        statusFilter = (e.target as HTMLSelectElement).value;
+        renderTable();
+      });
+
+      // Reset Demo Data
+      document.getElementById('btn-reset-data')?.addEventListener('click', () => {
+        if (confirm('Kembalikan seluruh daftar berita ke data default awal?')) {
+          BeritaService.resetDefaultBerita();
+          showToast('Data berita berhasil direset ke data default.', 'info');
+          renderTable();
+        }
+      });
+
+      // Initial Table Render
+      renderTable();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,169 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "w-full max-w-xl mx-auto h-auto" } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 540 420"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Ilustrasi Digital Perangkat E-Voting Pilkades Mempawah"
+>
+  <defs>
+    <linearGradient id="heroBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E1EBF9" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#DEF6FD" stop-opacity="0.3" />
+    </linearGradient>
+    <linearGradient id="cobaltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2568CF" />
+      <stop offset="100%" stop-color="#1B51A3" />
+    </linearGradient>
+    <linearGradient id="prussianGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6E8CC7" />
+      <stop offset="100%" stop-color="#5172AE" />
+    </linearGradient>
+    <linearGradient id="seaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7DE0FA" />
+      <stop offset="100%" stop-color="#3FC6F3" />
+    </linearGradient>
+    <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#103369" />
+      <stop offset="100%" stop-color="#1B51A3" />
+    </linearGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1B51A3" flood-opacity="0.16" />
+    </filter>
+  </defs>
+
+  <!-- Background decorative elements -->
+  <circle cx="270" cy="220" r="180" fill="url(#heroBgGrad)" />
+  <circle cx="440" cy="90" r="40" fill="#3FC6F3" fill-opacity="0.15" />
+  <circle cx="80" cy="310" r="28" fill="#5172AE" fill-opacity="0.12" />
+
+  <!-- Base Podium / Desk Isometric -->
+  <g filter="url(#softShadow)">
+    <path d="M70 320 L270 380 L470 320 L270 260 Z" fill="#E2E8F0" />
+    <path d="M70 320 L270 380 L270 395 L70 335 Z" fill="#CBD5E1" />
+    <path d="M270 380 L470 320 L470 335 L270 395 Z" fill="#94A3B8" />
+  </g>
+
+  <!-- Bilik Screen Monitor (Centerpiece) -->
+  <g filter="url(#softShadow)">
+    <!-- Monitor Base Stand -->
+    <rect x="250" y="270" width="40" height="25" rx="4" fill="#64748B" />
+    <ellipse cx="270" cy="295" rx="35" ry="10" fill="#475569" />
+
+    <!-- Monitor Outer Body -->
+    <rect x="150" y="110" width="240" height="165" rx="14" fill="#0F172A" stroke="#334155" stroke-width="3" />
+    
+    <!-- Touchscreen Glass Area -->
+    <rect x="160" y="120" width="220" height="145" rx="8" fill="url(#screenGrad)" />
+    
+    <!-- Screen Header (E-Voting Pilkades) -->
+    <rect x="160" y="120" width="220" height="28" rx="8" fill="#0C264D" />
+    <circle cx="174" cy="134" r="5" fill="#3FC6F3" />
+    <rect x="186" y="131" width="80" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.9" />
+    <rect x="330" y="131" width="40" height="6" rx="3" fill="#3FC6F3" />
+
+    <!-- Candidate Cards on Touchscreen -->
+    <!-- Candidate 1 -->
+    <rect x="175" y="160" width="56" height="75" rx="6" fill="#FFFFFF" fill-opacity="0.15" stroke="#FFFFFF" stroke-opacity="0.3" />
+    <rect x="187" y="166" width="32" height="32" rx="16" fill="#DEF6FD" />
+    <!-- Candidate icon silhouette -->
+    <circle cx="203" cy="178" r="7" fill="#1B51A3" />
+    <path d="M192 195 C192 188 196 186 203 186 C210 186 214 188 214 195 Z" fill="#1B51A3" />
+    <rect x="183" y="204" width="40" height="5" rx="2" fill="#FFFFFF" />
+    <rect x="189" y="213" width="28" height="4" rx="2" fill="#3FC6F3" />
+
+    <!-- Candidate 2 (Selected highlight state) -->
+    <rect x="242" y="156" width="56" height="83" rx="6" fill="#FFFFFF" stroke="#3FC6F3" stroke-width="2.5" />
+    <rect x="254" y="164" width="32" height="32" rx="16" fill="#3FC6F3" fill-opacity="0.25" />
+    <circle cx="270" cy="176" r="7" fill="#1B51A3" />
+    <path d="M259 193 C259 186 263 184 270 184 C277 184 281 186 281 193 Z" fill="#1B51A3" />
+    <rect x="250" y="202" width="40" height="5" rx="2" fill="#1B51A3" />
+    <rect x="254" y="211" width="32" height="4" rx="2" fill="#5172AE" />
+    <!-- Checkmark badge -->
+    <circle cx="292" cy="160" r="9" fill="#10B981" />
+    <path d="M288 160 L291 163 L296 157" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Candidate 3 -->
+    <rect x="309" y="160" width="56" height="75" rx="6" fill="#FFFFFF" fill-opacity="0.15" stroke="#FFFFFF" stroke-opacity="0.3" />
+    <rect x="321" y="166" width="32" height="32" rx="16" fill="#DEF6FD" />
+    <circle cx="337" cy="178" r="7" fill="#1B51A3" />
+    <path d="M326 195 C326 188 330 186 337 186 C344 186 348 188 348 195 Z" fill="#1B51A3" />
+    <rect x="317" y="204" width="40" height="5" rx="2" fill="#FFFFFF" />
+    <rect x="323" y="213" width="28" height="4" rx="2" fill="#3FC6F3" />
+  </g>
+
+  <!-- Left: Smartcard Reader & Card -->
+  <g filter="url(#softShadow)">
+    <!-- Reader Device -->
+    <rect x="75" y="235" width="65" height="45" rx="8" fill="#1E293B" stroke="#475569" stroke-width="2" />
+    <rect x="85" y="243" width="45" height="10" rx="3" fill="#0F172A" />
+    <circle cx="125" cy="265" r="4" fill="#3FC6F3" />
+    <circle cx="113" cy="265" r="4" fill="#10B981" />
+
+    <!-- Smartcard inserting into reader -->
+    <g transform="rotate(-15 100 220)">
+      <rect x="65" y="175" width="70" height="44" rx="6" fill="url(#cobaltGrad)" stroke="#3FC6F3" stroke-width="1.5" />
+      <!-- Chip -->
+      <rect x="75" y="187" width="16" height="13" rx="2" fill="#FBBF24" />
+      <line x1="83" y1="187" x2="83" y2="200" stroke="#B45309" stroke-width="1" />
+      <line x1="75" y1="193" x2="91" y2="193" stroke="#B45309" stroke-width="1" />
+      <!-- Card text lines -->
+      <rect x="96" y="188" width="32" height="4" rx="2" fill="#FFFFFF" fill-opacity="0.8" />
+      <rect x="96" y="195" width="22" height="3" rx="1.5" fill="#3FC6F3" />
+      <rect x="75" y="207" width="45" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.6" />
+    </g>
+  </g>
+
+  <!-- Right: Thermal Printer with Lembar Struk Audit -->
+  <g filter="url(#softShadow)">
+    <!-- Printer Unit -->
+    <rect x="400" y="210" width="75" height="60" rx="8" fill="#1E293B" stroke="#475569" stroke-width="2" />
+    <!-- Paper Exit Slot -->
+    <rect x="415" y="215" width="45" height="6" rx="2" fill="#0F172A" />
+    <circle cx="460" cy="250" r="3.5" fill="#10B981" />
+    <circle cx="448" cy="250" r="3.5" fill="#3FC6F3" />
+
+    <!-- Paper Slip Coming Out -->
+    <path d="M418 217 L418 165 C418 160 422 155 427 155 L453 155 C458 155 462 160 462 165 L462 217 Z" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" />
+    <!-- Struk Audit Text Lines -->
+    <rect x="424" y="163" width="32" height="3" rx="1.5" fill="#1B51A3" />
+    <rect x="424" y="170" width="24" height="2" rx="1" fill="#64748B" />
+    <rect x="424" y="175" width="28" height="2" rx="1" fill="#64748B" />
+    <!-- Barcode lines -->
+    <line x1="424" y1="184" x2="424" y2="194" stroke="#0F172A" stroke-width="1.5" />
+    <line x1="428" y1="184" x2="428" y2="194" stroke="#0F172A" stroke-width="2.5" />
+    <line x1="433" y1="184" x2="433" y2="194" stroke="#0F172A" stroke-width="1" />
+    <line x1="437" y1="184" x2="437" y2="194" stroke="#0F172A" stroke-width="2" />
+    <line x1="442" y1="184" x2="442" y2="194" stroke="#0F172A" stroke-width="1.5" />
+    <line x1="447" y1="184" x2="447" y2="194" stroke="#0F172A" stroke-width="2" />
+    <line x1="452" y1="184" x2="452" y2="194" stroke="#0F172A" stroke-width="1" />
+    <!-- Checkmark on struk -->
+    <circle cx="440" cy="204" r="5" fill="#DEF6FD" />
+    <path d="M438 204 L439.5 205.5 L442.5 202.5" stroke="#1B51A3" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Floating Security Shield Badge -->
+  <g filter="url(#softShadow)">
+    <circle cx="475" cy="115" r="30" fill="#FFFFFF" stroke="#DEF6FD" stroke-width="3" />
+    <path d="M475 97 L490 104 C490 120 482 128 475 133 C468 128 460 120 460 104 Z" fill="url(#cobaltGrad)" />
+    <path d="M471 114 L474 117 L480 110" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Verified Badge Left -->
+  <g filter="url(#softShadow)">
+    <rect x="35" y="90" width="105" height="38" rx="19" fill="#FFFFFF" stroke="#C2D7F3" stroke-width="1.5" />
+    <circle cx="54" cy="109" r="11" fill="#3FC6F3" />
+    <path d="M50 109 L53 112 L58 106" stroke="#0C264D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="72" y="107" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1B51A3">TERVERIFIKASI</text>
+    <text x="72" y="119" font-family="sans-serif" font-size="8" fill="#5172AE">DPT & e-KTP</text>
+  </g>
+</svg>
+

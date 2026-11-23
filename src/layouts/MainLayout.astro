@@ -1,0 +1,96 @@
+---
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import { siteConfig } from '../config/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${siteConfig.name} — ${siteConfig.fullName}`,
+  description = siteConfig.tagline
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/logo-kabupaten-mempawah.png" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Diskominfo Kabupaten Mempawah" />
+    <meta name="theme-color" content="#1B51A3" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteConfig.domain} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="id_ID" />
+
+    <!-- Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-background text-mempawah-text antialiased selection:bg-accent selection:text-primary-900 relative">
+    <!-- Reading Scroll Progress Bar -->
+    <div id="scroll-progress-bar" aria-hidden="true"></div>
+
+    <!-- Accessibility Skip to Main Content Link -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-[999] px-4 py-2 bg-primary text-white font-bold rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-accent"
+    >
+      Loncat ke Konten Utama
+    </a>
+
+    <!-- Sticky Navbar -->
+    <Navbar />
+
+    <!-- Main Content Slot -->
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <Footer />
+
+    <!-- Floating Back to Top Button with Micro-Interaction -->
+    <button
+      type="button"
+      id="back-to-top-btn"
+      class="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-primary text-white shadow-elevated opacity-0 pointer-events-none scale-90 transition-all duration-300 hover:bg-primary-600 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-accent border border-white/20"
+      aria-label="Kembali ke atas"
+      title="Kembali ke atas"
+    >
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
+    </button>
+
+    <!-- Animation & Interaction Hydration -->
+    <script>
+      import { setupAnimations } from '../scripts/animations';
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupAnimations);
+      } else {
+        setupAnimations();
+      }
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,130 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+import { stepsData } from '../../data/content/steps.data';
+---
+
+<section id="tahapan" class="py-16 sm:py-20 lg:py-24 bg-white border-b border-slate-200/80">
+  <div class="container-custom">
+    
+    <!-- Section Header -->
+    <SectionHeader
+      badge="Panduan Memilih"
+      title="Alur & Tahapan Pemungutan Suara di TPS"
+      subtitle="Panduan langkah demi langkah pemilih dari kedatangan hingga selesai sesuai Perbup Mempawah No. 14 Tahun 2023"
+    />
+
+    <!-- Steps Timeline Layout (Alternating Desktop / Linear Mobile) -->
+    <div class="space-y-12 sm:space-y-16 relative">
+      
+      <!-- Central vertical timeline guide line for desktop -->
+      <div class="hidden lg:block absolute left-1/2 top-8 bottom-8 w-1 -ml-0.5 bg-gradient-to-b from-primary via-secondary to-accent opacity-30 rounded-full pointer-events-none"></div>
+
+      {stepsData.map((step, index) => {
+        const isEven = index % 2 === 1;
+        return (
+          <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+            
+            <!-- Step Badge Number for Mobile & Center Marker -->
+            <div class="lg:hidden flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-full bg-primary text-white font-extrabold text-sm flex items-center justify-center shadow-sm">
+                  {step.nomor}
+                </span>
+                <div>
+                  <span class="text-[11px] font-bold text-accent-700 uppercase tracking-wider">{step.kode}</span>
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900">{step.judul}</h3>
+                </div>
+              </div>
+              {step.dasarHukum && (
+                <span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200/60 flex-shrink-0">
+                  {step.dasarHukum}
+                </span>
+              )}
+            </div>
+
+            <!-- Illustration Column -->
+            <div class={`lg:col-span-6 ${isEven ? 'lg:order-2 lg:pl-8' : 'lg:order-1 lg:pr-8'}`}>
+              <div class="card-surface p-3 sm:p-4 bg-white border-slate-200 shadow-soft hover:shadow-elevated transition-shadow">
+                <div class="relative w-full bg-slate-50/80 rounded-xl overflow-hidden border border-slate-100 flex items-center justify-center p-2">
+                  <img
+                    src={step.gambarUrl}
+                    alt={`Infografik Alur E-Voting Pilkades Mempawah - Tahap ${step.nomor}: ${step.judul}`}
+                    class="w-full h-auto max-h-[360px] sm:max-h-[400px] object-contain rounded-lg transition-transform duration-300 hover:scale-[1.01]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Content Column -->
+            <div class={`lg:col-span-6 ${isEven ? 'lg:order-1 lg:pr-8' : 'lg:order-2 lg:pl-8'}`}>
+              <div class="card-surface p-6 sm:p-7 bg-white border-slate-200/90 shadow-soft">
+                
+                <!-- Desktop Header: Badges & Dasar Hukum -->
+                <div class="hidden lg:flex items-center justify-between gap-2 mb-3">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-full bg-primary text-white font-extrabold text-xs flex items-center justify-center shadow-sm">
+                      {step.nomor}
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-md bg-primary-100 text-primary font-bold text-xs">
+                      {step.kode}
+                    </span>
+                  </div>
+                  {step.dasarHukum && (
+                    <span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200/60" title={step.dasarHukum}>
+                      {step.dasarHukum}
+                    </span>
+                  )}
+                </div>
+
+                <!-- Desktop Title -->
+                <h3 class="hidden lg:block text-xl sm:text-2xl font-bold text-slate-900 leading-snug mb-3">
+                  {step.judul}
+                </h3>
+
+                <!-- Short Plain Description Paragraph -->
+                <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+                  {step.deskripsi}
+                </p>
+
+                <!-- Technical Note (Tahap 4) -->
+                {step.catatanTeknis && (
+                  <p class="mt-4 text-xs text-slate-500 leading-relaxed border-t border-slate-100 pt-3">
+                    <span class="font-semibold text-slate-700">Catatan teknis:</span> {step.catatanTeknis}
+                  </p>
+                )}
+
+              </div>
+            </div>
+
+          </div>
+        );
+      })}
+
+    </div>
+
+    <!-- 2-Touches Bilik Banner Callout -->
+    <div class="mt-14 card-surface p-6 sm:p-8 bg-gradient-to-r from-primary to-primary-800 text-white shadow-elevated">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2 space-y-2">
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-accent text-slate-900 uppercase">
+            Kemudahan Memilih
+          </span>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white">
+            Cukup 2 Kali Sentuh di Bilik Suara
+          </h3>
+          <p class="text-xs sm:text-sm text-blue-100 leading-relaxed">
+            Tidak perlu mencoblos kertas secara manual. Cukup sentuh foto calon pilihan Anda, lalu sentuh konfirmasi "YA". Jika Anda salah sentuh, cukup tekan tombol silang merah "TIDAK" untuk membatalkan dan mengoreksi pilihan sebelum struk tercetak.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row md:flex-col gap-3 justify-center">
+          <a href="#perangkat" class="btn-accent text-center justify-center text-sm py-3 font-bold">
+            Pelajari Perangkat Layar Sentuh &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

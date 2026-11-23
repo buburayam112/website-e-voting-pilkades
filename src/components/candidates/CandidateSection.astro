@@ -1,0 +1,130 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+import { mockKandidatList } from '../../data/mock/kandidat.mock';
+import { mockDesaList } from '../../data/mock/desa.mock';
+---
+
+<section id="calon" class="py-16 sm:py-20 lg:py-24 bg-slate-50/70 border-b border-slate-200/80">
+  <div class="container-custom">
+    
+    <!-- Section Header -->
+    <SectionHeader
+      badge="Peserta Pemilihan"
+      title="Informasi Calon Kepala Desa"
+      subtitle="Profil resmi pasangan calon kepala desa peserta Pilkades E-Voting Kabupaten Mempawah 2026"
+    />
+
+    <!-- Notice Banner: Menunggu Data Resmi PPKD -->
+    <div class="max-w-3xl mx-auto mb-10 p-4 rounded-xl bg-blue-50 border border-blue-200 shadow-xs flex items-start gap-3">
+      <div class="p-1.5 rounded-lg bg-primary-100 text-primary mt-0.5 flex-shrink-0">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </div>
+      <div>
+        <h4 class="text-xs sm:text-sm font-bold text-slate-900">
+          Status Data: Menunggu Penetapan Calon Resmi PPKD
+        </h4>
+        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+          Sesuai ketentuan, daftar nama calon, foto, nomor urut, visi, dan misi akan dipublikasikan secara serentak setelah Berita Acara Penetapan Calon disahkan oleh Panitia Pemilihan Kepala Desa (PPKD) masing-masing desa. Tampilan berikut adalah format placeholder resmi dengan tata letak setara.
+        </p>
+      </div>
+    </div>
+
+    <!-- Village Filter Selector for Candidates -->
+    <div class="max-w-md mx-auto mb-8">
+      <label for="desa-calon-select" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-center">
+        Pilih Desa Penyelenggara:
+      </label>
+      <div class="relative">
+        <select
+          id="desa-calon-select"
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 text-sm font-semibold focus:ring-2 focus:ring-primary focus:border-primary shadow-xs appearance-none pr-10"
+        >
+          {mockDesaList.slice(0, 8).map((d) => (
+            <option value={d.id}>{d.nama} ({d.kecamatan})</option>
+          ))}
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Candidates Equal Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto" id="candidates-grid">
+      {mockKandidatList.map((kandidat) => (
+        <div class="card-surface p-6 bg-white border-slate-200 flex flex-col justify-between hover:border-primary-300 transition-all text-center">
+          
+          <div>
+            <!-- Candidate Number Urut Badge -->
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary text-white font-extrabold text-2xl shadow-md mx-auto mb-4 border-2 border-white ring-4 ring-primary-50">
+              0{kandidat.nomorUrut}
+            </div>
+
+            <!-- Equal Candidate Placeholder Avatar SVG -->
+            <div class="w-28 h-28 mx-auto rounded-full bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center mb-4 text-slate-400 group">
+              <svg class="w-14 h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M6 21v-2a6 6 0 0 1 12 0v2"></path>
+              </svg>
+            </div>
+
+            <!-- Placeholder Name & Details -->
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-primary border border-blue-200 mb-2">
+              Nomor Urut 0{kandidat.nomorUrut}
+            </span>
+
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+              {kandidat.nama}
+            </h3>
+            
+            <p class="text-xs text-slate-500 mt-0.5">
+              {kandidat.namaDesa}, {kandidat.kecamatan}
+            </p>
+
+            <!-- Visi & Misi Placeholder -->
+            <div class="mt-4 pt-4 border-t border-slate-100 text-left space-y-2">
+              <div>
+                <span class="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">Visi Calon:</span>
+                <p class="text-xs text-slate-500 italic mt-0.5 leading-relaxed">
+                  "{kandidat.visi}"
+                </p>
+              </div>
+              <div class="pt-2">
+                <span class="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">Misi Calon:</span>
+                <ul class="text-xs text-slate-500 space-y-1 mt-1 pl-4 list-disc">
+                  {kandidat.misi?.map((m) => (
+                    <li>{m}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Status Tag -->
+          <div class="mt-6 pt-3 border-t border-slate-100">
+            <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-500">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              Menunggu Penetapan Resmi PPKD
+            </span>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+    <!-- Equal Treatment Guarantee Footer -->
+    <div class="mt-8 text-center text-xs text-slate-500 max-w-xl mx-auto">
+      <p>
+        * Seluruh calon kepala desa ditampilkan dalam tata letak, ukuran, dan urutan kartu yang setara tanpa pemeringkatan atau promosi preferensial, menjamin asas netralitas dan keadilan informasi publik.
+      </p>
+    </div>
+
+  </div>
+</section>
+

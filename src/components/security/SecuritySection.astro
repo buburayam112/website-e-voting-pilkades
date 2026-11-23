@@ -1,0 +1,168 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+import ClosedCircuitIllustration from '../illustrations/ClosedCircuitIllustration.astro';
+import { securityItems } from '../../data/content/security.data';
+---
+
+<section id="keamanan" class="py-16 sm:py-20 lg:py-24 bg-white border-b border-slate-200/80">
+  <div class="container-custom">
+    
+    <!-- Section Header -->
+    <SectionHeader
+      badge="Integritas & Audit"
+      title="Keamanan & Transparansi E-Voting"
+      subtitle="Penggunaan lembar struk dan kotak suara/audit mengacu pada Perbup Mempawah Nomor 14 Tahun 2023. Sirkuit tertutup (air-gapped) merupakan konsep rancangan teknis sistem."
+    />
+
+    <!-- Main Visual Illustration: Closed Circuit Loop (PDF Page 16) -->
+    <div class="card-surface p-6 sm:p-8 lg:p-10 mb-12 bg-white border-primary-200/90 shadow-soft">
+      <div class="max-w-3xl mx-auto text-center mb-8">
+        <span class="text-xs font-bold text-primary uppercase tracking-wider block">Arsitektur Pengamanan Tertutup</span>
+        <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+          Rantai Sirkuit Tertutup (Jaringan Lokal Mandiri / Air-Gapped)
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+          Sistem e-voting di setiap TPS beroperasi secara mandiri dan offline. Menggabungkan kecepatan pemrosesan digital lokal dengan kepastian lembar struk fisik dan kotak suara/audit sesuai ketentuan hukum.
+        </p>
+      </div>
+
+      <ClosedCircuitIllustration />
+
+      <div class="mt-8 pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+          <span class="text-xs font-bold text-primary uppercase block">1. Otorisasi Anonim</span>
+          <p class="text-xs text-slate-600 mt-1">Token acak smart card memutus hubungan antara identitas NIK dan pilihan bilik suara.</p>
+        </div>
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+          <span class="text-xs font-bold text-secondary uppercase block">2. Enkripsi Lokal</span>
+          <p class="text-xs text-slate-600 mt-1">Pilihan disimpan dalam memori mesin bilik tanpa transmisi ke internet publik.</p>
+        </div>
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+          <span class="text-xs font-bold text-emerald-700 uppercase block">3. Lembar Struk Kotak Audit</span>
+          <p class="text-xs text-slate-600 mt-1">Lembar struk di kotak suara/audit menjadi acuan penghitungan jika terjadi gangguan perangkat (Pasal 46 ayat 5).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordion Section: Static Fallback with Supabase Runtime Hydration -->
+    <div>
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <h3 class="text-xl font-bold text-slate-900">Prosedur Keamanan, Audit, dan Mitigasi Gangguan</h3>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1">
+          Klik masing-masing poin di bawah untuk membaca rincian regulasi teknis yang berlaku di TPS
+        </p>
+      </div>
+
+      <!-- Accordion container (pre-rendered with official static data) -->
+      <div class="max-w-3xl mx-auto space-y-3" id="security-accordion">
+        {securityItems.map((item, idx) => (
+          <div class="card-surface border-slate-200/90 overflow-hidden bg-white" data-security-slug={item.id}>
+            <button
+              type="button"
+              class="accordion-toggle w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+              aria-expanded={idx === 0 ? "true" : "false"}
+              aria-controls={`sec-content-${idx}`}
+            >
+              <div class="flex items-center gap-3.5">
+                <span class="w-7 h-7 rounded-lg bg-primary-100 text-primary font-bold text-xs flex items-center justify-center flex-shrink-0">
+                  0{idx + 1}
+                </span>
+                <div>
+                  <span class="text-[11px] font-semibold text-primary block" data-security-category>{item.kategori}</span>
+                  <span class="text-sm sm:text-base font-bold text-slate-900" data-security-title>{item.judul}</span>
+                </div>
+              </div>
+              <svg class="w-5 h-5 text-slate-400 transform transition-transform duration-200 accordion-arrow flex-shrink-0" class:list={[{ 'rotate-180': idx === 0 }]} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+
+            <div
+              id={`sec-content-${idx}`}
+              class={`accordion-content px-5 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 ${idx === 0 ? '' : 'hidden'}`}
+            >
+              <p class="font-medium text-slate-800 mb-2" data-security-summary>
+                {item.ringkasan}
+              </p>
+              <p class="text-slate-600 mb-3 leading-relaxed" data-security-body>
+                {item.penjelasanLengkap}
+              </p>
+              {item.dasarAturan && (
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 text-[11px] text-slate-600 font-mono" data-security-ref-wrapper>
+                  <span data-security-ref>Rujukan: {item.dasarAturan}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { getPublishedKeamanan } from '../../services/keamanan.service';
+
+  function attachAccordionToggles() {
+    const toggles = document.querySelectorAll('#security-accordion .accordion-toggle');
+
+    toggles.forEach((toggle) => {
+      // Remove any existing clone listeners by recreating node or checking attribute
+      if (toggle.getAttribute('data-has-listener') === 'true') return;
+      toggle.setAttribute('data-has-listener', 'true');
+
+      toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        const contentId = toggle.getAttribute('aria-controls');
+        const contentEl = contentId ? document.getElementById(contentId) : null;
+        const arrow = toggle.querySelector('.accordion-arrow');
+
+        if (isExpanded) {
+          toggle.setAttribute('aria-expanded', 'false');
+          if (contentEl) contentEl.classList.add('hidden');
+          if (arrow) arrow.classList.remove('rotate-180');
+        } else {
+          toggle.setAttribute('aria-expanded', 'true');
+          if (contentEl) contentEl.classList.remove('hidden');
+          if (arrow) arrow.classList.add('rotate-180');
+        }
+      });
+    });
+  }
+
+  async function syncSecurityFromSupabase() {
+    try {
+      const items = await getPublishedKeamanan();
+      if (!items || items.length === 0) return;
+
+      const map = new Map(items.map((r) => [r.slug, r]));
+
+      document.querySelectorAll<HTMLElement>('#security-accordion [data-security-slug]').forEach((card) => {
+        const slug = card.dataset.securitySlug;
+        if (!slug) return;
+        const row = map.get(slug);
+        if (!row) return;
+
+        // Render string secara aman via textContent (No raw HTML)
+        const titleEl = card.querySelector('[data-security-title]');
+        if (titleEl && row.judul) titleEl.textContent = row.judul;
+
+        const summaryEl = card.querySelector('[data-security-summary]');
+        if (summaryEl && row.ringkasan) summaryEl.textContent = row.ringkasan;
+
+        const bodyEl = card.querySelector('[data-security-body]');
+        if (bodyEl && row.isi) bodyEl.textContent = row.isi;
+
+        const refEl = card.querySelector('[data-security-ref]');
+        if (refEl && row.referensi) refEl.textContent = `Rujukan: ${row.referensi}`;
+      });
+    } catch {
+      // Fallback silently: konten statis bawaan tetap ditampilkan sempurna
+    }
+  }
+
+  // Initialize
+  attachAccordionToggles();
+  syncSecurityFromSupabase();
+</script>

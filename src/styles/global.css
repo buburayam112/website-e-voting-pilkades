@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #1B51A3;
+  --color-secondary: #5172AE;
+  --color-accent: #3FC6F3;
+  --color-background: #F5F8FC;
+  --color-surface: #FFFFFF;
+  --color-text: #243447;
+  --color-text-muted: #627D98;
+  --color-border: #D9E2EC;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--color-text);
+    background-color: var(--color-background);
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  /* Custom anchor offset for sticky header */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 font-semibold px-5 py-2.5 rounded-xl bg-primary text-white shadow-md hover:bg-primary-600 active:scale-[0.98] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 font-semibold px-5 py-2.5 rounded-xl bg-accent text-[#0C264D] shadow-md hover:bg-accent-300 active:scale-[0.98] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 font-semibold px-5 py-2.5 rounded-xl bg-white text-primary border border-primary-200 shadow-sm hover:bg-primary-50 active:scale-[0.98] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-300;
+  }
+
+  .card-surface {
+    @apply bg-white rounded-2xl border border-slate-200/80 shadow-soft transition-all duration-200;
+  }
+
+  .badge-simulation {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-300;
+  }
+
+  .badge-official {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-900 border border-blue-300;
+  }
+}
+
+/* Prevent browser text-cursor (caret) from appearing on static headings and labels */
+h1, h2, h3, h4, h5, h6, p, span, label, li, td, th {
+  caret-color: transparent;
+}
+
+/* ============================================================== */
+/* ANIMATIONS & MICRO-INTERACTIONS                                */
+/* ============================================================== */
+
+/* 1. Scroll-Reveal Animation */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-init.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 2. Tactile Click Ripple */
+.btn-primary, .btn-secondary, .btn-accent, .cat-filter-btn, .ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-effect 0.55s ease-out;
+  background-color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+.ripple-dark {
+  background-color: rgba(27, 81, 163, 0.18);
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* 3. Subtle Card Hover Lift */
+.card-surface {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-surface:hover {
+  transform: translateY(-4px);
+}
+
+/* 4. Gentle Float Keyframes */
+@keyframes soft-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-soft-float {
+  animation: soft-float 4s ease-in-out infinite;
+}
+
+/* 5. Scroll Progress Bar */
+#scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #1B51A3 0%, #3FC6F3 50%, #5172AE 100%);
+  z-index: 100;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(63, 198, 243, 0.65);
+  pointer-events: none;
+}
+
+/* 6. Active Nav Link Animated Indicator */
+.nav-link-item {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link-active {
+  color: #1B51A3 !important;
+  background-color: #E1EBF9 !important; /* primary-100 */
+  font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(27, 81, 163, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Subtle animated underline bar on desktop */
+.nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background-color: #1B51A3;
+  border-radius: 9999px;
+  animation: nav-pill-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes nav-pill-in {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #EDF2F7;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+

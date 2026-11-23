@@ -1,0 +1,134 @@
+---
+import { siteConfig } from '../../config/site';
+
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+const isResmi = siteConfig.jadwal.isTanggalResmi;
+const targetDate = siteConfig.jadwal.tanggalPelaksanaan;
+---
+
+<div class={`card-surface p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden border-primary-100 ${className}`}>
+  <!-- Decorative top banner -->
+  <div class="flex items-center justify-between mb-4">
+    <div class="inline-flex items-center gap-2">
+      <span class="p-2 rounded-lg bg-primary-50 text-primary">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+      </span>
+      <h3 class="font-bold text-slate-800 text-base sm:text-lg">Hitung Mundur Pilkades 2026</h3>
+    </div>
+    <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+      Tahun Anggaran 2026
+    </span>
+  </div>
+
+  {isResmi && targetDate ? (
+    <!-- Official Countdown Clock Active -->
+    <div class="space-y-4 my-auto">
+      <div class="grid grid-cols-4 gap-2 text-center" id="countdown-timer" data-target={targetDate}>
+        <div class="bg-primary-50 rounded-xl p-3 border border-primary-100">
+          <span class="text-2xl sm:text-3xl font-extrabold text-primary" id="cd-days">--</span>
+          <span class="text-[11px] font-medium text-slate-500 block uppercase">Hari</span>
+        </div>
+        <div class="bg-primary-50 rounded-xl p-3 border border-primary-100">
+          <span class="text-2xl sm:text-3xl font-extrabold text-primary" id="cd-hours">--</span>
+          <span class="text-[11px] font-medium text-slate-500 block uppercase">Jam</span>
+        </div>
+        <div class="bg-primary-50 rounded-xl p-3 border border-primary-100">
+          <span class="text-2xl sm:text-3xl font-extrabold text-primary" id="cd-minutes">--</span>
+          <span class="text-[11px] font-medium text-slate-500 block uppercase">Menit</span>
+        </div>
+        <div class="bg-primary-50 rounded-xl p-3 border border-primary-100">
+          <span class="text-2xl sm:text-3xl font-extrabold text-primary" id="cd-seconds">--</span>
+          <span class="text-[11px] font-medium text-slate-500 block uppercase">Detik</span>
+        </div>
+      </div>
+      <p class="text-xs text-center text-slate-500">
+        Menuju pelaksanaan pemungutan suara resmi di TPS Kabupaten Mempawah.
+      </p>
+    </div>
+  ) : (
+    <!-- Informative State: Jadwal Resmi Menunggu Pengumuman (Sesuai Aturan Acceptance Criteria) -->
+    <div class="my-auto py-3 space-y-3">
+      <div class="p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-slate-700">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+            <line x1="16" x2="16" y1="2" y2="6"></line>
+            <line x1="8" x2="8" y1="2" y2="6"></line>
+            <line x1="3" x2="21" y1="10" y2="10"></line>
+          </svg>
+          <div>
+            <h4 class="text-sm font-bold text-slate-900">Jadwal Pelaksanaan Akan Diumumkan</h4>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              {siteConfig.jadwal.pesanJadwal} Saat ini tahapan berada pada penyusunan dan penguncian DPT oleh Diskominfo & Dukcapil.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Step Tracker -->
+      <div class="space-y-1.5 pt-1">
+        <div class="flex items-center justify-between text-xs text-slate-600 font-medium">
+          <span>Tahapan Terkini: Penetapan DPT Read-Only</span>
+          <span class="text-primary font-bold">Sedang Berjalan</span>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2">
+          <div class="bg-primary h-2 rounded-full w-3/5"></div>
+        </div>
+      </div>
+    </div>
+  )}
+
+  <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+    <span>Sumber: Tim Teknis Diskominfo</span>
+    <a href="#tahapan" class="text-primary font-semibold hover:underline">Lihat Tahapan &rarr;</a>
+  </div>
+</div>
+
+{isResmi && targetDate && (
+  <script>
+    const timerEl = document.getElementById('countdown-timer');
+    if (timerEl) {
+      const targetStr = timerEl.getAttribute('data-target');
+      if (targetStr) {
+        const target = new Date(targetStr).getTime();
+        const daysEl = document.getElementById('cd-days');
+        const hoursEl = document.getElementById('cd-hours');
+        const minutesEl = document.getElementById('cd-minutes');
+        const secondsEl = document.getElementById('cd-seconds');
+
+        function updateCountdown() {
+          const now = new Date().getTime();
+          const diff = target - now;
+          if (diff <= 0) {
+            if (daysEl) daysEl.textContent = '00';
+            if (hoursEl) hoursEl.textContent = '00';
+            if (minutesEl) minutesEl.textContent = '00';
+            if (secondsEl) secondsEl.textContent = '00';
+            return;
+          }
+
+          const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+          if (daysEl) daysEl.textContent = d < 10 ? `0${d}` : d.toString();
+          if (hoursEl) hoursEl.textContent = h < 10 ? `0${h}` : h.toString();
+          if (minutesEl) minutesEl.textContent = m < 10 ? `0${m}` : m.toString();
+          if (secondsEl) secondsEl.textContent = s < 10 ? `0${s}` : s.toString();
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      }
+    }
+  </script>
+)}
+

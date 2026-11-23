@@ -1,0 +1,413 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+const isDev = import.meta.env.DEV;
+---
+
+<section id="cek-hak-pilih" class="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-blue-50/40 via-slate-50/50 to-white border-b border-slate-200/80 relative">
+  <!-- Subtle accent background glow -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="container-custom relative z-10">
+    
+    <!-- Section Header -->
+    <SectionHeader
+      badge="Layanan Mandiri Warga"
+      title="Cek Hak Pilih & Informasi TPS"
+      subtitle="Periksa penetapan hak suara Anda pada Daftar Pemilih Tetap (DPT) Pilkades Kabupaten Mempawah 2026"
+    />
+
+    <!-- Prominent Disclaimer Banner -->
+    <div class="max-w-3xl mx-auto mb-8 p-4 rounded-xl bg-amber-50 border-2 border-amber-300 shadow-xs flex items-start gap-3">
+      <div class="p-1.5 rounded-lg bg-amber-200 text-amber-900 mt-0.5 flex-shrink-0">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <div>
+        <h4 class="text-xs sm:text-sm font-bold text-amber-950 uppercase tracking-wide">
+          Pemberitahuan Mode Simulasi (Bukan Data Pemilih Resmi)
+        </h4>
+        <p class="text-xs text-amber-900 mt-1 leading-relaxed">
+          Sesuai arahan teknis, integrasi langsung ke basis data Dukcapil/Back-Office sedang dipersiapkan. Formulir di bawah ini beroperasi dalam <strong>mode simulasi frontend lokal</strong> menggunakan data dummy untuk pengujian antarmuka. NIK input <strong>tidak disimpan</strong> pada peramban maupun server.
+        </p>
+      </div>
+    </div>
+
+    <!-- Search Form Card -->
+    <div class="max-w-3xl mx-auto card-surface p-6 sm:p-8 border-primary-200/90 shadow-elevated bg-gradient-to-b from-white to-slate-50/50">
+      <form id="voter-search-form" class="space-y-4" onsubmit="return false;">
+        <label for="nik-input" class="block">
+          <span class="text-sm font-bold text-slate-800 flex items-center justify-between">
+            <span>Nomor Induk Kependudukan (NIK)</span>
+            <span class="text-xs font-normal text-slate-500">Wajib 16 Digit Angka</span>
+          </span>
+          <div class="mt-2 relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+            </div>
+            <input
+              type="text"
+              id="nik-input"
+              name="nik"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              maxlength="16"
+              placeholder="Contoh: 6102010101900001"
+              autocomplete="off"
+              class="w-full pl-11 pr-28 py-3.5 rounded-xl border border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-slate-900 font-mono text-base tracking-wider placeholder:text-slate-400 placeholder:font-sans transition-all shadow-inner"
+              required
+            />
+            <div class="absolute inset-y-0 right-1.5 flex items-center gap-1.5">
+              <button
+                type="button"
+                id="btn-reset-search"
+                class="hidden p-2 text-slate-400 hover:text-slate-600 rounded-lg"
+                title="Hapus input"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6 6 18M6 6l12 12"></path>
+                </svg>
+              </button>
+              <button
+                type="submit"
+                id="btn-submit-search"
+                class="btn-primary text-xs sm:text-sm py-2 px-4 shadow-sm"
+              >
+                <span>Cari</span>
+              </button>
+            </div>
+          </div>
+        </label>
+
+        <!-- Fast Test Dummy NIK Pills (Dinonaktifkan di mode produksi) -->
+        {isDev ? (
+          <div class="pt-2 flex flex-wrap items-center gap-2 text-xs">
+            <span class="text-slate-500 font-medium">Uji Coba Pengembang (Dev Mode Only):</span>
+            <button
+              type="button"
+              class="pill-nik px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-primary font-mono border border-blue-200 transition-colors"
+              data-nik="6102000000000001"
+            >
+              6102000000000001 (Pola Uji 01)
+            </button>
+            <button
+              type="button"
+              class="pill-nik px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-primary font-mono border border-blue-200 transition-colors"
+              data-nik="6102000000000002"
+            >
+              6102000000000002 (Pola Uji 02)
+            </button>
+          </div>
+        ) : (
+          <div class="pt-2 text-[11px] text-slate-400 italic">
+            *Fitur uji instan NIK dinonaktifkan pada mode produksi demi kepatuhan perlindungan privasi data warga.
+          </div>
+        )}
+
+        <!-- Validation Error Message Area -->
+        <div id="search-error-msg" class="hidden p-3 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
+          <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span id="error-text">NIK harus terdiri dari 16 digit angka.</span>
+        </div>
+
+        <!-- Loading State Skeleton -->
+        <div id="search-loading" class="hidden py-8 text-center space-y-3">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
+          <p class="text-xs text-slate-500 font-medium">Memeriksa penetapan DPT pada sistem simulasi...</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- RESULT CONTAINER (Follows Wireframe 2 Structure) -->
+    <div id="voter-result-container" class="hidden max-w-4xl mx-auto mt-8">
+      
+      <!-- Permanent Simulation Watermark Banner -->
+      <div class="mb-4 p-3 rounded-xl bg-amber-100 border border-amber-300 text-center flex items-center justify-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-600 animate-pulse"></span>
+        <span class="text-xs font-black tracking-widest uppercase text-amber-950">
+          SIMULASI — BUKAN DATA PEMILIH RESMI
+        </span>
+      </div>
+
+      <!-- Result Grid (Left: Biodata Pemilih | Right: Lokasi TPS + Download + Bantuan) -->
+      <div class="card-surface p-6 sm:p-8 bg-white border-primary-200 shadow-elevated">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- Left Column (7 Cols): Biodata Terkait NIK (Protected / Masked) -->
+          <div class="lg:col-span-7 space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Status Pemilih</span>
+                <div class="flex items-center gap-2 mt-0.5">
+                  <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
+                    <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    TERDAFTAR DALAM DPT
+                  </span>
+                </div>
+              </div>
+              <span class="text-xs text-slate-400 font-mono">DPT E-Voting 2026</span>
+            </div>
+
+            <!-- Identity Rows (Masked to uphold privacy regulations) -->
+            <div class="space-y-3 text-sm">
+              <div class="grid grid-cols-3 py-2 border-b border-slate-100">
+                <span class="text-slate-500 font-medium text-xs">Nomor Induk (NIK):</span>
+                <span class="col-span-2 font-mono font-bold text-slate-900" id="res-nik">610201******0001</span>
+              </div>
+              <div class="grid grid-cols-3 py-2 border-b border-slate-100">
+                <span class="text-slate-500 font-medium text-xs">Nama Pemilih:</span>
+                <span class="col-span-2 font-semibold text-slate-800" id="res-nama">A**** S****** (Simulasi)</span>
+              </div>
+              <div class="grid grid-cols-3 py-2 border-b border-slate-100">
+                <span class="text-slate-500 font-medium text-xs">Jenis Kelamin / Usia:</span>
+                <span class="col-span-2 text-slate-700" id="res-jk-usia">Laki-Laki / 34 Tahun</span>
+              </div>
+              <div class="grid grid-cols-3 py-2 border-b border-slate-100">
+                <span class="text-slate-500 font-medium text-xs">Alamat RT / RW:</span>
+                <span class="col-span-2 text-slate-700" id="res-rtrw">RT 002 / RW 001</span>
+              </div>
+              <div class="grid grid-cols-3 py-2 border-b border-slate-100">
+                <span class="text-slate-500 font-medium text-xs">Desa / Kelurahan:</span>
+                <span class="col-span-2 font-bold text-primary" id="res-desa">Desa Pasir Panjang</span>
+              </div>
+              <div class="grid grid-cols-3 py-2">
+                <span class="text-slate-500 font-medium text-xs">Kecamatan:</span>
+                <span class="col-span-2 font-semibold text-slate-800" id="res-kecamatan">Mempawah Hilir</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-blue-50/70 rounded-xl border border-blue-200/70 text-xs text-blue-900 flex items-start gap-2.5">
+              <svg class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>
+                Nama dan NIK disamarkan untuk menjaga kerahasiaan data pribadi sesuai UU Perlindungan Data Pribadi (UU PDP).
+              </span>
+            </div>
+          </div>
+
+          <!-- Right Column (5 Cols): TPS Location Map + Download Card + Correction Contact -->
+          <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+            
+            <!-- Box 1: Peta & Lokasi TPS (Wireframe 2) -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-primary uppercase tracking-wider">Lokasi TPS Anda</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-primary-100 text-primary font-bold" id="res-nomor-tps">
+                  TPS 01
+                </span>
+              </div>
+              
+              <h4 class="text-sm font-bold text-slate-900 leading-snug" id="res-nama-tps">
+                Gedung SDN 03 Mempawah Hilir
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed" id="res-alamat-tps">
+                Jl. Raya Pasir Panjang No. 14, Dusun Melati, RT 002/RW 001
+              </p>
+
+              <!-- Map Placeholder Component with Geolocation Coordinate Data Schema -->
+              <div class="mt-2 relative h-28 rounded-lg bg-slate-200 border border-slate-300 overflow-hidden flex flex-col items-center justify-center text-center p-3 group">
+                <!-- Decorative map grid pattern -->
+                <svg class="absolute inset-0 w-full h-full opacity-30 text-slate-400" viewBox="0 0 100 60" preserveAspectRatio="none">
+                  <path d="M0 20 H100 M0 40 H100 M20 0 V60 M50 0 V60 M80 0 V60" stroke="currentColor" stroke-width="0.5" />
+                </svg>
+                <div class="relative z-10">
+                  <div class="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center mx-auto shadow-md animate-bounce">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                  </div>
+                  <span class="text-[11px] font-bold text-slate-700 block mt-1">Titik Koordinat TPS</span>
+                  <span class="text-[10px] text-slate-500 font-mono">Lintang: 0.3645° LU, Bujur: 108.9612° BT</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Box 2: Unduh Kartu Hak Pilih (Wireframe 2) -->
+            <!-- Per Prompt: Tombol unduh dibuat NONAKTIF selama mode simulasi -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <span class="text-xs font-bold text-slate-800 block">Unduh Kartu Hak Pilih / Undangan</span>
+              <p class="text-[11px] text-slate-500 leading-relaxed">
+                Layanan unduh Kartu Hak Pilih akan tersedia melalui sistem resmi setelah DPT ditetapkan.
+              </p>
+              <button
+                type="button"
+                disabled
+                class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-slate-200 text-slate-400 font-semibold text-xs cursor-not-allowed border border-slate-300"
+                title="Layanan unduh dinonaktifkan dalam mode simulasi"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Unduh Kartu Hak Pilih (Nonaktif)</span>
+              </button>
+            </div>
+
+            <!-- Box 3: Kontak Koreksi Data (Wireframe 2) -->
+            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-1.5 text-xs text-amber-900">
+              <span class="font-bold flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                Bantuan Koreksi Data Pemilih
+              </span>
+              <p class="text-[11px] text-amber-800 leading-relaxed">
+                Jika terdapat kekeliruan data atau TPS tidak sesuai domisili, segera hubungi Panitia Pilkades Desa (PPKD) setempat atau posko informasi resmi Diskominfo Kabupaten Mempawah.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Pure Client Interaction for Voter Search Simulation
+  // STRICT SECURITY RULES IMPLEMENTED:
+  // 1. Zero localStorage usage
+  // 2. Zero console logging of full NIK
+  // 3. Strict 16-digit validation
+  // 4. Output strictly marked as SIMULASI
+
+  const searchForm = document.getElementById('voter-search-form');
+  const nikInput = document.getElementById('nik-input') as HTMLInputElement | null;
+  const btnReset = document.getElementById('btn-reset-search');
+  const errorMsg = document.getElementById('search-error-msg');
+  const errorText = document.getElementById('error-text');
+  const loadingEl = document.getElementById('search-loading');
+  const resultContainer = document.getElementById('voter-result-container');
+  const pillButtons = document.querySelectorAll('.pill-nik');
+
+  // DOM Elements for Result
+  const resNik = document.getElementById('res-nik');
+  const resNama = document.getElementById('res-nama');
+  const resJkUsia = document.getElementById('res-jk-usia');
+  const resRtrw = document.getElementById('res-rtrw');
+  const resDesa = document.getElementById('res-desa');
+  const resKecamatan = document.getElementById('res-kecamatan');
+  const resNomorTps = document.getElementById('res-nomor-tps');
+  const resNamaTps = document.getElementById('res-nama-tps');
+  const resAlamatTps = document.getElementById('res-alamat-tps');
+
+  // Pill click handlers for fast testing
+  pillButtons.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const nik = pill.getAttribute('data-nik');
+      if (nik && nikInput) {
+        nikInput.value = nik;
+        handleSearch(nik);
+      }
+    });
+  });
+
+  if (nikInput) {
+    nikInput.addEventListener('input', () => {
+      // Strip non-digits
+      nikInput.value = nikInput.value.replace(/\D/g, '');
+      if (btnReset) {
+        btnReset.classList.toggle('hidden', nikInput.value.length === 0);
+      }
+      if (errorMsg) {
+        errorMsg.classList.add('hidden');
+      }
+    });
+  }
+
+  if (btnReset && nikInput) {
+    btnReset.addEventListener('click', () => {
+      nikInput.value = '';
+      btnReset.classList.add('hidden');
+      if (resultContainer) resultContainer.classList.add('hidden');
+      if (errorMsg) errorMsg.classList.add('hidden');
+      nikInput.focus();
+    });
+  }
+
+  if (searchForm && nikInput) {
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleSearch(nikInput.value);
+    });
+  }
+
+  function handleSearch(rawNik: string) {
+    const cleanNik = rawNik.trim();
+
+    if (cleanNik.length !== 16) {
+      if (errorMsg && errorText) {
+        errorText.textContent = 'Nomor Induk Kependudukan (NIK) harus tepat 16 digit angka.';
+        errorMsg.classList.remove('hidden');
+      }
+      if (resultContainer) resultContainer.classList.add('hidden');
+      return;
+    }
+
+    if (errorMsg) errorMsg.classList.add('hidden');
+    if (loadingEl) loadingEl.classList.remove('hidden');
+    if (resultContainer) resultContainer.classList.add('hidden');
+
+    // Simulate network query latency (400ms)
+    setTimeout(() => {
+      if (loadingEl) loadingEl.classList.add('hidden');
+
+      // Generate simulation dummy based on input without logging full NIK
+      const masked = `${cleanNik.slice(0, 6)}******${cleanNik.slice(-4)}`;
+      const lastDigit = parseInt(cleanNik.slice(-1), 10) || 1;
+      const tpsNum = (lastDigit % 5) + 1;
+
+      // Village mapping
+      let desa = 'Desa Pasir Panjang';
+      let kec = 'Mempawah Hilir';
+      let locTps = 'Gedung SDN 03 Mempawah Hilir';
+      let alamatTps = 'Jl. Raya Pasir Panjang No. 14, Dusun Melati';
+
+      if (cleanNik.endsWith('0003')) {
+        desa = 'Desa Antibar';
+        kec = 'Mempawah Timur';
+        locTps = 'Halaman Kantor Desa Antibar';
+        alamatTps = 'Jl. Daeng Menambon No. 08, RT 001/RW 001';
+      } else if (cleanNik.endsWith('0004')) {
+        desa = 'Desa Galang';
+        kec = 'Sungai Pinyuh';
+        locTps = 'Aula Madrasah Al-Ittihad';
+        alamatTps = 'Jl. Pendidikan KM 2, Galang, RT 004/RW 002';
+      }
+
+      if (resNik) resNik.textContent = masked;
+      if (resNama) resNama.textContent = lastDigit % 2 === 0 ? 'Pemilih Simulasi (Data Contoh Sistem)' : 'Warga Terdaftar (Data Contoh Sistem)';
+      if (resJkUsia) resJkUsia.textContent = `${lastDigit % 2 === 0 ? 'Perempuan' : 'Laki-Laki'} / ${22 + lastDigit * 4} Tahun`;
+      if (resRtrw) resRtrw.textContent = `RT 00${(lastDigit % 4) + 1} / RW 001`;
+      if (resDesa) resDesa.textContent = desa;
+      if (resKecamatan) resKecamatan.textContent = kec;
+      if (resNomorTps) resNomorTps.textContent = `TPS 0${tpsNum}`;
+      if (resNamaTps) resNamaTps.textContent = locTps;
+      if (resAlamatTps) resAlamatTps.textContent = alamatTps;
+
+      if (resultContainer) {
+        resultContainer.classList.remove('hidden');
+        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }, 450);
+  }
+</script>
+

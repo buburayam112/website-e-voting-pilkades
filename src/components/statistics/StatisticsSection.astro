@@ -1,0 +1,740 @@
+---
+import SectionHeader from '../common/SectionHeader.astro';
+import {
+  masterDesa,
+  uniqueKecamatan,
+  masterStatistikWilayah,
+  statistikOverview,
+  getRingkasanMaster
+} from '../../data/reference/desa.data';
+import { formatNumber, formatPercent } from '../../utils/formatters';
+
+const ringkasan = getRingkasanMaster();
+
+// Embed data for client-side instant autocomplete
+const autocompleteDesaData = JSON.stringify(
+  masterDesa.desa.map((d) => ({
+    kode: d.kode_tampilan,
+    nama: d.nama_desa,
+    kecamatan: d.nama_kecamatan,
+    alias: d.alias_pencarian || [],
+    status: d.status_gelombang,
+    gelombang: d.nama_gelombang,
+    tps: d.jumlah_tps
+  }))
+);
+---
+
+<section id="statistik" class="py-16 sm:py-20 lg:py-24 bg-white border-b border-slate-200/80">
+  <div class="container-custom">
+    
+    <!-- Section Header -->
+    <SectionHeader
+      badge="Pusat Data & Pemantauan"
+      title="Pusat Data dan Statistik Partisipasi Pemilih"
+      subtitle="Pemantauan kehadiran pemilih dan rekapitulasi data partisipasi TPS Pilkades Kabupaten Mempawah 2026"
+    />
+
+    <!-- Prominent Permanent Disclaimer Banner -->
+    <div class="max-w-4xl mx-auto mb-8 p-3.5 rounded-xl bg-amber-50 border-2 border-amber-300 flex items-center justify-center gap-2.5 text-center">
+      <span class="w-2.5 h-2.5 rounded-full bg-amber-600 animate-ping"></span>
+      <span class="text-xs font-black tracking-widest uppercase text-amber-950">
+        DATA SIMULASI PENGUJIAN SISTEM — BUKAN HASIL RESMI PEMILIHAN
+      </span>
+    </div>
+
+    <!-- Filter Bar (Kecamatan, Desa, Periode) -->
+    <div class="card-surface p-4 sm:p-5 bg-white border-slate-200 mb-8 shadow-xs">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        
+        <!-- Filter Kecamatan -->
+        <div>
+          <label for="filter-kecamatan" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Wilayah Kecamatan
+          </label>
+          <div class="relative">
+            <select
+              id="filter-kecamatan"
+              class="w-full px-3.5 py-2 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-primary focus:border-primary appearance-none pr-8"
+            >
+              <option value="Semua">Semua Kecamatan ({uniqueKecamatan.length} Kecamatan)</option>
+              {uniqueKecamatan.map((k) => (
+                <option value={k}>{k}</option>
+              ))}
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-500">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Desa (Autocomplete Search) -->
+        <div class="relative" id="desa-autocomplete-container">
+          <label for="autocomplete-desa-input" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+            <span>Desa Penyelenggara</span>
+            <span class="text-[10px] font-normal text-slate-400 normal-case">Ketik nama atau alias</span>
+          </label>
+          <div class="relative">
+            <input
+              type="text"
+              id="autocomplete-desa-input"
+              class="w-full px-3.5 py-2 pl-9 pr-8 rounded-lg border border-slate-300 bg-white text-xs sm:text-sm font-semibold text-slate-800 placeholder:text-slate-400 placeholder:font-normal focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              placeholder="Cari desa (misal: Sengkubang, Bum-bun)..."
+              autocomplete="off"
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded="false"
+              aria-controls="autocomplete-desa-results"
+            />
+            <!-- Search Icon (Left) -->
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5 text-slate-400">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <!-- Clear Button (Right) -->
+            <button
+              type="button"
+              id="autocomplete-desa-clear"
+              class="hidden absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400 hover:text-slate-600 focus:outline-none"
+              title="Bersihkan pilihan desa"
+              aria-label="Bersihkan pilihan desa"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Hidden input keeping selected value for table filter -->
+          <input type="hidden" id="filter-desa" value="Semua" />
+
+          <!-- Autocomplete Dropdown Panel -->
+          <div
+            id="autocomplete-desa-dropdown"
+            class="hidden absolute left-0 z-50 mt-1.5 w-full sm:w-[400px] bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden text-xs max-h-72 flex flex-col"
+            role="listbox"
+          >
+            <!-- Dropdown Header status summary -->
+            <div class="px-3.5 py-2 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+              <span id="autocomplete-count-label">Menampilkan seluruh desa</span>
+              <span class="text-slate-400 font-mono text-[10px]">Gunakan ↑ ↓ Enter Esc</span>
+            </div>
+
+            <!-- Scrollable List of Results -->
+            <div id="autocomplete-desa-results" class="overflow-y-auto divide-y divide-slate-100 max-h-56">
+              <!-- Result items dynamically populated by script -->
+            </div>
+
+            <!-- Empty State: "Desa tidak ditemukan" -->
+            <div id="autocomplete-desa-empty" class="hidden p-5 text-center text-slate-500">
+              <div class="w-9 h-9 mx-auto mb-2 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+              </div>
+              <p class="font-bold text-slate-800 text-xs">Desa tidak ditemukan</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">Periksa ejaan nama desa atau ubah filter kecamatan</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Waktu Pelaksanaan Pemilihan-->
+        <div>
+          <span class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Waktu Pelaksanaan Pemilihan
+          </span>
+          <div class="w-full px-3.5 py-2 rounded-lg bg-blue-50/80 border border-blue-200/80 text-xs sm:text-sm font-bold text-primary flex items-center gap-2">
+            <svg class="w-4 h-4 text-primary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span> 08.00–15.00 WIB</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4 Overview Statistic Cards (Wireframe 3) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      
+      <!-- Card 1: Total DPT -->
+      <div class="card-surface p-6 bg-white border-slate-200 hover:border-primary-300 transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total DPT Terdaftar</span>
+          <span class="p-2 rounded-lg bg-primary-50 text-primary">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </span>
+        </div>
+        <div class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" id="stat-total-dpt">
+          {statistikOverview.totalDpt ? formatNumber(statistikOverview.totalDpt) : 'Menunggu Penetapan DPT'}
+        </div>
+        <div class="mt-2 text-xs text-slate-500 flex items-center justify-between">
+          <span>Daftar Pemilih Tetap</span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-50 text-primary border border-blue-200">
+            Tahap Verifikasi DPS
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 2: Suara Masuk -->
+      <div class="card-surface p-6 bg-white border-slate-200 hover:border-secondary-300 transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Suara Masuk</span>
+          <span class="p-2 rounded-lg bg-secondary-50 text-secondary">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+          </span>
+        </div>
+        <div class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" id="stat-suara-masuk">
+          {statistikOverview.totalSuaraMasuk ? formatNumber(statistikOverview.totalSuaraMasuk) : 'Menunggu Pelaksanaan'}
+        </div>
+        <div class="mt-2 text-xs text-slate-500 flex items-center justify-between">
+          <span>Suara terverifikasi TPS</span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+            Belum Dimulai
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 3: Persentase Partisipasi -->
+      <div class="card-surface p-6 bg-white border-slate-200 hover:border-emerald-300 transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Tingkat Partisipasi</span>
+          <span class="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="20" x2="12" y2="10"></line>
+              <line x1="18" y1="20" x2="18" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="16"></line>
+            </svg>
+          </span>
+        </div>
+        <div class="text-xl sm:text-2xl font-extrabold text-slate-700 tracking-tight" id="stat-partisipasi-persen">
+          {statistikOverview.persentasePartisipasi ? formatPercent(statistikOverview.persentasePartisipasi) : '—'}
+        </div>
+        <div class="mt-2 text-xs text-slate-500 flex items-center justify-between">
+          <span>Persentase Kehadiran</span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+            Menunggu Data
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 4: Jumlah TPS Aktif / Terjadwal -->
+      <div class="card-surface p-6 bg-white border-slate-200 hover:border-accent-300 transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">TPS Terjadwal</span>
+          <span class="p-2 rounded-lg bg-accent-50 text-accent-800">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </span>
+        </div>
+        <div class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" id="stat-tps-aktif">
+          {ringkasan.totalTpsTerjadwal ? `${ringkasan.totalTpsTerjadwal} TPS Terjadwal` : 'Menunggu Penetapan TPS'}
+        </div>
+        <div class="mt-2 text-xs text-slate-500 flex items-center justify-between">
+          <span>{ringkasan.desaGelombangSaatIni} Desa Terjadwal</span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-50 text-primary border border-blue-200">
+            Tahap Verifikasi PPKD
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Charts Section (Wireframe 3: 2 Graphs side by side) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10">
+      
+      <!-- Graph 1 (7 Cols): Grafik Partisipasi Pemilih per Jam (Menunggu Pelaksanaan) -->
+      <div class="lg:col-span-7 card-surface p-6 sm:p-7 bg-white border-slate-200 shadow-soft flex flex-col justify-between">
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900">
+                Grafik Laju Partisipasi Pemilih per Jam
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Pembaruan data partisipasi terintegrasi pada Jam Operasional Pusat Statistik: 08.00–15.00 WIB
+              </p>
+            </div>
+            <span class="self-start sm:self-auto text-[11px] font-bold px-2 py-0.5 rounded bg-blue-50 text-primary border border-blue-200">
+              Menunggu Data Resmi
+            </span>
+          </div>
+        </div>
+
+        <div class="my-6 p-6 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 text-center space-y-3">
+          <div class="w-14 h-14 mx-auto rounded-full bg-blue-50 text-primary flex items-center justify-center">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="20" x2="12" y2="10"></line>
+              <line x1="18" y1="20" x2="18" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="16"></line>
+            </svg>
+          </div>
+          
+          <h4 class="text-sm font-bold text-slate-800">
+            Grafik Partisipasi Dibuka Pada Hari Pemungutan Suara
+          </h4>
+          
+          <p class="text-xs text-slate-500 leading-relaxed max-w-md mx-auto">
+            Sesuai ketentuan, pembaruan grafik laju kehadiran pemilih dibuka secara bertahap mengikuti Jam Operasional Pusat Statistik: 08.00–15.00 WIB setelah hari pemungutan suara resmi berlangsung.
+          </p>
+
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-200">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+            <span>Status: Menunggu Pelaksanaan Pilkades</span>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <span>Jam Operasional Pusat Statistik: 08.00–15.00 WIB</span>
+          <span class="font-semibold text-slate-700">Total Suara: Menunggu Data Resmi</span>
+        </div>
+      </div>
+
+      <!-- Graph 2 (5 Cols): Grafik Hasil Suara Calon (Sesuai Aturan: State Menunggu Data Resmi) -->
+      <div class="lg:col-span-5 card-surface p-6 sm:p-7 bg-white border-slate-200 shadow-soft flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              Rekapitulasi Perolehan Suara
+            </h3>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
+              Hasil Resmi
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">
+            Perolehan suara masing-masing calon kepala desa
+          </p>
+        </div>
+
+        <!-- Informative State: Menunggu Data Resmi (STRICT ACCEPTANCE CRITERIA) -->
+        <div class="my-6 p-6 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 text-center space-y-3">
+          <div class="w-14 h-14 mx-auto rounded-full bg-slate-200 text-slate-500 flex items-center justify-center">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          
+          <h4 class="text-sm font-bold text-slate-800">
+            Grafik Hasil Suara Menunggu Data Resmi
+          </h4>
+          
+          <p class="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto">
+            Sesuai regulasi, grafik perolehan suara calon <strong>hanya akan diaktifkan</strong> setelah pemungutan suara di seluruh TPS ditutup secara serentak dan Berita Acara Rekapitulasi disahkan oleh PPKD.
+          </p>
+
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-primary border border-blue-200">
+            <span>Status: Menunggu Pemungutan Suara</span>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-500 text-center">
+          Dikelola dan diverifikasi oleh Tim Teknis Inti Diskominfo
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Table Section (Wireframe 3: Tabel Rekap Partisipasi per Kecamatan/Desa) -->
+    <div class="card-surface bg-white border-slate-200 shadow-soft overflow-hidden">
+      <div class="p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900">
+            Tabel Rekapitulasi Partisipasi Pemilih per Wilayah
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Daftar persebaran DPT dan tingkat kehadiran pemilih desa di Kabupaten Mempawah
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700">
+            Total {masterDesa.jumlah_desa} Desa Terdaftar ({masterDesa.desa_gelombang_saat_ini} Terjadwal)
+          </span>
+        </div>
+      </div>
+
+      <!-- Responsive Table with Horizontal Scroll -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+              <th class="py-3.5 px-4 sm:px-6">No.</th>
+              <th class="py-3.5 px-4 sm:px-6">Kecamatan</th>
+              <th class="py-3.5 px-4 sm:px-6">Desa Penyelenggara</th>
+              <th class="py-3.5 px-4 sm:px-6 text-right">Total DPT</th>
+              <th class="py-3.5 px-4 sm:px-6 text-right">Suara Masuk</th>
+              <th class="py-3.5 px-4 sm:px-6 text-right">Partisipasi</th>
+              <th class="py-3.5 px-4 sm:px-6 text-center">TPS Selesai</th>
+              <th class="py-3.5 px-4 sm:px-6 text-center">Jam Operasional Layanan</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700" id="table-wilayah-body">
+            {masterStatistikWilayah.map((item, idx) => (
+              <tr class="hover:bg-slate-50/80 transition-colors">
+                <td class="py-3.5 px-4 sm:px-6 font-mono text-slate-400">{idx + 1}</td>
+                <td class="py-3.5 px-4 sm:px-6 font-semibold text-slate-800">{item.kecamatan}</td>
+                <td class="py-3.5 px-4 sm:px-6 font-medium text-primary">
+                  <div class="flex items-center gap-2">
+                    <span>{item.desa}</span>
+                    <span class="text-[10px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200">
+                      {item.kode}
+                    </span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 text-right font-mono text-xs">
+                  {item.totalDpt ? formatNumber(item.totalDpt) : <span class="text-slate-400 italic">Menunggu DPT</span>}
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 text-right font-mono text-xs">
+                  {item.suaraMasuk ? formatNumber(item.suaraMasuk) : <span class="text-slate-400">—</span>}
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 text-right">
+                  {item.partisipasiPersen ? (
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      {formatPercent(item.partisipasiPersen)}
+                    </span>
+                  ) : (
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-500 border border-slate-200">
+                      Belum Dibuka
+                    </span>
+                  )}
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 text-center font-mono text-xs">
+                  {item.tpsTotal ? (
+                    <span class="inline-flex items-center gap-1">
+                      <span class="text-slate-900 font-semibold">{item.tpsSelesai ?? 0}</span>
+                      <span class="text-slate-400">/ {item.tpsTotal} TPS</span>
+                    </span>
+                  ) : (
+                    <span class="text-slate-400">—</span>
+                  )}
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 text-center text-xs text-slate-500">
+                  {item.statusGelombang === 'gelombang_saat_ini' ? (
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-semibold bg-blue-50 text-primary border border-blue-200">
+                      {item.namaGelombang ?? 'Terjadwal'} • 08.00–15.00 WIB
+                    </span>
+                  ) : (
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-500 border border-slate-200">
+                      Belum Dijadwalkan
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Footer Summary -->
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <span>Menampilkan master data {masterDesa.jumlah_desa} desa di 9 kecamatan Kabupaten Mempawah ({masterDesa.desa_gelombang_saat_ini} desa terjadwal, {masterDesa.desa_belum_dijadwalkan} belum dijadwalkan)</span>
+        <span class="font-semibold text-slate-700">Rata-rata Partisipasi Wilayah: Menunggu Pelaksanaan Pemungutan Suara</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- Master Desa Dataset for Autocomplete -->
+  <script id="master-desa-json" type="application/json" set:html={autocompleteDesaData}></script>
+
+<script>
+  interface DesaItem {
+    kode: string;
+    nama: string;
+    kecamatan: string;
+    alias: string[];
+    status: string;
+    gelombang: string | null;
+    tps: number | null;
+  }
+
+  // Load JSON data safely
+  const jsonEl = document.getElementById('master-desa-json');
+  const allDesaList: DesaItem[] = jsonEl?.textContent ? JSON.parse(jsonEl.textContent) : [];
+
+  // Elements
+  const filterKecamatan = document.getElementById('filter-kecamatan') as HTMLSelectElement | null;
+  const filterDesaInput = document.getElementById('autocomplete-desa-input') as HTMLInputElement | null;
+  const filterDesaHidden = document.getElementById('filter-desa') as HTMLInputElement | null;
+  const clearBtn = document.getElementById('autocomplete-desa-clear') as HTMLButtonElement | null;
+  const dropdownEl = document.getElementById('autocomplete-desa-dropdown');
+  const resultsEl = document.getElementById('autocomplete-desa-results');
+  const emptyEl = document.getElementById('autocomplete-desa-empty');
+  const countLabel = document.getElementById('autocomplete-count-label');
+  const tableBody = document.getElementById('table-wilayah-body');
+
+  let activeIndex = -1;
+  let currentFilteredList: DesaItem[] = [];
+
+  function applyTableFilters() {
+    if (!tableBody) return;
+    const selectedKec = filterKecamatan?.value || 'Semua';
+    const selectedDesa = filterDesaHidden?.value || 'Semua';
+    const rows = tableBody.querySelectorAll('tr');
+
+    rows.forEach((row) => {
+      const kecCell = row.children[1]?.textContent?.trim() || '';
+      const desaCell = row.children[2]?.textContent?.trim() || '';
+
+      const matchKec = selectedKec === 'Semua' || kecCell === selectedKec;
+      const matchDesa = selectedDesa === 'Semua' || desaCell.includes(selectedDesa);
+
+      if (matchKec && matchDesa) {
+        row.classList.remove('hidden');
+      } else {
+        row.classList.add('hidden');
+      }
+    });
+  }
+
+  function getFilteredDesa(): DesaItem[] {
+    const selectedKec = filterKecamatan?.value || 'Semua';
+    const query = (filterDesaInput?.value || '').trim().toLowerCase();
+
+    return allDesaList.filter((d) => {
+      // 1. Filter kecamatan restriction
+      if (selectedKec !== 'Semua' && d.kecamatan.toLowerCase() !== selectedKec.toLowerCase()) {
+        return false;
+      }
+      // 2. Query match: nama, kecamatan, atau alias
+      if (!query) return true;
+      const matchNama = d.nama.toLowerCase().includes(query);
+      const matchKec = d.kecamatan.toLowerCase().includes(query);
+      const matchAlias = d.alias.some((al) => al.toLowerCase().includes(query));
+      return matchNama || matchKec || matchAlias;
+    });
+  }
+
+  function renderDropdown(items: DesaItem[]) {
+    if (!resultsEl || !emptyEl || !countLabel) return;
+    resultsEl.innerHTML = '';
+    currentFilteredList = items;
+    activeIndex = -1;
+
+    // Option: Semua Desa (Tampilkan Semua)
+    const allOption = document.createElement('div');
+    allOption.className = 'px-3.5 py-2.5 hover:bg-slate-50 cursor-pointer flex items-center justify-between transition-colors border-b border-slate-100';
+    allOption.setAttribute('role', 'option');
+    allOption.setAttribute('data-desa-name', 'Semua');
+    allOption.innerHTML = `
+      <div>
+        <span class="font-bold text-slate-800">Semua Desa</span>
+        <span class="text-[11px] text-slate-400 block">Tampilkan seluruh desa di wilayah terpilih</span>
+      </div>
+      <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">
+        Reset Filter
+      </span>
+    `;
+    allOption.addEventListener('click', () => selectDesa('Semua', ''));
+    resultsEl.appendChild(allOption);
+
+    if (items.length === 0) {
+      resultsEl.classList.add('hidden');
+      emptyEl.classList.remove('hidden');
+      countLabel.textContent = '0 desa ditemukan';
+      return;
+    }
+
+    emptyEl.classList.add('hidden');
+    resultsEl.classList.remove('hidden');
+    countLabel.textContent = `Menampilkan ${items.length} desa`;
+
+    items.forEach((item, idx) => {
+      const el = document.createElement('div');
+      el.className = 'px-3.5 py-2.5 hover:bg-slate-50 cursor-pointer flex items-center justify-between transition-colors';
+      el.setAttribute('role', 'option');
+      el.setAttribute('data-index', idx.toString());
+      el.setAttribute('data-desa-name', item.nama);
+
+      const isScheduled = item.status === 'gelombang_saat_ini';
+      const statusBadge = isScheduled
+        ? `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-primary border border-blue-200">
+             ${item.gelombang || 'Terjadwal'} • ${item.tps || 0} TPS
+           </span>`
+        : `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-500 border border-slate-200">
+             Belum Dijadwalkan
+           </span>`;
+
+      const aliasBadge = item.alias.length > 0
+        ? `<span class="text-[10px] text-slate-400 font-normal ml-1">(Alias: ${item.alias.join(', ')})</span>`
+        : '';
+
+      el.innerHTML = `
+        <div class="pr-2 min-w-0">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="font-bold text-slate-900 text-xs sm:text-sm">${item.nama}</span>
+            <span class="text-[10px] font-mono text-slate-400 bg-slate-50 px-1 py-0.2 rounded border border-slate-200">${item.kode}</span>
+            ${aliasBadge}
+          </div>
+          <span class="text-[11px] text-slate-500 block truncate">Kec. ${item.kecamatan}</span>
+        </div>
+        <div class="flex-shrink-0 text-right">
+          ${statusBadge}
+        </div>
+      `;
+
+      el.addEventListener('mouseenter', () => highlightItem(idx + 1));
+      el.addEventListener('click', () => selectDesa(item.nama, item.nama));
+      resultsEl.appendChild(el);
+    });
+  }
+
+  function highlightItem(index: number) {
+    if (!resultsEl) return;
+    const options = resultsEl.querySelectorAll('[role="option"]');
+    options.forEach((opt, idx) => {
+      if (idx === index) {
+        opt.classList.add('bg-blue-50/80', 'text-primary');
+        opt.scrollIntoView({ block: 'nearest' });
+      } else {
+        opt.classList.remove('bg-blue-50/80', 'text-primary');
+      }
+    });
+    activeIndex = index;
+  }
+
+  function openDropdown() {
+    if (!dropdownEl || !filterDesaInput) return;
+    const items = getFilteredDesa();
+    renderDropdown(items);
+    dropdownEl.classList.remove('hidden');
+    filterDesaInput.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeDropdown() {
+    if (!dropdownEl || !filterDesaInput) return;
+    dropdownEl.classList.add('hidden');
+    filterDesaInput.setAttribute('aria-expanded', 'false');
+    activeIndex = -1;
+  }
+
+  function selectDesa(desaName: string, displayText: string) {
+    if (!filterDesaInput || !filterDesaHidden) return;
+    if (desaName === 'Semua') {
+      filterDesaInput.value = '';
+      filterDesaHidden.value = 'Semua';
+      if (clearBtn) clearBtn.classList.add('hidden');
+    } else {
+      filterDesaInput.value = displayText || desaName;
+      filterDesaHidden.value = desaName;
+      if (clearBtn) clearBtn.classList.remove('hidden');
+    }
+    closeDropdown();
+    applyTableFilters();
+  }
+
+  // Event Listeners for Autocomplete
+  if (filterDesaInput) {
+    filterDesaInput.addEventListener('focus', () => {
+      openDropdown();
+    });
+
+    filterDesaInput.addEventListener('input', () => {
+      if (clearBtn) {
+        if (filterDesaInput.value.trim().length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      }
+      openDropdown();
+      // If user clears input completely, reset selection
+      if (!filterDesaInput.value.trim()) {
+        if (filterDesaHidden) filterDesaHidden.value = 'Semua';
+        applyTableFilters();
+      }
+    });
+
+    filterDesaInput.addEventListener('keydown', (e) => {
+      if (!dropdownEl || dropdownEl.classList.contains('hidden')) {
+        if (e.key === 'ArrowDown' || e.key === 'Enter') {
+          openDropdown();
+          e.preventDefault();
+        }
+        return;
+      }
+
+      if (!resultsEl) return;
+      const options = resultsEl.querySelectorAll<HTMLElement>('[role="option"]');
+      const total = options.length;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIndex = activeIndex < total - 1 ? activeIndex + 1 : 0;
+        highlightItem(nextIndex);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIndex = activeIndex > 0 ? activeIndex - 1 : total - 1;
+        highlightItem(prevIndex);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (activeIndex >= 0 && options[activeIndex]) {
+          options[activeIndex].click();
+        } else if (currentFilteredList.length === 1) {
+          selectDesa(currentFilteredList[0].nama, currentFilteredList[0].nama);
+        }
+      } else if (e.key === 'Escape') {
+        closeDropdown();
+      }
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      selectDesa('Semua', '');
+      filterDesaInput?.focus();
+    });
+  }
+
+  // Filter Kecamatan Handler
+  if (filterKecamatan) {
+    filterKecamatan.addEventListener('change', () => {
+      const selectedKec = filterKecamatan.value;
+
+      // Kriteria: Ketika kecamatan berubah, pilihan desa yang tidak sesuai dibersihkan
+      if (filterDesaHidden && filterDesaHidden.value !== 'Semua') {
+        const currentDesa = allDesaList.find(
+          (d) => d.nama.toLowerCase() === filterDesaHidden.value.toLowerCase()
+        );
+        if (selectedKec !== 'Semua' && currentDesa && currentDesa.kecamatan.toLowerCase() !== selectedKec.toLowerCase()) {
+          // Bersihkan pilihan desa karena tidak sesuai dengan kecamatan baru
+          if (filterDesaInput) filterDesaInput.value = '';
+          filterDesaHidden.value = 'Semua';
+          if (clearBtn) clearBtn.classList.add('hidden');
+        }
+      }
+
+      closeDropdown();
+      applyTableFilters();
+    });
+  }
+
+  // Click outside to close dropdown
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    const container = document.getElementById('desa-autocomplete-container');
+    if (container && !container.contains(target)) {
+      closeDropdown();
+    }
+  });
+</script>
+
