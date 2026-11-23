@@ -43,7 +43,7 @@ function setupCardEntrance() {
           {
             delay: stagger(0.08),
             duration: 0.55,
-            easing: [0.16, 1, 0.3, 1],
+            ease: [0.16, 1, 0.3, 1],
           }
         );
         // Return undefined agar tidak looping
@@ -71,7 +71,7 @@ function setupCardHover() {
           scale: 1.015,
           boxShadow: '0 12px 32px rgba(27, 81, 163, 0.14)',
         },
-        { duration: 0.25, easing: [0.16, 1, 0.3, 1] }
+        { duration: 0.25, ease: [0.16, 1, 0.3, 1] }
       );
 
       return () => {
@@ -83,7 +83,7 @@ function setupCardHover() {
             scale: 1,
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
           },
-          { duration: 0.3, easing: [0.16, 1, 0.3, 1] }
+          { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
         );
       };
     });
@@ -100,13 +100,13 @@ function setupButtonPress() {
 
   buttons.forEach((btn) => {
     btn.addEventListener('pointerdown', () => {
-      animate(btn, { scale: 0.95 }, { duration: 0.1, easing: 'ease-out' });
+      animate(btn, { scale: 0.95 }, { duration: 0.1, ease: 'easeOut' });
     });
     btn.addEventListener('pointerup', () => {
-      animate(btn, { scale: 1 }, { duration: 0.2, easing: [0.16, 1, 0.3, 1] });
+      animate(btn, { scale: 1 }, { duration: 0.2, ease: [0.16, 1, 0.3, 1] });
     });
     btn.addEventListener('pointerleave', () => {
-      animate(btn, { scale: 1 }, { duration: 0.2, easing: [0.16, 1, 0.3, 1] });
+      animate(btn, { scale: 1 }, { duration: 0.2, ease: [0.16, 1, 0.3, 1] });
     });
   });
 }
@@ -121,7 +121,7 @@ function setupNavbarEntrance() {
   animate(
     navbar,
     { y: [-12, 0], opacity: [0, 1] },
-    { duration: 0.5, easing: [0.16, 1, 0.3, 1] }
+    { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
   );
 }
 

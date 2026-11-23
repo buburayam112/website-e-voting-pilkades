@@ -16,7 +16,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -67,7 +67,6 @@ const {
 
     <!-- Footer -->
     <Footer />
-
     <!-- Floating Back to Top Button with Micro-Interaction -->
     <button
       type="button"
@@ -85,10 +84,21 @@ const {
     <!-- Animation & Interaction Hydration -->
     <script>
       import { setupAnimations } from '../scripts/animations';
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setupAnimations);
-      } else {
+      import { setupLenis } from '../scripts/lenis-setup';
+      import { setupGsapAnimations } from '../scripts/gsap-animations';
+      import { setupMotionAnimations } from '../scripts/motion-animations';
+
+      function initAppAnimations() {
+        setupLenis();
         setupAnimations();
+        setupGsapAnimations();
+        setupMotionAnimations();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAppAnimations);
+      } else {
+        initAppAnimations();
       }
     </script>
   </body>

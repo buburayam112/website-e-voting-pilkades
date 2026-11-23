@@ -14,6 +14,7 @@
       "@config/*": ["src/config/*"],
       "@utils/*": ["src/utils/*"],
       "@assets/*": ["src/assets/*"]
-    }
+    },
+    "jsx": "preserve"
   }
 }
